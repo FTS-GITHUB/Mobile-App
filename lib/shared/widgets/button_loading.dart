@@ -1,8 +1,9 @@
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class LocalWalkerButtonLoading extends StatelessWidget {
-  const LocalWalkerButtonLoading({
+class DropAndGoButtonLoading extends StatelessWidget {
+  const DropAndGoButtonLoading({
     super.key,
     this.color = DropAndGoColors.primary,
   });
@@ -11,13 +12,10 @@ class LocalWalkerButtonLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        height: 30,
-        width: 30,
-        child: CircularProgressIndicator(
-          color: color,
-        ),
+    return const Center(
+      child:  SpinKitCircle(
+        color: DropAndGoColors.primary,
+        size: 55,
       ),
     );
   }

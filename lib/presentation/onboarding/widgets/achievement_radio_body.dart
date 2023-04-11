@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AchievementRadioBody extends StatelessWidget {
-  const AchievementRadioBody({Key? key}) : super(key: key);
+  const AchievementRadioBody({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
+  final List<String> data;
 
   @override
   Widget build(BuildContext context) {
@@ -15,17 +20,17 @@ class AchievementRadioBody extends StatelessWidget {
           padding: EdgeInsets.zero,
           primary: false,
           shrinkWrap: true,
-          itemCount: 7,
+          itemCount: data.length,
           itemBuilder: (context, index) {
             return AchievementItem(
               isSelected: index == achievementIndex.index ? true : false,
               // TODO: after fetching from firestore,
               // do achievements[index].title
-              title: 'Lorem ipsum is a placeholder',
+              title: data[index],
               onTap: () {
                 context.read<AchievementCubit>().onAchievementSelected(
                       value: index,
-                      title: 'Lorem ipsum is a placeholder',
+                      title: data[index],
                     );
               },
             );

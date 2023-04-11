@@ -13,6 +13,11 @@ import 'package:dropandgouser/application/onboarding/cubit/user_level_cubit.dart
 import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/dob_date_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/profile_file_cubit.dart';
+import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
+import 'package:dropandgouser/domain/i_setting_repository.dart';
+import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
+import 'package:dropandgouser/infrastructure/di/injectable.dart';
+import 'package:dropandgouser/infrastructure/setting/setting_repository.dart';
 import 'package:dropandgouser/shared/helpers/shared_preferences_helper.dart';
 import 'package:dropandgouser/shared/helpers/theme.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -31,69 +36,48 @@ class DropAndGoApp extends StatefulWidget {
 }
 
 class _DropAndGoAppState extends State<DropAndGoApp> {
-  // late LoginRepository _loginRepository;
-  late Connectivity _connectivity;
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
-  final _networkNotifier = ValueNotifier(false);
+  late ISettingRepository _settingRepository;
+
+  // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  // final _networkNotifier = ValueNotifier(false);
 
   @override
   void dispose() {
-    _networkNotifier.dispose();
-    _connectivitySubscription.cancel();
+    // _networkNotifier.dispose();
+    // _connectivitySubscription.cancel();
     super.dispose();
   }
 
   @override
   void initState() {
-    _initNetwork();
     SharedPreferenceHelper.instance.init();
     super.initState();
 
     initRepositories();
   }
 
-  _initNetwork() {
-    _connectivity = Connectivity();
-    initConnectivity();
-    listenNetworkState();
-  }
-
-  listenNetworkState() {
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen((event) async {
-      if (event == ConnectivityResult.none) {
-        _networkNotifier.value = true;
-      } else {
-        ConnectivityResult result = await _connectivity.checkConnectivity();
-        if (result == ConnectivityResult.none) {
-          _networkNotifier.value = true;
-        } else {
-          _networkNotifier.value = false;
-        }
-      }
-    });
-  }
-
-  Future<void> initConnectivity() async {
-    ConnectivityResult result = ConnectivityResult.none;
-    try {
-      result = await _connectivity.checkConnectivity();
-    } on PlatformException {
-      await _updateConnectionStatus(ConnectivityResult.none);
-    }
-    return _updateConnectionStatus(result);
-  }
-
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    if (result == ConnectivityResult.none) {
-      _networkNotifier.value = true;
-    } else {
-      _networkNotifier.value = false;
-    }
-  }
+  // Future<void> initConnectivity() async {
+  //   ConnectivityResult result = ConnectivityResult.none;
+  //   try {
+  //     result = await _connectivity.checkConnectivity();
+  //   } on PlatformException {
+  //     await _updateConnectionStatus(ConnectivityResult.none);
+  //   }
+  //   return _updateConnectionStatus(result);
+  // }
+  //
+  // Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+  //   if (result == ConnectivityResult.none) {
+  //     _networkNotifier.value = true;
+  //   } else {
+  //     _networkNotifier.value = false;
+  //   }
+  // }
 
   initRepositories() {
-    //
+    _settingRepository = SettingRepository(
+      firestoreRepository: getIt<ICloudFirestoreRepository>(),
+    );
   }
 
   @override
@@ -127,10 +111,45 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
         BlocProvider<RememberMeCubit>(
           create: (context) => RememberMeCubit(),
         ),
-      ],//RememberMeCubit
+        BlocProvider<SettingBloc>(
+          create: (context) => SettingBloc(
+            settingRepository: _settingRepository,
+          )..add(FetchAchievementSettings()),
+        ),
+        BlocProvider<GenderSettingBloc>(
+          create: (context) => SettingBloc(
+            settingRepository: _settingRepository,
+          )..add(FetchGenderSettings()),
+        ),
+        BlocProvider<AgeSettingBloc>(
+          create: (context) => SettingBloc(
+            settingRepository: _settingRepository,
+          )..add(FetchAgeSettings()),
+        ),
+        BlocProvider<CompleteProfileSettingBloc>(
+          create: (context) => SettingBloc(
+            settingRepository: _settingRepository,
+          )..add(FetchCompleteProfileSettings()),
+        ),
+        BlocProvider<CreateAccountSettingBloc>(
+          create: (context) => SettingBloc(
+            settingRepository: _settingRepository,
+          )..add(FetchCreateAccountSettings()),
+        ),
+        BlocProvider<RecommendationSettingBloc>(
+          create: (context) => SettingBloc(
+            settingRepository: _settingRepository,
+          )..add(FetchRecommendationSettings()),
+        ),
+        BlocProvider<SignupSuccessSettingBloc>(
+          create: (context) => SettingBloc(
+            settingRepository: _settingRepository,
+          )..add(FetchSignupSuccessSettings()),
+        ),
+      ], //SettingBloc
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
-        networkNotifier: _networkNotifier,
+        // networkNotifier: _networkNotifier,
       ),
     );
   }
@@ -140,9 +159,10 @@ class _DropAndGoApp extends StatelessWidget {
   const _DropAndGoApp({
     Key? key,
     required this.theme,
-    required this.networkNotifier,
+    // required this.networkNotifier,
   }) : super(key: key);
-  final ValueNotifier networkNotifier;
+
+  // final ValueNotifier networkNotifier;
   final ThemeData theme;
 
   @override
@@ -168,22 +188,23 @@ class _DropAndGoApp extends StatelessWidget {
             child: Directionality(
               textDirection: ui.TextDirection.ltr,
               child: MediaQuery(
-                data: MediaQuery.of(context).copyWith(
-                  textScaleFactor: 1,
-                ),
-                child: Stack(
-                  children: [
-                    child ?? Container(),
-                    ValueListenableBuilder(
-                      valueListenable: networkNotifier,
-                      builder: (context, value, state) {
-                        return Container();
-                        // return value ? const NoConnection() : Container();
-                      },
-                    ),
-                  ],
-                ),
-              ),
+                  data: MediaQuery.of(context).copyWith(
+                    textScaleFactor: 1,
+                  ),
+                  child: child ?? Container()
+                  // Stack(
+                  //   children: [
+                  //     child ?? Container(),
+                  //     ValueListenableBuilder(
+                  //       valueListenable: networkNotifier,
+                  //       builder: (context, value, state) {
+                  //         return Container();
+                  //         // return value ? const NoConnection() : Container();
+                  //       },
+                  //     ),
+                  //   ],
+                  // ),
+                  ),
             ),
           ),
           locale: context.locale,
