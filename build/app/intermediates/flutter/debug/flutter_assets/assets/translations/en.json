@@ -34,5 +34,13 @@
     "dob": "Date Of Birth",
     "country": "Country",
     "continue": "Continue"
+  },
+  "create_account": {
+    "title": "Create an Account",
+    "email": "E-mail",
+    "password": "Password",
+    "confirm_pas": "Confirm Password",
+    "remember": "Remember me",
+    "success": "Sign Up Successful"
   }
 }

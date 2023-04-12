@@ -53,15 +53,19 @@ class AgeInfoPage extends StatelessWidget {
                           children: [
                             StandardText.headline4(
                               context,
-                              'onboarding.age_title'.tr(),
+                              state.setting?.title ?? '',
+                              // 'onboarding.age_title'.tr(),
                             ),
                             10.verticalGap,
                             StandardText.headline6(
                               context,
-                              'onboarding.age_subtitle'.tr(),
+                              state.setting?.subtitle ?? '',
+                              // 'onboarding.age_subtitle'.tr(),
                             ),
                             31.verticalGap,
-                            const AgeRadioBody(),
+                            AgeRadioBody(
+                              data: state.setting?.data,
+                            ),
                             Expanded(
                               child: Container(
                                 margin: const EdgeInsets.only(

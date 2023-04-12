@@ -7,76 +7,78 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AgeRadioBody extends StatelessWidget {
-  const AgeRadioBody({Key? key}) : super(key: key);
+  const AgeRadioBody({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+  final List<String>? data;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AgeCubit, AgeRange>(
-        builder: (context, age) {
-          return Column(
+    return BlocBuilder<AgeCubit, AgeRange>(builder: (context, age) {
+      return Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AgeRadioItem(
-                    title: 'onboarding.18'.tr(),
-                    onTap: (){
-                      context.read<AgeCubit>().onAgeChanged(AgeRange.Age18To29);
-                    },
-                    isSelected: age == AgeRange.Age18To29,
-                  ),
-                  AgeRadioItem(
-                    title: 'onboarding.30'.tr(),
-                    onTap: (){
-                      context.read<AgeCubit>().onAgeChanged(AgeRange.Age30To45);
-                    },
-                    isSelected: age == AgeRange.Age30To45,
-                  ),
-                ],
+              AgeRadioItem(
+                title: 'onboarding.18'.tr(),
+                onTap: () {
+                  context.read<AgeCubit>().onAgeChanged(AgeRange.Age18To29);
+                },
+                isSelected: age == AgeRange.Age18To29,
               ),
-              30.verticalGap,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AgeRadioItem(
-                    title: 'onboarding.46'.tr(),
-                    onTap: (){
-                      context.read<AgeCubit>().onAgeChanged(AgeRange.Age46To59);
-                    },
-                    isSelected: age == AgeRange.Age46To59,
-                  ),
-                  AgeRadioItem(
-                    title: 'onboarding.60'.tr(),
-                    onTap: (){
-                      context.read<AgeCubit>().onAgeChanged(AgeRange.Age60To69);
-                    },
-                    isSelected: age == AgeRange.Age60To69,
-                  ),
-                ],
-              ),
-              30.verticalGap,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AgeRadioItem(
-                    title: 'onboarding.70'.tr(),
-                    onTap: (){
-                      context.read<AgeCubit>().onAgeChanged(AgeRange.Age70To84);
-                    },
-                    isSelected: age == AgeRange.Age70To84,
-                  ),
-                  AgeRadioItem(
-                    title: 'onboarding.85'.tr(),
-                    onTap: (){
-                      context.read<AgeCubit>().onAgeChanged(AgeRange.Age85Plus);
-                    },
-                    isSelected: age == AgeRange.Age85Plus,
-                  ),
-                ],
+              AgeRadioItem(
+                title: 'onboarding.30'.tr(),
+                onTap: () {
+                  context.read<AgeCubit>().onAgeChanged(AgeRange.Age30To45);
+                },
+                isSelected: age == AgeRange.Age30To45,
               ),
             ],
-          );
-        }
-    );
+          ),
+          30.verticalGap,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AgeRadioItem(
+                title: 'onboarding.46'.tr(),
+                onTap: () {
+                  context.read<AgeCubit>().onAgeChanged(AgeRange.Age46To59);
+                },
+                isSelected: age == AgeRange.Age46To59,
+              ),
+              AgeRadioItem(
+                title: 'onboarding.60'.tr(),
+                onTap: () {
+                  context.read<AgeCubit>().onAgeChanged(AgeRange.Age60To69);
+                },
+                isSelected: age == AgeRange.Age60To69,
+              ),
+            ],
+          ),
+          30.verticalGap,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AgeRadioItem(
+                title: 'onboarding.70'.tr(),
+                onTap: () {
+                  context.read<AgeCubit>().onAgeChanged(AgeRange.Age70To84);
+                },
+                isSelected: age == AgeRange.Age70To84,
+              ),
+              AgeRadioItem(
+                title: 'onboarding.85'.tr(),
+                onTap: () {
+                  context.read<AgeCubit>().onAgeChanged(AgeRange.Age85Plus);
+                },
+                isSelected: age == AgeRange.Age85Plus,
+              ),
+            ],
+          ),
+        ],
+      );
+    });
   }
 }

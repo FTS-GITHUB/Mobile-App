@@ -13,14 +13,14 @@
 13         to allow setting breakpoints, to provide hot reload, etc.
 14    -->
 15    <uses-permission android:name="android.permission.INTERNET" />
-15-->D:\flutter_proj_personal\dropandgouser\android\app\src\debug\AndroidManifest.xml:7:5-66
-15-->D:\flutter_proj_personal\dropandgouser\android\app\src\debug\AndroidManifest.xml:7:22-64
+15-->D:\flutter_proj_personal\fts\drop-go-user\android\app\src\debug\AndroidManifest.xml:7:5-66
+15-->D:\flutter_proj_personal\fts\drop-go-user\android\app\src\debug\AndroidManifest.xml:7:22-64
 16    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-16-->[:geolocator_android] D:\flutter_proj_personal\dropandgouser\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-77
-16-->[:geolocator_android] D:\flutter_proj_personal\dropandgouser\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-74
+16-->[:geolocator_android] D:\flutter_proj_personal\fts\drop-go-user\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-77
+16-->[:geolocator_android] D:\flutter_proj_personal\fts\drop-go-user\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-74
 17    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-17-->[:connectivity_plus] D:\flutter_proj_personal\dropandgouser\build\connectivity_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-79
-17-->[:connectivity_plus] D:\flutter_proj_personal\dropandgouser\build\connectivity_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-76
+17-->[:connectivity_plus] D:\flutter_proj_personal\fts\drop-go-user\build\connectivity_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-79
+17-->[:connectivity_plus] D:\flutter_proj_personal\fts\drop-go-user\build\connectivity_plus\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-76
 18
 19    <permission
 19-->[androidx.core:core:1.9.0] C:\Users\conne\.gradle\caches\transforms-3\6710ee2e3546b398da00e75003abfc33\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
@@ -74,37 +74,37 @@
 62            android:value="2" />
 63
 64        <service
-64-->[:cloud_firestore] D:\flutter_proj_personal\dropandgouser\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+64-->[:cloud_firestore] D:\flutter_proj_personal\fts\drop-go-user\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
 65            android:name="com.google.firebase.components.ComponentDiscoveryService"
-65-->[:cloud_firestore] D:\flutter_proj_personal\dropandgouser\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-89
+65-->[:cloud_firestore] D:\flutter_proj_personal\fts\drop-go-user\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-89
 66            android:directBootAware="true"
 66-->[com.google.firebase:firebase-common:20.3.2] C:\Users\conne\.gradle\caches\transforms-3\0e1050c9ea3d14c684726c42c0eef9a5\transformed\jetified-firebase-common-20.3.2\AndroidManifest.xml:34:13-43
 67            android:exported="false" >
 67-->[com.google.firebase:firebase-auth:21.2.0] C:\Users\conne\.gradle\caches\transforms-3\7532096d84f83ed34d3b1030d9a454b9\transformed\jetified-firebase-auth-21.2.0\AndroidManifest.xml:68:13-37
 68            <meta-data
-68-->[:cloud_firestore] D:\flutter_proj_personal\dropandgouser\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+68-->[:cloud_firestore] D:\flutter_proj_personal\fts\drop-go-user\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 69                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
-69-->[:cloud_firestore] D:\flutter_proj_personal\dropandgouser\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-134
+69-->[:cloud_firestore] D:\flutter_proj_personal\fts\drop-go-user\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-134
 70                android:value="com.google.firebase.components.ComponentRegistrar" />
-70-->[:cloud_firestore] D:\flutter_proj_personal\dropandgouser\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+70-->[:cloud_firestore] D:\flutter_proj_personal\fts\drop-go-user\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 71            <meta-data
-71-->[:firebase_auth] D:\flutter_proj_personal\dropandgouser\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+71-->[:firebase_auth] D:\flutter_proj_personal\fts\drop-go-user\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 72                android:name="com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar"
-72-->[:firebase_auth] D:\flutter_proj_personal\dropandgouser\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
+72-->[:firebase_auth] D:\flutter_proj_personal\fts\drop-go-user\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
 73                android:value="com.google.firebase.components.ComponentRegistrar" />
-73-->[:firebase_auth] D:\flutter_proj_personal\dropandgouser\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+73-->[:firebase_auth] D:\flutter_proj_personal\fts\drop-go-user\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 74            <meta-data
-74-->[:firebase_storage] D:\flutter_proj_personal\dropandgouser\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+74-->[:firebase_storage] D:\flutter_proj_personal\fts\drop-go-user\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 75                android:name="com.google.firebase.components:io.flutter.plugins.firebase.storage.FlutterFirebaseAppRegistrar"
-75-->[:firebase_storage] D:\flutter_proj_personal\dropandgouser\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-126
+75-->[:firebase_storage] D:\flutter_proj_personal\fts\drop-go-user\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-126
 76                android:value="com.google.firebase.components.ComponentRegistrar" />
-76-->[:firebase_storage] D:\flutter_proj_personal\dropandgouser\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+76-->[:firebase_storage] D:\flutter_proj_personal\fts\drop-go-user\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 77            <meta-data
-77-->[:firebase_core] D:\flutter_proj_personal\dropandgouser\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+77-->[:firebase_core] D:\flutter_proj_personal\fts\drop-go-user\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 78                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
-78-->[:firebase_core] D:\flutter_proj_personal\dropandgouser\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
+78-->[:firebase_core] D:\flutter_proj_personal\fts\drop-go-user\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
 79                android:value="com.google.firebase.components.ComponentRegistrar" />
-79-->[:firebase_core] D:\flutter_proj_personal\dropandgouser\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+79-->[:firebase_core] D:\flutter_proj_personal\fts\drop-go-user\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 80            <meta-data
 80-->[com.google.firebase:firebase-auth:21.2.0] C:\Users\conne\.gradle\caches\transforms-3\7532096d84f83ed34d3b1030d9a454b9\transformed\jetified-firebase-auth-21.2.0\AndroidManifest.xml:69:13-71:85
 81                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
@@ -125,42 +125,42 @@
 88-->[com.google.firebase:firebase-storage:20.1.0] C:\Users\conne\.gradle\caches\transforms-3\9446be040c8f157c2f0e8090503dd6c3\transformed\jetified-firebase-storage-20.1.0\AndroidManifest.xml:34:17-82
 89        </service>
 90        <service
-90-->[:geolocator_android] D:\flutter_proj_personal\dropandgouser\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:9-16:56
+90-->[:geolocator_android] D:\flutter_proj_personal\fts\drop-go-user\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:9-16:56
 91            android:name="com.baseflow.geolocator.GeolocatorLocationService"
-91-->[:geolocator_android] D:\flutter_proj_personal\dropandgouser\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-77
+91-->[:geolocator_android] D:\flutter_proj_personal\fts\drop-go-user\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-77
 92            android:enabled="true"
-92-->[:geolocator_android] D:\flutter_proj_personal\dropandgouser\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-35
+92-->[:geolocator_android] D:\flutter_proj_personal\fts\drop-go-user\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-35
 93            android:exported="false"
-93-->[:geolocator_android] D:\flutter_proj_personal\dropandgouser\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-37
+93-->[:geolocator_android] D:\flutter_proj_personal\fts\drop-go-user\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-37
 94            android:foregroundServiceType="location" />
-94-->[:geolocator_android] D:\flutter_proj_personal\dropandgouser\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:13-53
+94-->[:geolocator_android] D:\flutter_proj_personal\fts\drop-go-user\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:13-53
 95
 96        <provider
-96-->[:image_picker_android] D:\flutter_proj_personal\dropandgouser\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
+96-->[:image_picker_android] D:\flutter_proj_personal\fts\drop-go-user\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
 97            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
-97-->[:image_picker_android] D:\flutter_proj_personal\dropandgouser\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-82
+97-->[:image_picker_android] D:\flutter_proj_personal\fts\drop-go-user\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-82
 98            android:authorities="com.example.dropandgouser.flutter.image_provider"
-98-->[:image_picker_android] D:\flutter_proj_personal\dropandgouser\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-74
+98-->[:image_picker_android] D:\flutter_proj_personal\fts\drop-go-user\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-74
 99            android:exported="false"
-99-->[:image_picker_android] D:\flutter_proj_personal\dropandgouser\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
+99-->[:image_picker_android] D:\flutter_proj_personal\fts\drop-go-user\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
 100            android:grantUriPermissions="true" >
-100-->[:image_picker_android] D:\flutter_proj_personal\dropandgouser\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
+100-->[:image_picker_android] D:\flutter_proj_personal\fts\drop-go-user\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
 101            <meta-data
-101-->[:image_picker_android] D:\flutter_proj_personal\dropandgouser\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
+101-->[:image_picker_android] D:\flutter_proj_personal\fts\drop-go-user\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
 102                android:name="android.support.FILE_PROVIDER_PATHS"
-102-->[:image_picker_android] D:\flutter_proj_personal\dropandgouser\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
+102-->[:image_picker_android] D:\flutter_proj_personal\fts\drop-go-user\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
 103                android:resource="@xml/flutter_image_picker_file_paths" />
-103-->[:image_picker_android] D:\flutter_proj_personal\dropandgouser\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
+103-->[:image_picker_android] D:\flutter_proj_personal\fts\drop-go-user\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
 104        </provider>
 105
 106        <activity
-106-->[:url_launcher_android] D:\flutter_proj_personal\dropandgouser\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-13:74
+106-->[:url_launcher_android] D:\flutter_proj_personal\fts\drop-go-user\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-13:74
 107            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
-107-->[:url_launcher_android] D:\flutter_proj_personal\dropandgouser\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-74
+107-->[:url_launcher_android] D:\flutter_proj_personal\fts\drop-go-user\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-74
 108            android:exported="false"
-108-->[:url_launcher_android] D:\flutter_proj_personal\dropandgouser\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-37
+108-->[:url_launcher_android] D:\flutter_proj_personal\fts\drop-go-user\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-37
 109            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-109-->[:url_launcher_android] D:\flutter_proj_personal\dropandgouser\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-71
+109-->[:url_launcher_android] D:\flutter_proj_personal\fts\drop-go-user\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-71
 110        <activity
 110-->[com.google.android.gms:play-services-auth:20.4.1] C:\Users\conne\.gradle\caches\transforms-3\1e28bb4d2dfdb26a699daa556422ff6d\transformed\jetified-play-services-auth-20.4.1\AndroidManifest.xml:23:9-27:75
 111            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"

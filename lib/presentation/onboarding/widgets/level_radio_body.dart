@@ -7,7 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'level_item.dart';
 
 class LevelRadioBody extends StatelessWidget {
-  const LevelRadioBody({Key? key}) : super(key: key);
+  const LevelRadioBody({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
+  final List<String>? data;
 
   @override
   Widget build(BuildContext context) {
@@ -17,24 +22,15 @@ class LevelRadioBody extends StatelessWidget {
           padding: EdgeInsets.zero,
           primary: false,
           shrinkWrap: true,
-          itemCount: 6,
+          itemCount: data?.length??0,
           itemBuilder: (context, index) {
             return LevelItem(
               isSelected: index == level.index ? true : false,
-              // TODO: after fetching from firestore,
-              // do achievements[index].title
-              title:
-                  index ==0?
-              'onboarding.level1'.tr():
-              index ==1?'onboarding.level2'.tr():
-                  index ==2?'onboarding.level3'.tr():
-                      index ==3? 'onboarding.level4'.tr():
-                          index ==4?'onboarding.level5'.tr():
-                          'onboarding.level6'.tr(),
+              title: data?[index]??'',
               onTap: () {
                 context.read<UserLevelCubit>().onLevelSelected(
                       value: index,
-                      title: 'Lorem ipsum is a placeholder',
+                      title: data?[index]??'',
                     );
               },
             );

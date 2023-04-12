@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\flutter_proj_personal\\dropandgouser\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+            "outputFile": "D:\\flutter_proj_personal\\fts\\drop-go-user\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
             "map": [
                 {
                     "source": "C:\\Users\\conne\\.gradle\\caches\\transforms-3\\801d2797bf7947195fd4f19c4eea4495\\transformed\\lifecycle-runtime-2.5.1\\res\\values\\values.xml",
@@ -74,25 +74,6 @@
                     }
                 },
                 {
-                    "source": "D:\\flutter_proj_personal\\dropandgouser\\android\\app\\src\\main\\res\\values\\styles.xml",
-                    "from": {
-                        "startLines": "3,14",
-                        "startColumns": "4,4",
-                        "startOffsets": "176,832",
-                        "endLines": "7,16",
-                        "endColumns": "12,12",
-                        "endOffsets": "483,998"
-                    },
-                    "to": {
-                        "startLines": "134,139",
-                        "startColumns": "4,4",
-                        "startOffsets": "9466,9774",
-                        "endLines": "138,141",
-                        "endColumns": "12,12",
-                        "endOffsets": "9769,9938"
-                    }
-                },
-                {
                     "source": "C:\\Users\\conne\\.gradle\\caches\\transforms-3\\49bc944d29f70d45aa5add8e43e3247e\\transformed\\jetified-window-1.0.0-beta04\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,7,8,9,10,11,19,23,34,51",
@@ -109,6 +90,25 @@
                         "endLines": "7,8,9,10,86,162,166,318,335,343",
                         "endColumns": "11,59,51,44,59,24,24,24,24,24",
                         "endOffsets": "339,399,451,496,5500,11253,11450,16671,17785,18178"
+                    }
+                },
+                {
+                    "source": "D:\\flutter_proj_personal\\fts\\drop-go-user\\android\\app\\src\\main\\res\\values\\styles.xml",
+                    "from": {
+                        "startLines": "3,14",
+                        "startColumns": "4,4",
+                        "startOffsets": "176,832",
+                        "endLines": "7,16",
+                        "endColumns": "12,12",
+                        "endOffsets": "483,998"
+                    },
+                    "to": {
+                        "startLines": "134,139",
+                        "startColumns": "4,4",
+                        "startOffsets": "9466,9774",
+                        "endLines": "138,141",
+                        "endColumns": "12,12",
+                        "endOffsets": "9769,9938"
                     }
                 },
                 {
