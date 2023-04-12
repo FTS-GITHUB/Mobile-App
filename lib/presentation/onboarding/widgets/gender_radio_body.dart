@@ -10,7 +10,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class GenderRadioBody extends StatelessWidget {
   const GenderRadioBody({
     Key? key,
+    required this.data,
   }) : super(key: key);
+
+  final List<String>? data;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,8 @@ class GenderRadioBody extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
                 title: StandardText.headline6(
                   context,
-                  'onboarding.male'.tr(),
+                  data?[0]??'N/A',
+                  // 'onboarding.male'.tr(),
                   align: TextAlign.start,
                   fontWeight: gender == Gender.Male?DropAndGoFontWeight.semiBold: DropAndGoFontWeight.regular,
                 ),
@@ -40,7 +44,7 @@ class GenderRadioBody extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
                 title: StandardText.headline6(
                   context,
-                  'onboarding.female'.tr(),
+                  data?[1]??'N/A',
                   align: TextAlign.start,
                   fontWeight: gender == Gender.Female?DropAndGoFontWeight.semiBold: DropAndGoFontWeight.regular,
                 ),
@@ -57,7 +61,7 @@ class GenderRadioBody extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
                 title: StandardText.headline6(
                   context,
-                  'onboarding.other'.tr(),
+                  data?[2]??'N/A',
                   align: TextAlign.start,
                   fontWeight: gender == Gender.Other?DropAndGoFontWeight.semiBold: DropAndGoFontWeight.regular,
                 ),
