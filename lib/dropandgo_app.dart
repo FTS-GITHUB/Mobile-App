@@ -38,6 +38,7 @@ class DropAndGoApp extends StatefulWidget {
 class _DropAndGoAppState extends State<DropAndGoApp> {
   late ISettingRepository _settingRepository;
   late IAuthRepository _authRepository;
+  late ICloudFirestoreRepository _cloudFirestoreRepository;
 
   // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   // final _networkNotifier = ValueNotifier(false);
@@ -79,7 +80,8 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
     _settingRepository = SettingRepository(
       firestoreRepository: getIt<ICloudFirestoreRepository>(),
     );
-    _authRepository =   getIt<IAuthRepository>();
+    _authRepository = getIt<IAuthRepository>();
+    _cloudFirestoreRepository = getIt<ICloudFirestoreRepository>();
   }
 
   @override
@@ -151,9 +153,16 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
         BlocProvider<SignupBloc>(
           create: (context) => SignupBloc(
             authRepository: _authRepository,
+            firestoreRepository: _cloudFirestoreRepository,
           ),
         ),
-      ], //SignupBloc
+        BlocProvider<PostSignupBloc>(
+          create: (context) => SignupBloc(
+            authRepository: _authRepository,
+            firestoreRepository: _cloudFirestoreRepository,
+          ),
+        ),
+      ], //PostSignupBloc
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,

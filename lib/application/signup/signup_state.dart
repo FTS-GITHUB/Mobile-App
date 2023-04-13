@@ -11,6 +11,8 @@ class SignupStateCreatingAccount extends SignupState{}
 
 class SignupStateCreatedAccount extends SignupState{}
 
+class SignupStateUploadedData extends SignupState{}
+
 class SignupStateError extends SignupState{
   SignupStateError({
     required this.message,

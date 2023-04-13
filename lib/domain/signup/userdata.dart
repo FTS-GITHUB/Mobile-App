@@ -43,6 +43,33 @@ class UserData {
     this.dateOfBirth,
   });
 
+  UserData copyWith({
+    String? id,
+    String? fullName,
+    String? gender,
+    String? ageGroup,
+    String? achievement,
+    String? level,
+    String? profilePicUrl,
+    String? email,
+    String? phoneNo,
+    String? country,
+    DateTime? dateOfBirth,
+  }) =>
+      UserData(
+        id: id ?? this.id,
+        fullName: fullName ?? this.fullName,
+        gender: gender ?? this.gender,
+        ageGroup: ageGroup ?? this.ageGroup,
+        achievement: achievement ?? this.achievement,
+        level: level ?? this.level,
+        profilePicUrl: profilePicUrl ?? this.profilePicUrl,
+        email: email ?? this.email,
+        phoneNo: phoneNo ?? this.phoneNo,
+        country: country ?? this.country,
+        dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      );
+
   factory UserData.fromSnapshot(DocumentSnapshot snapshot) {
     final Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
     return UserData.fromJson(snapshot.id, data);
