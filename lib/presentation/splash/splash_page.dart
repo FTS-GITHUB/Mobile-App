@@ -6,6 +6,7 @@ import 'package:dropandgouser/shared/widgets/app_button_widget.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../shared/constants/assets.dart';
@@ -39,10 +40,10 @@ class SplashPage extends StatelessWidget {
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(
-              bottom: 50,
-              left: 35,
-              right: 35,
+            margin: EdgeInsets.only(
+              bottom: 50.h,
+              left: 35.w,
+              right: 35.w,
             ),
             alignment: Alignment.bottomCenter,
             child: AppButton(

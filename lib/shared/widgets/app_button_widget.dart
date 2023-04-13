@@ -4,6 +4,7 @@ import 'package:dropandgouser/shared/helpers/typography/font_family.dart';
 import 'package:dropandgouser/shared/helpers/typography/font_weights.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppButton extends StatelessWidget {
   const AppButton({
@@ -12,7 +13,7 @@ class AppButton extends StatelessWidget {
     this.icon,
     this.onPressed,
     Key? key,
-    this.height = 64,
+    this.height,
     this.width = 234,
     this.radius = 8,
     this.color,
@@ -43,7 +44,7 @@ class AppButton extends StatelessWidget {
   final FontWeight fontWeight;
   final TextAlign textAlign;
   final bool isUpperCaseText;
-  final double height;
+  final double? height;
   final double width;
   final double radius;
   final Color? borderColor;
@@ -57,7 +58,7 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isEnabled = onPressed != null;
     return Container(
-      height: height,
+      height: height??64.h,
       width: width,
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,

@@ -1,15 +1,19 @@
-import 'package:dropandgouser/shared/enums/age.dart';
+import 'package:dropandgouser/domain/onboarding/age.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AgeCubit extends Cubit<AgeRange>{
-  AgeCubit():super(AgeRange.Age18To29);
+class AgeCubit extends Cubit<Age> {
+  AgeCubit() : super(Age());
 
-  onAgeChanged(AgeRange value){
-    emit(value);
+  onAgeChanged(int index, {required String value}) {
+    emit(state.copyWith(
+      index: index,
+      value: value,
+    ));
   }
 
-  dispose(){
-    emit(AgeRange.Age18To29);
+  dispose() {
+    emit(
+      Age(),
+    );
   }
-
 }

@@ -15,7 +15,7 @@ class ScreenUtilSetup extends StatelessWidget {
         builder: (BuildContext context) {
           ScreenUtil.init(
             context,
-            designSize: const Size(375, 812),
+            designSize: const Size(390, 844),
           );
           return child!;
         },

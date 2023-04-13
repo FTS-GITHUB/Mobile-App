@@ -21,7 +21,7 @@ class AgeRadioItem extends StatelessWidget {
       onTap: onTap,
       child: Container(
         alignment: Alignment.center,
-        width: context.width / 2 - 45,
+        width: 100,
         height: 50,
         decoration: BoxDecoration(
           color: isSelected ? DropAndGoColors.primary : DropAndGoColors.white,
