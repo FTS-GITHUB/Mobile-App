@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "968391200251",
+    "project_id": "dropandgo-c32c9",
+    "storage_bucket": "dropandgo-c32c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:968391200251:android:2f29bbc9562a3bc5068f5e",
+        "android_client_info": {
+          "package_name": "com.example.dropandgouser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "968391200251-klceh9rarigkdtrj4dbf1n87o8p4ii1k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNEMSHCtHSe4FKQdZ7uDfbc_46nnOwyec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "968391200251-klceh9rarigkdtrj4dbf1n87o8p4ii1k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
