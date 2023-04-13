@@ -38,11 +38,14 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> with PostSignupBloc {
     );
 
     response.fold(
-      (ApiError l) => emit(
+      (ApiError l) {
+        print(l.code);
+        emit(
         SignupStateError(
           message: l.message ?? 'Error',
         ),
-      ),
+      );
+      },
       (Unit r) => emit(
         SignupStateCreatedAccount(),
       ),

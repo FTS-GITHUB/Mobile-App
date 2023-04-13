@@ -31,7 +31,8 @@ class FirebaseAuthRepository implements IAuthRepository {
       );
       return right(unit);
     } on FirebaseAuthException catch (e) {
-      return left(e.toApiError());
+      print(e.code);
+      return left(e.toApiAuthError());
     }
   }
 
@@ -47,7 +48,7 @@ class FirebaseAuthRepository implements IAuthRepository {
       );
       return right(unit);
     } on FirebaseAuthException catch (e) {
-      return left(e.toApiError());
+      return left(e.toApiAuthError());
     }
   }
 
@@ -69,7 +70,7 @@ class FirebaseAuthRepository implements IAuthRepository {
       return right(unit);
     } on FirebaseAuthException catch (e) {
       return left(
-        e.toApiError(),
+        e.toApiAuthError(),
       );
     }
   }

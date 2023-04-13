@@ -24,7 +24,7 @@ class Toasts {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: color ?? (type == AlertType.Error
-            ? DropAndGoColors.white
+            ? DropAndGoColors.red
             : DropAndGoColors.white),
       ),
       padding: color==null?null:const EdgeInsets.only(left: 8),
@@ -38,7 +38,9 @@ class Toasts {
               type == AlertType.Error
                   ? Icons.error
                   : Icons.info_outline,
-              // color: type == AlertType.Error?LocalWalkersColors.red:LocalWalkersColors.infoBox,
+              color: type == AlertType.Error
+                  ? DropAndGoColors.white
+                  : DropAndGoColors.black,
             ),
           ),
           Expanded(
@@ -51,18 +53,18 @@ class Toasts {
                   context,
                   title,
                   fontWeight: DropAndGoFontWeight.black,
-                  // color: type == AlertType.Error
-                  //     ? LocalWalkersColors.alertBoxText
-                  //     : LocalWalkersColors.infoBoxText,
+                  color: type == AlertType.Error
+                      ? DropAndGoColors.white
+                      : DropAndGoColors.black,
                 ),
                 StandardText.subtitle3(
                   context,
                   description,
                   fontSize: 12,
                   fontWeight: DropAndGoFontWeight.regular,
-                  // color: type == AlertType.Error
-                  //     ? LocalWalkersColors.alertBoxText
-                  //     : LocalWalkersColors.infoBoxText,
+                  color: type == AlertType.Error
+                      ? DropAndGoColors.white
+                      : DropAndGoColors.black,
                 ),
               ],
             ),

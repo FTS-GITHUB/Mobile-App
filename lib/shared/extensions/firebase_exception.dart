@@ -4,24 +4,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 extension FirebaseExceptionX on FirebaseException {
   ApiError toApiError() {
-    final apiError = ApiError();
-    apiError.copyWith(
+    ApiError apiError = ApiError();
+    apiError = apiError.copyWith(
       code: code,
       message: message,
     );
-    return ApiError();
+    return apiError;
   }
 }
 
 
 extension FirebaseAuthExceptionX on FirebaseAuthException {
-  ApiError toApiError() {
-    final apiError = ApiError();
-    apiError.copyWith(
+  ApiError toApiAuthError() {
+    ApiError apiError = ApiError();
+    apiError =apiError.copyWith(
       code: code,
       message: message,
     );
-    return ApiError();
+    return apiError;
   }
 }
 
