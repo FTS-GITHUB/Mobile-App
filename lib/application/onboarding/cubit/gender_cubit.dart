@@ -1,15 +1,21 @@
-import 'package:dropandgouser/shared/enums/gender.dart';
+import 'package:dropandgouser/domain/onboarding/gender.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GenderCubit extends Cubit<Gender>{
-  GenderCubit():super(Gender.Male);
+  GenderCubit():super(Gender(
+    index: 0,
+    value: '',
+  ));
 
-  onRadioChanged(Gender value){
-    emit(value);
+  onRadioChanged(Gender gender){
+    emit(state.copyWith(
+      index: gender.index,
+      value: gender.value,
+    ));
   }
 
   dispose(){
-    emit(Gender.Male);
+    emit(Gender());
   }
 
 }

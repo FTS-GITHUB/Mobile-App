@@ -1,5 +1,5 @@
 import 'package:dropandgouser/application/onboarding/cubit/gender_cubit.dart';
-import 'package:dropandgouser/shared/enums/gender.dart';
+import 'package:dropandgouser/domain/onboarding/gender.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/helpers/typography/font_weights.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
@@ -16,62 +16,55 @@ class GenderRadioBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GenderCubit, Gender>(
-        builder: (context, gender) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RadioListTile(
-                contentPadding: EdgeInsets.zero,
-                title: StandardText.headline6(
-                  context,
-                  data?[0]??'N/A',
-                  // 'onboarding.male'.tr(),
-                  align: TextAlign.start,
-                  fontWeight: gender == Gender.Male?DropAndGoFontWeight.semiBold: DropAndGoFontWeight.regular,
+    return BlocBuilder<GenderCubit, Gender>(builder: (context, gender) {
+      return data == null || data!.isEmpty
+          ? StandardText.headline6(
+              context,
+              'No gender added',
+            )
+          : GridView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: data?.length ?? 0,
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+                childAspectRatio: 5.6,
+              ),
+              itemBuilder: (context, index) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    RadioListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: StandardText.headline6(
+                        context,
+                        data?[index] ?? 'N/A',
+                        // 'onboarding.male'.tr(),
+                        align: TextAlign.start,
+                        fontWeight: gender.index == index
+                            ? DropAndGoFontWeight.semiBold
+                            : DropAndGoFontWeight.regular,
+                      ),
+                      value: data?[index],
+                      groupValue: gender.value,
+                      onChanged: (value) {
+                        context.read<GenderCubit>().onRadioChanged(Gender(
+                              index: index,
+                              value: data?[index] ?? '',
+                            ));
+                      },
+                      activeColor: DropAndGoColors.primary,
+                    ),
+                Visibility(
+                  visible: index!=(data?.length??0-1),
+                  child: const Divider(
+                        thickness: 1,
+                        color: DropAndGoColors.primary,
+                      ),
                 ),
-                value: Gender.Male,
-                groupValue: gender,
-                onChanged: (Gender? value)=>context.read<GenderCubit>().onRadioChanged(value!),
-                activeColor: DropAndGoColors.primary,
-              ),
-              const Divider(
-                thickness: 1,
-                color: DropAndGoColors.primary,
-              ),
-              RadioListTile(
-                contentPadding: EdgeInsets.zero,
-                title: StandardText.headline6(
-                  context,
-                  data?[1]??'N/A',
-                  align: TextAlign.start,
-                  fontWeight: gender == Gender.Female?DropAndGoFontWeight.semiBold: DropAndGoFontWeight.regular,
-                ),
-                value: Gender.Female,
-                groupValue: gender,
-                onChanged: (Gender? value)=>context.read<GenderCubit>().onRadioChanged(value!),
-                activeColor: DropAndGoColors.primary,
-              ),
-              const Divider(
-                thickness: 1,
-                color: DropAndGoColors.primary,
-              ),
-              RadioListTile(
-                contentPadding: EdgeInsets.zero,
-                title: StandardText.headline6(
-                  context,
-                  data?[2]??'N/A',
-                  align: TextAlign.start,
-                  fontWeight: gender == Gender.Other?DropAndGoFontWeight.semiBold: DropAndGoFontWeight.regular,
-                ),
-                value: Gender.Other,
-                groupValue: gender,
-                onChanged: (Gender? value)=>context.read<GenderCubit>().onRadioChanged(value!),
-                activeColor: DropAndGoColors.primary,
-              ),
-            ],
-          );
-        }
-    );
+                  ],
+                );
+              });
+    });
   }
 }
