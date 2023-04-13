@@ -1,3 +1,5 @@
+// ignore_for_file: implementation_imports
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropandgouser/domain/common/setting.dart';
 import 'package:dropandgouser/domain/i_setting_repository.dart';

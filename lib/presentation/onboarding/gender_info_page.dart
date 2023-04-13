@@ -1,6 +1,5 @@
 import 'package:country/country.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
-import 'package:dropandgouser/application/onboarding/cubit/gender_cubit.dart';
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';

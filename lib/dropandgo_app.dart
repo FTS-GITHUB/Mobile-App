@@ -1,9 +1,7 @@
 // ignore_for_file: always_specify_types
 
-import 'dart:async';
 import 'dart:ui' as ui;
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/rememberme_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/achievement_cubit.dart';

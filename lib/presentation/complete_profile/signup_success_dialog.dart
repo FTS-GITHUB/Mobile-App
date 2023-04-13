@@ -3,7 +3,6 @@ import 'package:dropandgouser/presentation/complete_profile/widgets/success_plac
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/app_dialog.dart';
 import 'package:dropandgouser/shared/widgets/button_loading.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
