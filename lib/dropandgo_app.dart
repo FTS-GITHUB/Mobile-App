@@ -12,7 +12,9 @@ import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit
 import 'package:dropandgouser/application/complete_profile/cubit/dob_date_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/profile_file_cubit.dart';
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
+import 'package:dropandgouser/application/signup/signup_bloc.dart';
 import 'package:dropandgouser/domain/i_setting_repository.dart';
+import 'package:dropandgouser/domain/services/i_auth_repository.dart';
 import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/setting/setting_repository.dart';
@@ -35,6 +37,7 @@ class DropAndGoApp extends StatefulWidget {
 
 class _DropAndGoAppState extends State<DropAndGoApp> {
   late ISettingRepository _settingRepository;
+  late IAuthRepository _authRepository;
 
   // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   // final _networkNotifier = ValueNotifier(false);
@@ -76,6 +79,7 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
     _settingRepository = SettingRepository(
       firestoreRepository: getIt<ICloudFirestoreRepository>(),
     );
+    _authRepository =   getIt<IAuthRepository>();
   }
 
   @override
@@ -144,7 +148,12 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
             settingRepository: _settingRepository,
           )..add(FetchSignupSuccessSettings()),
         ),
-      ], //SettingBloc
+        BlocProvider<SignupBloc>(
+          create: (context) => SignupBloc(
+            authRepository: _authRepository,
+          ),
+        ),
+      ], //SignupBloc
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,

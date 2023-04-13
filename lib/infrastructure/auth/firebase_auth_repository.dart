@@ -1,126 +1,100 @@
-// import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-// import 'package:flutter/cupertino.dart';
-// import 'package:fpdart/fpdart.dart';
-// import 'package:injectable/injectable.dart';
-// import 'package:local_walkers/domain/auth/auth_failure.dart';
-// import 'package:local_walkers/domain/auth/value_objects.dart';
+import 'package:dropandgouser/domain/services/i_auth_repository.dart';
+import 'package:dropandgouser/shared/extensions/firebase_exception.dart';
+import 'package:dropandgouser/shared/network/domain/api_error.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:injectable/injectable.dart';
+
+@LazySingleton(as: IAuthRepository)
+class FirebaseAuthRepository implements IAuthRepository {
+  FirebaseAuthRepository(
+    this._firebaseAuth,
+  );
+
+  final FirebaseAuth _firebaseAuth;
+  // final GoogleSignIn
+
+  @override
+  Future<void> signOut() => Future.wait([
+        _firebaseAuth.signOut(),
+      ]);
+
+  @override
+  Future<Either<ApiError, Unit>> registerWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return right(unit);
+    } on FirebaseAuthException catch (e) {
+      return left(e.toApiError());
+    }
+  }
+
+  @override
+  Future<Either<ApiError, Unit>> signInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return right(unit);
+    } on FirebaseAuthException catch (e) {
+      return left(e.toApiError());
+    }
+  }
+
+  @override
+  String? get userId => _firebaseAuth.currentUser?.uid;
+
+  @override
+  Future<Either<ApiError, Unit>> resetPassword({
+    required String email,
+  }) async {
+    try {
+      await _firebaseAuth
+          .sendPasswordResetEmail(
+        email: email,
+      )
+          .catchError((err) {
+        throw FirebaseAuthException;
+      });
+      return right(unit);
+    } on FirebaseAuthException catch (e) {
+      return left(
+        e.toApiError(),
+      );
+    }
+  }
+
+// @override
+// Future<Either<ApiError, Unit>> signInWithGoogle() async {
+//   try {
+//     final googleUser = await _googleSignIn.signIn();
 //
-// import '../../domain/auth/i_auth_repository.dart';
-// import '../../domain/auth/user.dart';
-// import 'firebase_user_mapper.dart';
-//
-// @LazySingleton(as: IAuthRepository)
-// class FirebaseAuthRepository implements IAuthRepository {
-//   FirebaseAuthRepository(
-//     this._firebaseAuth,
-//   );
-//
-//   final firebase_auth.FirebaseAuth _firebaseAuth;
-//
-//   @override
-//   Future<Option<User>> getSignedInUser() async =>
-//       optionOf(_firebaseAuth.currentUser?.toDomain());
-//
-//   @override
-//   Future<void> signOut() => Future.wait([
-//         _firebaseAuth.signOut(),
-//       ]);
-//
-//   @override
-//   Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
-//     required EmailAddress emailAddress,
-//     required Password password,
-//   }) async {
-//     final emailAddressString = emailAddress.getOrCrash();
-//     final passwordString = password.getOrCrash();
-//
-//     try {
-//       await _firebaseAuth.createUserWithEmailAndPassword(
-//         email: emailAddressString,
-//         password: passwordString,
-//       );
-//       return right(unit);
-//     } on firebase_auth.FirebaseAuthException catch (e) {
-//       if (e.code == 'email-already-in-use' ||
-//           e.code == "email-already-in-use".toUpperCase()) {
-//         return left(const AuthFailure.emailAlreadyInUse());
-//       } else {
-//         return left(const AuthFailure.serverError());
-//       }
+//     if (googleUser == null) {
+//       return left(const AuthFailure.cancelledByUser());
 //     }
+//
+//     final googleAuth = await googleUser.authentication;
+//
+//     final authCredential = firebase_auth.GoogleAuthProvider.credential(
+//       idToken: googleAuth.idToken,
+//       accessToken: googleAuth.accessToken,
+//     );
+//
+//     return _firebaseAuth
+//         .signInWithCredential(authCredential)
+//         .then((r) => right(unit));
+//   } on firebase_auth.FirebaseAuthException catch (_) {
+//     return left(const AuthFailure.serverError());
 //   }
-//
-//   @override
-//   Future<Either<AuthFailure, Unit>> signInWithEmailAndPassword({
-//     required EmailAddress emailAddress,
-//     required Password password,
-//   }) async {
-//     final emailAddressString = emailAddress.getOrCrash();
-//     final passwordString = password.getOrCrash();
-//
-//     try {
-//       await _firebaseAuth.signInWithEmailAndPassword(
-//         email: emailAddressString,
-//         password: passwordString,
-//       );
-//       return right(unit);
-//     } on firebase_auth.FirebaseAuthException catch (e) {
-//       if (e.code == 'wrong-password' ||
-//           e.code == "wrong-password".toUpperCase() ||
-//           e.code == "user-not-found" ||
-//           e.code == "user-not-found".toUpperCase()) {
-//         debugPrint(e.code);
-//         return left(const AuthFailure.invalidEmailAndPasswordCombination());
-//       } else {
-//         return left(const AuthFailure.serverError());
-//       }
-//     }
-//   }
-//
-//   @override
-//   String? get userId => _firebaseAuth.currentUser?.uid;
-//
-//   @override
-//   Future<Either<AuthFailure, Unit>> resetPassword(
-//       {required String email}) async {
-//     try {
-//       await _firebaseAuth
-//           .sendPasswordResetEmail(
-//         email: email,
-//       )
-//           .catchError((err) {
-//         throw firebase_auth.FirebaseAuthException;
-//       });
-//       return right(unit);
-//     } on firebase_auth.FirebaseAuthException catch (e) {
-//       debugPrint(e.code);
-//       return left(
-//         const AuthFailure.serverError(),
-//       );
-//     }
-//   }
-//
-// // @override
-// // Future<Either<AuthFailure, Unit>> signInWithGoogle() async {
-// //   try {
-// //     final googleUser = await _googleSignIn.signIn();
-// //
-// //     if (googleUser == null) {
-// //       return left(const AuthFailure.cancelledByUser());
-// //     }
-// //
-// //     final googleAuth = await googleUser.authentication;
-// //
-// //     final authCredential = firebase_auth.GoogleAuthProvider.credential(
-// //       idToken: googleAuth.idToken,
-// //       accessToken: googleAuth.accessToken,
-// //     );
-// //
-// //     return _firebaseAuth
-// //         .signInWithCredential(authCredential)
-// //         .then((r) => right(unit));
-// //   } on firebase_auth.FirebaseAuthException catch (_) {
-// //     return left(const AuthFailure.serverError());
-// //   }
-// // }
 // }
+}
