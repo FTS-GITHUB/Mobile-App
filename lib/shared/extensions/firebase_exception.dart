@@ -1,13 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 extension FirebaseExceptionX on FirebaseException {
   ApiError toApiError() {
-    final apiError = ApiError();
-    apiError.copyWith(
+    ApiError apiError = ApiError();
+    apiError = apiError.copyWith(
       code: code,
       message: message,
     );
-    return ApiError();
+    return apiError;
   }
 }
+
+
+extension FirebaseAuthExceptionX on FirebaseAuthException {
+  ApiError toApiAuthError() {
+    ApiError apiError = ApiError();
+    apiError =apiError.copyWith(
+      code: code,
+      message: message,
+    );
+    return apiError;
+  }
+}
+
