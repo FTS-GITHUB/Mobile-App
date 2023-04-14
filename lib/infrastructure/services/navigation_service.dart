@@ -23,6 +23,7 @@ abstract class NavigationService {
   static const String completeProfileRouteUri = '/complete-profile';
   static const String createAccountRouteUri = '/create-account';
   static const String forgetPasswordRouteUri= '/forget-password';
+  static const String homeRouteUri= 'home';
 
   void navigateToNamed({
     required BuildContext context,
