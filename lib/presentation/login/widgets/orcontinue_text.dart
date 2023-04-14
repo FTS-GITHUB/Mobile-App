@@ -1,5 +1,6 @@
 import 'package:dropandgouser/shared/extensions/media_query.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
+import 'package:dropandgouser/shared/helpers/typography/font_weights.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class OrContinueText extends StatelessWidget {
             child: StandardText.subtitle2(
               context,
               'login.or'.tr(),
+              fontWeight: DropAndGoFontWeight.regular,
             ),
           ),
           const Flexible(

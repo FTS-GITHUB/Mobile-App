@@ -4,6 +4,8 @@ import 'dart:ui' as ui;
 
 import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/rememberme_cubit.dart';
+import 'package:dropandgouser/application/login/cubit/login_obscurepassword_cubit.dart';
+import 'package:dropandgouser/application/login/cubit/login_remember_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/achievement_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/age_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/gender_cubit.dart';
@@ -190,6 +192,14 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
               SignupBloc(
                 signupRepository: _signupRepository,
               ),
+        ),
+        BlocProvider<LoginObscurePasswordCubit>(
+          create: (context) =>
+              LoginObscurePasswordCubit(),
+        ),
+        BlocProvider<LoginRememberCubit>(
+          create: (context) =>
+              LoginRememberCubit(),
         ),
       ], //PostSignupBloc
       child: _DropAndGoApp(

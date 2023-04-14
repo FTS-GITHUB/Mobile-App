@@ -1,4 +1,6 @@
 import 'package:dropandgouser/application/complete_profile/cubit/rememberme_cubit.dart';
+import 'package:dropandgouser/infrastructure/di/injectable.dart';
+import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/login/login_form.dart';
 import 'package:dropandgouser/presentation/login/widgets/orcontinue_text.dart';
 import 'package:dropandgouser/presentation/login/widgets/social_buttons.dart';
@@ -37,7 +39,9 @@ class _LoginPageState extends State<LoginPage> {
             icon: SvgPicture.asset(
               DropAndGoIcons.arrowBack,
             ),
-            onPressed: () {},
+            onPressed: () {
+              getIt<NavigationService>().navigateBack(context: context);
+            },
           ),
         ),
       ),

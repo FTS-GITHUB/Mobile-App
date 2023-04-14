@@ -5,30 +5,6 @@
     "button": "Let's Start"
   },
   "onboarding": {
-    "gender_title": "What is You Gender?",
-    "gender_subTitle": "Select gender for better meditation",
-    "male": "Male",
-    "female": "Female",
-    "other": "Prefer not to say",
-    "age_title": "Choose Your Age",
-    "age_subtitle": "Select Your Age range for better meditation content.",
-    "18": "18 - 29",
-    "30": "30 - 45",
-    "46": "46 - 59",
-    "60": "60 - 69",
-    "70": "70 - 84",
-    "85": "85 +",
-    "ach_title": "WHAT DO YOU WANT TO ACHIEVE BY USING THIS BRAIN TRAINING APP?",
-    "ach_subTitle": "In publishing and graphic design, Lorem is a placeholder text",
-    "level_title": "RECOMMENDED TO START WITH BEGINNER",
-    "level1": "BEGINNER 5 -10 MINUTES",
-    "level2": "ON YOUR WAY 15 - 20 MINUTES",
-    "level3": "GETTING THERE 30 - 40 MINUTES",
-    "level4": "IN THE ZONE 45 -50 MINUTES",
-    "level5": "MAXIMIZE BRAIN TRAINING 60 MINUTES",
-    "level6": "I haven’t decided yet",
-    "profile_title": "Complete Your Profile",
-    "profile_subtitle": "In publishing and graphic design, Lorem is a placeholder text commonly used to demonstrate the visual.",
     "name": "Full Name",
     "phone": "Phone Number",
     "dob": "Date Of Birth",
@@ -42,5 +18,16 @@
     "confirm_pas": "Confirm Password",
     "remember": "Remember me",
     "success": "Sign Up Successful"
+  },
+  "login": {
+    "title": "Hello There",
+    "subtitle": "Please Enter Your Email and Password to sign in",
+    "forget": "Forgot Password?",
+    "or": " Or Continue With ",
+    "confirm": "Confirm"
+  },
+  "forget": {
+    "title": "Forgot Password",
+    "subtitle": "Please Enter Your Email address. we will send an link for verification in next Step.  "
   }
 }

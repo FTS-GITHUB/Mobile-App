@@ -8,12 +8,14 @@ import 'package:dropandgouser/shared/extensions/extensions.dart';
 import 'package:dropandgouser/shared/extensions/number_extensions.dart';
 import 'package:dropandgouser/shared/extensions/string_extensions.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
+import 'package:dropandgouser/shared/helpers/typography/font_weights.dart';
 import 'package:dropandgouser/shared/widgets/app_button_widget.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:dropandgouser/shared/widgets/standard_textfield.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
@@ -125,16 +127,17 @@ class LoginForm extends StatelessWidget {
               ),
             ],
           ),
-          Container(
-            margin: EdgeInsets.only(
-              top: context.height * .027,
-              bottom: context.height * .029,
-            ),
-            child: const Divider(
-              thickness: 1,
-              color: DropAndGoColors.primary,
-            ),
-          ),
+          53.h.verticalGap,
+          // Container(
+          //   margin: EdgeInsets.only(
+          //     top: context.height * .027,
+          //     bottom: context.height * .029,
+          //   ),
+          //   child: const Divider(
+          //     thickness: 1,
+          //     color: DropAndGoColors.primary,
+          //   ),
+          // ),
           InkWell(
             onTap: () {
               getIt<NavigationService>().navigateToNamed(
@@ -147,6 +150,7 @@ class LoginForm extends StatelessWidget {
               child: StandardText.subtitle1(
                 context,
                 'login.forget'.tr(),
+                fontWeight: DropAndGoFontWeight.semiBold,
               ),
             ),
           ),

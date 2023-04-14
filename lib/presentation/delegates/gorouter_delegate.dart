@@ -1,5 +1,7 @@
 import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
+import 'package:dropandgouser/presentation/forget_password/forget_password_page.dart';
+import 'package:dropandgouser/presentation/login/login_page.dart';
 import 'package:dropandgouser/presentation/signup/complete_profile_page.dart';
 import 'package:dropandgouser/presentation/signup/create_account_page.dart';
 import 'package:dropandgouser/presentation/onboarding/achievement_info_page.dart';
@@ -63,6 +65,20 @@ class GoRouterDelegate {
           return CreateAccountPage(
             userData: routerState.extra as UserData?,
           );
+        },
+      ),
+      GoRoute(
+        path: NavigationService.loginRouteUri,
+        name: NavigationService.loginRouteUri,
+        builder: (context, routerState) {
+          return const LoginPage();
+        },
+      ),
+      GoRoute(
+        path: NavigationService.forgetPasswordRouteUri,
+        name: NavigationService.forgetPasswordRouteUri,
+        builder: (context, routerState) {
+          return const ForgetPasswordPage();
         },
       ),
     ],
