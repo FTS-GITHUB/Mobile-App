@@ -53,7 +53,7 @@ class GoRouterDelegate {
         path: NavigationService.completeProfileRouteUri,
         name: NavigationService.completeProfileRouteUri,
         builder: (context, routerState) {
-          return CompleteProfilePage();
+          return const CompleteProfilePage();
         },
       ),
       GoRoute(

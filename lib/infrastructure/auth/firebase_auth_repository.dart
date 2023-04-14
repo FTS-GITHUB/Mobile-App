@@ -31,7 +31,6 @@ class FirebaseAuthRepository implements IAuthRepository {
       );
       return right(unit);
     } on FirebaseAuthException catch (e) {
-      print(e.code);
       return left(e.toApiAuthError());
     }
   }

@@ -7,7 +7,6 @@ import 'package:dropandgouser/presentation/onboarding/widgets/onboarding_appbar.
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/enums/alert_type.dart';
 import 'package:dropandgouser/shared/extensions/number_extensions.dart';
-import 'package:dropandgouser/shared/packages/mytoast.dart';
 import 'package:dropandgouser/shared/widgets/app_button_widget.dart';
 import 'package:dropandgouser/shared/widgets/button_loading.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: implementation_imports
+
 import 'dart:async';
 
 import 'package:dropandgouser/domain/services/i_auth_repository.dart';
@@ -39,7 +41,6 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> with PostSignupBloc {
 
     response.fold(
       (ApiError l) {
-        print(l.code);
         emit(
         SignupStateError(
           message: l.message ?? 'Error',
