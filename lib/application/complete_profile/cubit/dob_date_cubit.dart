@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DobDateCubit extends Cubit<DateTime> {
+class DobDateCubit extends Cubit<DateTime?> {
   DobDateCubit()
       : super(
-          DateTime.now(),
+          null
         );
 
   onDateSelected(DateTime? dateTime){
@@ -13,6 +13,6 @@ class DobDateCubit extends Cubit<DateTime> {
   }
 
   dispose(){
-    emit(DateTime.now());
+    emit(null);
   }
 }

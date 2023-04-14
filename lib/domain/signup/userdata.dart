@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropandgouser/shared/constants/global.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -28,6 +30,8 @@ class UserData {
     fromJson: dateFromJson,
   )
   final DateTime? dateOfBirth;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  File? file;
 
   UserData({
     this.id,
@@ -41,6 +45,7 @@ class UserData {
     this.phoneNo,
     this.country,
     this.dateOfBirth,
+    this.file,
   });
 
   UserData copyWith({

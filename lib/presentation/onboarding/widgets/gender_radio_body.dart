@@ -5,6 +5,7 @@ import 'package:dropandgouser/shared/helpers/typography/font_weights.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GenderRadioBody extends StatelessWidget {
   const GenderRadioBody({
@@ -26,9 +27,9 @@ class GenderRadioBody extends StatelessWidget {
               scrollDirection: Axis.vertical,
               itemCount: data?.length ?? 0,
               shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
-                childAspectRatio: 5.6,
+                childAspectRatio: 5.6.h,
               ),
               itemBuilder: (context, index) {
                 return Column(
@@ -56,7 +57,7 @@ class GenderRadioBody extends StatelessWidget {
                       activeColor: DropAndGoColors.primary,
                     ),
                 Visibility(
-                  visible: index!=(data?.length??0-1),
+                  visible: index!=(data!.length-1),
                   child: const Divider(
                         thickness: 1,
                         color: DropAndGoColors.primary,

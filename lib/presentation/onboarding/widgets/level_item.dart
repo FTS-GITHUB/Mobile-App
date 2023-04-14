@@ -1,6 +1,7 @@
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LevelItem extends StatelessWidget {
   const LevelItem({
@@ -17,21 +18,21 @@ class LevelItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10.0),
+      padding: EdgeInsets.only(top: 10.0.h),
       child: ListTile(
         onTap: onTap,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.w)),
         tileColor: DropAndGoColors.primary,
         contentPadding:
-        const EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 4),
+        EdgeInsets.only(top: 8.h, bottom: 8.h, left: 12.w, right: 4.w),
         leading: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(8.w),
           child: Icon(
             isSelected ? Icons.check_box : Icons.check_box_outlined,
             color: DropAndGoColors.white,
           ),
         ),
-        minLeadingWidth: 10,
+        minLeadingWidth: 10.w,
         title: StandardText.headline6(
           context,
           title,

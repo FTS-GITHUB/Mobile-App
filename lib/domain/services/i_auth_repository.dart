@@ -5,7 +5,7 @@ abstract class IAuthRepository {
 
   Future<void> signOut();
 
-  Future<Either<ApiError, Unit>> registerWithEmailAndPassword({
+  Future<Either<ApiError, String>> registerWithEmailAndPassword({
     required String email,
     required String password,
   });

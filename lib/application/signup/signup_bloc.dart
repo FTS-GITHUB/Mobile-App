@@ -1,8 +1,14 @@
+// ignore_for_file: implementation_imports
+
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dropandgouser/domain/services/i_auth_repository.dart';
 import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
+import 'package:dropandgouser/domain/services/i_storage_repository.dart';
+import 'package:dropandgouser/domain/signup/i_signup_repository.dart';
 import 'package:dropandgouser/domain/signup/userdata.dart';
+import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/shared/constants/firestore_collections.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
 import 'package:equatable/equatable.dart';
@@ -15,39 +21,41 @@ part 'signup_state.dart';
 
 mixin PostSignupBloc on Bloc<SignupEvent, SignupState> {}
 
-class SignupBloc extends Bloc<SignupEvent, SignupState> with PostSignupBloc {
+mixin UploadPictureSignupBloc on Bloc<SignupEvent, SignupState> {}
+
+class SignupBloc extends Bloc<SignupEvent, SignupState>
+    with PostSignupBloc, UploadPictureSignupBloc {
   SignupBloc({
-    required IAuthRepository authRepository,
-    required ICloudFirestoreRepository firestoreRepository,
-  })  : _authRepository = authRepository,
-        _firestoreRepository = firestoreRepository,
+    required ISignupRepository signupRepository,
+  })  : _signupRepository = signupRepository,
         super(SignupStateInitial()) {
     on<CreateNewAccount>(_onCreateNewAccount);
     on<UploadUserData>(_onUploadUserData);
+    on<UploadProfilePicture>(_onUploadProfilePicture);
   }
 
-  final IAuthRepository _authRepository;
-  final ICloudFirestoreRepository _firestoreRepository;
+  final ISignupRepository _signupRepository;
 
   Future<void> _onCreateNewAccount(
       CreateNewAccount event, Emitter<SignupState> emit) async {
     emit(SignupStateCreatingAccount());
-    final response = await _authRepository.registerWithEmailAndPassword(
+    final response = await _signupRepository.registerUserWithAuth(
       email: event.email,
       password: event.password,
     );
 
     response.fold(
       (ApiError l) {
-        print(l.code);
         emit(
-        SignupStateError(
-          message: l.message ?? 'Error',
-        ),
-      );
+          SignupStateError(
+            message: l.message ?? 'Error',
+          ),
+        );
       },
-      (Unit r) => emit(
-        SignupStateCreatedAccount(),
+      (String r) => emit(
+        SignupStateCreatedAccount(
+          userId: r,
+        ),
       ),
     );
   }
@@ -55,19 +63,29 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> with PostSignupBloc {
   Future<void> _onUploadUserData(
       UploadUserData event, Emitter<SignupState> emit) async {
     emit(SignupStateCreatingAccount());
-    final String? docId = _authRepository.userId;
-    if (docId == null) {
-      return;
-    }
-    final response = await _firestoreRepository.uploadData(
+    final response = await _signupRepository.uploadDataWithFirestore(
       collectionName: FirestoreCollections.users,
-      docId: docId,
-      object: event.userData.copyWith(id: docId).toJson(),
+      docId: event.userId,
+      userData: event.userData,
+    );
+    response.fold((l) => emit(SignupStateError(message: l.message ?? 'Error1')),
+        (r) => emit(SignupStateUploadedData()));
+  }
+
+  Future<void> _onUploadProfilePicture(
+      UploadProfilePicture event, Emitter<SignupState> emit) async {
+    emit(SignupStateCreatingAccount());
+    final response = await _signupRepository.uploadUserProfilePic(
+      file: event.file,
     );
     response.fold(
-        (l) => emit(SignupStateError(message: l.message ?? 'Error1')),
-        (r) => emit(
-              SignupStateUploadedData(),
-            ));
+      (l) => emit(SignupStateError(message: l.message ?? 'Error1')),
+      (r) => emit(
+        SignupStateUploadedPicture(
+          profilePicUrl: r,
+          userId: event.userId,
+        ),
+      ),
+    );
   }
 }
