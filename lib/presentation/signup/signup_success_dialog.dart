@@ -14,10 +14,10 @@ class SignupSuccessDialog {
       barrierDismissible: false,
       barrierColor: DropAndGoColors.transparent,
       context: context,
-      builder: (context) => BlocListener(
+      builder: (context) => BlocListener<SignupSuccessSettingBloc, SettingState>(
         listener: (context, state) async{
           if (state is SettingStateLoaded) {
-            await Future.delayed(const Duration(seconds: 2)).then(
+            await Future.delayed(const Duration(seconds: 3)).then(
               (value) => getIt<NavigationService>().replaceWithNamed(
                 context: context,
                 uri: NavigationService.homeRouteUri,

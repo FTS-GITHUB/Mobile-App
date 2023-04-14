@@ -17,7 +17,7 @@ class DropAndGoDatePicker {
         context: context,
         initialDate: initialDate,
         firstDate: DateTime(
-          1990,
+          1900,
           DateTime.now().month,
           DateTime.now().day,
         ),

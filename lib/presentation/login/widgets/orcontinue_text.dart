@@ -16,6 +16,7 @@ class OrContinueText extends StatelessWidget {
         bottom: context.height*.02,
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Flexible(
             flex: 3,
@@ -25,11 +26,12 @@ class OrContinueText extends StatelessWidget {
             ),
           ),
           Flexible(
-            flex: 5,
+            flex: 8,
             child: StandardText.subtitle2(
               context,
               'login.or'.tr(),
               fontWeight: DropAndGoFontWeight.regular,
+              align: TextAlign.center,
             ),
           ),
           const Flexible(
