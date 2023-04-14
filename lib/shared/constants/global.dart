@@ -7,3 +7,4 @@ DateTime? dateFromJson(Timestamp? val) => val == null
 Timestamp? dateToJson(DateTime? time) => time == null
     ? null
     : Timestamp.fromMillisecondsSinceEpoch(time.millisecondsSinceEpoch);
+

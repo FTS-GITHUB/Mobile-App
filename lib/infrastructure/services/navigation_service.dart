@@ -22,6 +22,7 @@ abstract class NavigationService {
   static const String onboardingLevelRouteUri = '/select-level';
   static const String completeProfileRouteUri = '/complete-profile';
   static const String createAccountRouteUri = '/create-account';
+  static const String forgetPasswordRouteUri= '/forget-password';
 
   void navigateToNamed({
     required BuildContext context,
