@@ -6,6 +6,7 @@ import 'package:dropandgouser/infrastructure/auth/firebase_auth_repository.dart'
 import 'package:dropandgouser/infrastructure/services/firebase_storage_service.dart';
 import 'package:dropandgouser/infrastructure/services/firestore_service.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
+import 'package:dropandgouser/shared/widgets/toasts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -33,4 +34,6 @@ void registerServices() {
   getIt.registerSingleton<IStorageRepository>(
     FirebaseStorageRepository(firebaseStorage),
   );
+
+  getIt.registerSingleton<Toasts>(Toasts());
 }
