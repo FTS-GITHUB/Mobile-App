@@ -4,7 +4,7 @@ import 'package:dropandgouser/shared/network/domain/api_error.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract class ISignupRepository {
-  Future<Either<ApiError, Unit>> registerUserWithAuth({
+  Future<Either<ApiError, String>> registerUserWithAuth({
     required String email,
     required String password,
   });
@@ -12,11 +12,10 @@ abstract class ISignupRepository {
   Future<Either<ApiError, UserData>> uploadDataWithFirestore({
     required String collectionName,
     required String docId,
-    required dynamic object,
+    required UserData userData,
   });
 
   Future<Either<ApiError, String>> uploadUserProfilePic({
-    required String path,
     required File file,
   });
 

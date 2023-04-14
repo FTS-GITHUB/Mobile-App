@@ -283,6 +283,7 @@ class CompleteProfileForm extends StatelessWidget {
                         fullName: nameTextEditingController.text,
                         phoneNo: phoneTextEditingController.text,
                         dateOfBirth: context.read<DobDateCubit>().state,
+                        file: context.read<ProfileFileCubit>().state,
                       ),
                     );
                   }

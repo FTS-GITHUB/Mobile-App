@@ -16,8 +16,11 @@ import 'package:dropandgouser/application/signup/signup_bloc.dart';
 import 'package:dropandgouser/domain/i_setting_repository.dart';
 import 'package:dropandgouser/domain/services/i_auth_repository.dart';
 import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
+import 'package:dropandgouser/domain/services/i_storage_repository.dart';
+import 'package:dropandgouser/domain/signup/i_signup_repository.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/setting/setting_repository.dart';
+import 'package:dropandgouser/infrastructure/signup/signup_repository.dart';
 import 'package:dropandgouser/shared/helpers/shared_preferences_helper.dart';
 import 'package:dropandgouser/shared/helpers/theme.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -39,6 +42,8 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
   late ISettingRepository _settingRepository;
   late IAuthRepository _authRepository;
   late ICloudFirestoreRepository _cloudFirestoreRepository;
+  late IStorageRepository _storageRepository;
+  late ISignupRepository _signupRepository;
 
   // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   // final _networkNotifier = ValueNotifier(false);
@@ -82,6 +87,10 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
     );
     _authRepository = getIt<IAuthRepository>();
     _cloudFirestoreRepository = getIt<ICloudFirestoreRepository>();
+    _storageRepository = getIt<IStorageRepository>();
+    _signupRepository = SignupRepository(authRepository: _authRepository,
+      firestoreRepository: _cloudFirestoreRepository,
+      storageRepository: _storageRepository,);
   }
 
   @override
@@ -116,51 +125,71 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
           create: (context) => RememberMeCubit(),
         ),
         BlocProvider<SettingBloc>(
-          create: (context) => SettingBloc(
+          create: (context) =>
+          SettingBloc(
             settingRepository: _settingRepository,
-          )..add(FetchAchievementSettings()),
+          )
+            ..add(FetchAchievementSettings()),
         ),
         BlocProvider<GenderSettingBloc>(
-          create: (context) => SettingBloc(
+          create: (context) =>
+          SettingBloc(
             settingRepository: _settingRepository,
-          )..add(FetchGenderSettings()),
+          )
+            ..add(FetchGenderSettings()),
         ),
         BlocProvider<AgeSettingBloc>(
-          create: (context) => SettingBloc(
+          create: (context) =>
+          SettingBloc(
             settingRepository: _settingRepository,
-          )..add(FetchAgeSettings()),
+          )
+            ..add(FetchAgeSettings()),
         ),
         BlocProvider<CompleteProfileSettingBloc>(
-          create: (context) => SettingBloc(
+          create: (context) =>
+          SettingBloc(
             settingRepository: _settingRepository,
-          )..add(FetchCompleteProfileSettings()),
+          )
+            ..add(FetchCompleteProfileSettings()),
         ),
         BlocProvider<CreateAccountSettingBloc>(
-          create: (context) => SettingBloc(
+          create: (context) =>
+          SettingBloc(
             settingRepository: _settingRepository,
-          )..add(FetchCreateAccountSettings()),
+          )
+            ..add(FetchCreateAccountSettings()),
         ),
         BlocProvider<RecommendationSettingBloc>(
-          create: (context) => SettingBloc(
+          create: (context) =>
+          SettingBloc(
             settingRepository: _settingRepository,
-          )..add(FetchRecommendationSettings()),
+          )
+            ..add(FetchRecommendationSettings()),
         ),
         BlocProvider<SignupSuccessSettingBloc>(
-          create: (context) => SettingBloc(
+          create: (context) =>
+          SettingBloc(
             settingRepository: _settingRepository,
-          )..add(FetchSignupSuccessSettings()),
+          )
+            ..add(FetchSignupSuccessSettings()),
         ),
         BlocProvider<SignupBloc>(
-          create: (context) => SignupBloc(
-            authRepository: _authRepository,
-            firestoreRepository: _cloudFirestoreRepository,
-          ),
+          create: (context) =>
+              SignupBloc(
+                  signupRepository: _signupRepository,
+              ),
         ),
         BlocProvider<PostSignupBloc>(
-          create: (context) => SignupBloc(
-            authRepository: _authRepository,
-            firestoreRepository: _cloudFirestoreRepository,
-          ),
+          create: (context) =>
+              SignupBloc(
+                signupRepository: _signupRepository,
+              ),
+        ),
+        BlocProvider<UploadPictureSignupBloc>(
+          create: (context) =>
+              SignupBloc(
+                signupRepository: _signupRepository,
+              ),
         ),
       ], //PostSignupBloc
       child: _DropAndGoApp(
@@ -197,32 +226,32 @@ class _DropAndGoApp extends StatelessWidget {
           routerConfig: GoRouterDelegate.routerConfig,
           builder: (BuildContext context, Widget? child) =>
               AnnotatedRegion<SystemUiOverlayStyle>(
-            value: SystemUiOverlayStyle.dark.copyWith(
-              // systemNavigationBarColor: LocalWalkersColors.primary,
-              systemNavigationBarIconBrightness: Brightness.dark,
-            ),
-            child: Directionality(
-              textDirection: ui.TextDirection.ltr,
-              child: MediaQuery(
-                  data: MediaQuery.of(context).copyWith(
-                    textScaleFactor: 1,
+                value: SystemUiOverlayStyle.dark.copyWith(
+                  // systemNavigationBarColor: LocalWalkersColors.primary,
+                  systemNavigationBarIconBrightness: Brightness.dark,
+                ),
+                child: Directionality(
+                  textDirection: ui.TextDirection.ltr,
+                  child: MediaQuery(
+                      data: MediaQuery.of(context).copyWith(
+                        textScaleFactor: 1,
+                      ),
+                      child: child ?? Container()
+                    // Stack(
+                    //   children: [
+                    //     child ?? Container(),
+                    //     ValueListenableBuilder(
+                    //       valueListenable: networkNotifier,
+                    //       builder: (context, value, state) {
+                    //         return Container();
+                    //         // return value ? const NoConnection() : Container();
+                    //       },
+                    //     ),
+                    //   ],
+                    // ),
                   ),
-                  child: child ?? Container()
-                  // Stack(
-                  //   children: [
-                  //     child ?? Container(),
-                  //     ValueListenableBuilder(
-                  //       valueListenable: networkNotifier,
-                  //       builder: (context, value, state) {
-                  //         return Container();
-                  //         // return value ? const NoConnection() : Container();
-                  //       },
-                  //     ),
-                  //   ],
-                  // ),
-                  ),
-            ),
-          ),
+                ),
+              ),
           locale: context.locale,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,

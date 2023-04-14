@@ -65,7 +65,25 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   title: 'Error',
                   description: state.message);
             } else if (state is SignupStateCreatedAccount) {
+              context.read<UploadPictureSignupBloc>().add(
+                    UploadProfilePicture(
+                      file: widget.userData!.file!,
+                      userId: state.userId,
+                    ),
+                  );
+            }
+          },
+        ),
+        BlocListener<UploadPictureSignupBloc, SignupState>(
+          listener: (context, state) {
+            if (state is SignupStateError) {
+              _toasts.showToast(context,
+                  type: AlertType.Error,
+                  title: 'Error',
+                  description: state.message);
+            } else if (state is SignupStateUploadedPicture) {
               UserData userData = UserData(
+                id: state.userId,
                 email: emailTextEditingController.text,
                 phoneNo: widget.userData?.phoneNo,
                 fullName: widget.userData?.fullName,
@@ -75,10 +93,14 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 country: context.read<CountryCubit>().state,
                 level: context.read<UserLevelCubit>().state.title,
                 achievement: context.read<AchievementCubit>().state.title,
+                profilePicUrl: state.profilePicUrl,
               );
-              context
-                  .read<PostSignupBloc>()
-                  .add(UploadUserData(userData: userData));
+              context.read<PostSignupBloc>().add(
+                    UploadUserData(
+                      userData: userData,
+                      userId: state.userId,
+                    ),
+                  );
             }
           },
         ),

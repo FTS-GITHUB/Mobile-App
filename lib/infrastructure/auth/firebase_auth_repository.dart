@@ -20,16 +20,20 @@ class FirebaseAuthRepository implements IAuthRepository {
       ]);
 
   @override
-  Future<Either<ApiError, Unit>> registerWithEmailAndPassword({
+  Future<Either<ApiError, String>> registerWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      final response = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return right(unit);
+      if(response.user?.uid!=null){
+        return right(response.user!.uid);
+      }else{
+        throw FirebaseAuthException(code: '404',message: 'Failed to register');
+      }
     } on FirebaseAuthException catch (e) {
       return left(e.toApiAuthError());
     }
