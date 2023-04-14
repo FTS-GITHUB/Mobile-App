@@ -48,12 +48,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   }
 
   TextEditingController emailTextEditingController = TextEditingController();
-
   TextEditingController passwordTextEditingController = TextEditingController();
-
   TextEditingController confirmPasswordTextEditingController =
       TextEditingController();
-
   final Toasts _toasts = Toasts();
 
   @override

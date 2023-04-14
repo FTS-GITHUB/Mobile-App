@@ -20,9 +20,8 @@ class FirebaseStorageRepository implements IStorageRepository {
     try{
       late String imageUrl;
       await _firebaseStorage
-          .refFromURL('gs://-e75d6.appspot.com')
+          .refFromURL('gs://dropandgo-c32c9.appspot.com')
           .child(path)
-      // .child('point-of-interest/$uid/$imageName')
           .putFile(file)
           .then((TaskSnapshot val) async{
         imageUrl = await val.ref.getDownloadURL();

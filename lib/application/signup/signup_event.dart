@@ -22,3 +22,10 @@ class UploadUserData extends SignupEvent {
 
   final UserData userData;
 }
+
+class UploadProfilePicture extends SignupEvent {
+  UploadProfilePicture({
+    required this.file,
+});
+  final File? file;
+}
