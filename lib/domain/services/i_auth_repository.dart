@@ -10,7 +10,7 @@ abstract class IAuthRepository {
     required String password,
   });
 
-  Future<Either<ApiError, Unit>> signInWithEmailAndPassword({
+  Future<Either<ApiError, String>> signInWithEmailAndPassword({
     required String email,
     required String password,
   });

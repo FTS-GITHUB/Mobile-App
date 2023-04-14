@@ -7,4 +7,5 @@ abstract class DropAndGoColors {
   static const Color progressBarBg = Color(0xFFD1D1D1);
   static const Color red = Colors.red;
   static const Color transparent = Colors.transparent;
+  // static const Color info = Color(0xaaFFBF00);
 }

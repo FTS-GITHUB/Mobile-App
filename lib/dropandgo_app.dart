@@ -6,6 +6,7 @@ import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.d
 import 'package:dropandgouser/application/complete_profile/cubit/rememberme_cubit.dart';
 import 'package:dropandgouser/application/login/cubit/login_obscurepassword_cubit.dart';
 import 'package:dropandgouser/application/login/cubit/login_remember_cubit.dart';
+import 'package:dropandgouser/application/login/login_bloc/login_bloc.dart';
 import 'package:dropandgouser/application/onboarding/cubit/achievement_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/age_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/gender_cubit.dart';
@@ -16,11 +17,13 @@ import 'package:dropandgouser/application/complete_profile/cubit/profile_file_cu
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/application/signup/signup_bloc.dart';
 import 'package:dropandgouser/domain/i_setting_repository.dart';
+import 'package:dropandgouser/domain/login/i_login_repository.dart';
 import 'package:dropandgouser/domain/services/i_auth_repository.dart';
 import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
 import 'package:dropandgouser/domain/services/i_storage_repository.dart';
 import 'package:dropandgouser/domain/signup/i_signup_repository.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
+import 'package:dropandgouser/infrastructure/login/login_repository.dart';
 import 'package:dropandgouser/infrastructure/setting/setting_repository.dart';
 import 'package:dropandgouser/infrastructure/signup/signup_repository.dart';
 import 'package:dropandgouser/shared/helpers/shared_preferences_helper.dart';
@@ -46,6 +49,7 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
   late ICloudFirestoreRepository _cloudFirestoreRepository;
   late IStorageRepository _storageRepository;
   late ISignupRepository _signupRepository;
+  late ILoginRepository _loginRepository;
 
   // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   // final _networkNotifier = ValueNotifier(false);
@@ -90,9 +94,14 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
     _authRepository = getIt<IAuthRepository>();
     _cloudFirestoreRepository = getIt<ICloudFirestoreRepository>();
     _storageRepository = getIt<IStorageRepository>();
-    _signupRepository = SignupRepository(authRepository: _authRepository,
+    _signupRepository = SignupRepository(
+      authRepository: _authRepository,
       firestoreRepository: _cloudFirestoreRepository,
-      storageRepository: _storageRepository,);
+      storageRepository: _storageRepository,
+    );
+    _loginRepository = LoginRepository(
+      authRepository: _authRepository,
+    );
   }
 
   @override
@@ -127,79 +136,65 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
           create: (context) => RememberMeCubit(),
         ),
         BlocProvider<SettingBloc>(
-          create: (context) =>
-          SettingBloc(
+          create: (context) => SettingBloc(
             settingRepository: _settingRepository,
-          )
-            ..add(FetchAchievementSettings()),
+          )..add(FetchAchievementSettings()),
         ),
         BlocProvider<GenderSettingBloc>(
-          create: (context) =>
-          SettingBloc(
+          create: (context) => SettingBloc(
             settingRepository: _settingRepository,
-          )
-            ..add(FetchGenderSettings()),
+          )..add(FetchGenderSettings()),
         ),
         BlocProvider<AgeSettingBloc>(
-          create: (context) =>
-          SettingBloc(
+          create: (context) => SettingBloc(
             settingRepository: _settingRepository,
-          )
-            ..add(FetchAgeSettings()),
+          )..add(FetchAgeSettings()),
         ),
         BlocProvider<CompleteProfileSettingBloc>(
-          create: (context) =>
-          SettingBloc(
+          create: (context) => SettingBloc(
             settingRepository: _settingRepository,
-          )
-            ..add(FetchCompleteProfileSettings()),
+          )..add(FetchCompleteProfileSettings()),
         ),
         BlocProvider<CreateAccountSettingBloc>(
-          create: (context) =>
-          SettingBloc(
+          create: (context) => SettingBloc(
             settingRepository: _settingRepository,
-          )
-            ..add(FetchCreateAccountSettings()),
+          )..add(FetchCreateAccountSettings()),
         ),
         BlocProvider<RecommendationSettingBloc>(
-          create: (context) =>
-          SettingBloc(
+          create: (context) => SettingBloc(
             settingRepository: _settingRepository,
-          )
-            ..add(FetchRecommendationSettings()),
+          )..add(FetchRecommendationSettings()),
         ),
         BlocProvider<SignupSuccessSettingBloc>(
-          create: (context) =>
-          SettingBloc(
+          create: (context) => SettingBloc(
             settingRepository: _settingRepository,
-          )
-            ..add(FetchSignupSuccessSettings()),
+          )..add(FetchSignupSuccessSettings()),
         ),
         BlocProvider<SignupBloc>(
-          create: (context) =>
-              SignupBloc(
-                  signupRepository: _signupRepository,
-              ),
+          create: (context) => SignupBloc(
+            signupRepository: _signupRepository,
+          ),
         ),
         BlocProvider<PostSignupBloc>(
-          create: (context) =>
-              SignupBloc(
-                signupRepository: _signupRepository,
-              ),
+          create: (context) => SignupBloc(
+            signupRepository: _signupRepository,
+          ),
         ),
         BlocProvider<UploadPictureSignupBloc>(
-          create: (context) =>
-              SignupBloc(
-                signupRepository: _signupRepository,
-              ),
+          create: (context) => SignupBloc(
+            signupRepository: _signupRepository,
+          ),
         ),
         BlocProvider<LoginObscurePasswordCubit>(
-          create: (context) =>
-              LoginObscurePasswordCubit(),
+          create: (context) => LoginObscurePasswordCubit(),
         ),
         BlocProvider<LoginRememberCubit>(
-          create: (context) =>
-              LoginRememberCubit(),
+          create: (context) => LoginRememberCubit(),
+        ),
+        BlocProvider<LoginBloc>(
+          create: (context) => LoginBloc(
+            loginRepository: _loginRepository,
+          ),
         ),
       ], //PostSignupBloc
       child: _DropAndGoApp(
@@ -236,32 +231,32 @@ class _DropAndGoApp extends StatelessWidget {
           routerConfig: GoRouterDelegate.routerConfig,
           builder: (BuildContext context, Widget? child) =>
               AnnotatedRegion<SystemUiOverlayStyle>(
-                value: SystemUiOverlayStyle.dark.copyWith(
-                  // systemNavigationBarColor: LocalWalkersColors.primary,
-                  systemNavigationBarIconBrightness: Brightness.dark,
-                ),
-                child: Directionality(
-                  textDirection: ui.TextDirection.ltr,
-                  child: MediaQuery(
-                      data: MediaQuery.of(context).copyWith(
-                        textScaleFactor: 1,
-                      ),
-                      child: child ?? Container()
-                    // Stack(
-                    //   children: [
-                    //     child ?? Container(),
-                    //     ValueListenableBuilder(
-                    //       valueListenable: networkNotifier,
-                    //       builder: (context, value, state) {
-                    //         return Container();
-                    //         // return value ? const NoConnection() : Container();
-                    //       },
-                    //     ),
-                    //   ],
-                    // ),
+            value: SystemUiOverlayStyle.dark.copyWith(
+              // systemNavigationBarColor: LocalWalkersColors.primary,
+              systemNavigationBarIconBrightness: Brightness.dark,
+            ),
+            child: Directionality(
+              textDirection: ui.TextDirection.ltr,
+              child: MediaQuery(
+                  data: MediaQuery.of(context).copyWith(
+                    textScaleFactor: 1,
                   ),
-                ),
-              ),
+                  child: child ?? Container()
+                  // Stack(
+                  //   children: [
+                  //     child ?? Container(),
+                  //     ValueListenableBuilder(
+                  //       valueListenable: networkNotifier,
+                  //       builder: (context, value, state) {
+                  //         return Container();
+                  //         // return value ? const NoConnection() : Container();
+                  //       },
+                  //     ),
+                  //   ],
+                  // ),
+                  ),
+            ),
+          ),
           locale: context.locale,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
