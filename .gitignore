@@ -8,6 +8,12 @@ node_modules/
 dist/
 
 .dart_tool/
+build/
+.idea/
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+pubspec.lock
 
 # Compiled Java class files
 *.class
