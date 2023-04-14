@@ -72,11 +72,11 @@ class Toasts {
           Flexible(
             child: IconButton(
               onPressed: fToast.removeCustomToast,
-              icon: const Icon(
+              icon: Icon(
                 Icons.close,
-                // color: type == AlertType.Error
-                //     ? LocalWalkersColors.alertBoxText
-                //     : LocalWalkersColors.infoBoxText,
+                color: type == AlertType.Error
+                    ? DropAndGoColors.white
+                    : DropAndGoColors.black,
               ),
             ),
           ),

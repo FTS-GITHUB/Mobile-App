@@ -27,7 +27,7 @@ class AgeRadioBody extends StatelessWidget {
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 2.8,
+                childAspectRatio: 2.9.h,
                 crossAxisSpacing: 30.w,
                 mainAxisSpacing: 30.h,
               ),

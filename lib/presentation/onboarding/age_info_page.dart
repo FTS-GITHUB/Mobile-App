@@ -14,6 +14,7 @@ import 'package:dropandgouser/shared/widgets/toasts.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AgeInfoPage extends StatelessWidget {
@@ -47,10 +48,10 @@ class AgeInfoPage extends StatelessWidget {
                       return Container(
                         width: constraints.maxWidth,
                         height: constraints.maxHeight,
-                        margin: const EdgeInsets.only(
-                          left: 35,
-                          top: 20,
-                          right: 35,
+                        margin: EdgeInsets.only(
+                          left: 35.h,
+                          top: 20.h,
+                          right: 35.h,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,20 +61,20 @@ class AgeInfoPage extends StatelessWidget {
                               state.setting?.title ?? '',
                               // 'onboarding.age_title'.tr(),
                             ),
-                            10.verticalGap,
+                            10.h.verticalGap,
                             StandardText.headline6(
                               context,
                               state.setting?.subtitle ?? '',
                               // 'onboarding.age_subtitle'.tr(),
                             ),
-                            31.verticalGap,
+                            31.h.verticalGap,
                             AgeRadioBody(
                               data: state.setting?.data,
                             ),
                             Expanded(
                               child: Container(
-                                margin: const EdgeInsets.only(
-                                  bottom: 50,
+                                margin: EdgeInsets.only(
+                                  bottom: 50.h,
                                 ),
                                 alignment: Alignment.bottomCenter,
                                 child: AppButton(

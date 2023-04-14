@@ -25,7 +25,9 @@ import 'package:dropandgouser/shared/widgets/standard_textfield.dart';
 import 'package:dropandgouser/shared/widgets/toasts.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../application/complete_profile/cubit/profile_file_cubit.dart';
@@ -113,7 +115,7 @@ class CompleteProfileForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 35),
+      padding: EdgeInsets.symmetric(horizontal: 35.w),
       child: Form(
         key: formKey,
         child: Column(
@@ -124,20 +126,20 @@ class CompleteProfileForm extends StatelessWidget {
               title ?? '',
               // 'onboarding.profile_title'.tr(),
             ),
-            10.verticalGap,
+            10.h.verticalGap,
             StandardText.headline6(
               context,
               subtitle ?? '',
               // 'onboarding.profile_subtitle'.tr(),
               align: TextAlign.justify,
             ),
-            18.verticalGap,
+            18.h.verticalGap,
             BlocBuilder<ProfileFileCubit, File?>(builder: (context, file) {
               return EditUserAvatar(
                 file: file,
               );
             }),
-            23.verticalGap,
+            23.h.verticalGap,
             StandardText.headline6(
               context,
               'onboarding.name'.tr(),
@@ -153,7 +155,7 @@ class CompleteProfileForm extends StatelessWidget {
                 }
               },
             ),
-            25.verticalGap,
+            25.h.verticalGap,
             StandardText.headline6(
               context,
               'onboarding.phone'.tr(),
@@ -161,15 +163,14 @@ class CompleteProfileForm extends StatelessWidget {
             ),
             StandardTextField(
               controller: phoneTextEditingController,
-              validator: (val) {
-                if (val!.isEmpty) {
-                  return 'Please enter your phone number';
-                } else {
-                  return null;
-                }
-              },
+              validator: validateMobile,
+              prefixText: '+',
+              keyboardType: TextInputType.phone,
+              inputFormatter: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
             ),
-            25.verticalGap,
+            25.h.verticalGap,
             StandardText.headline6(
               context,
               'onboarding.dob'.tr(),
@@ -217,7 +218,7 @@ class CompleteProfileForm extends StatelessWidget {
                 ),
               ),
             ),
-            25.verticalGap,
+            25.h.verticalGap,
             StandardText.headline6(
               context,
               'onboarding.country'.tr(),
@@ -292,5 +293,17 @@ class CompleteProfileForm extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String? validateMobile(String? value) {
+    String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    RegExp regExp = new RegExp(patttern);
+    if (value!=null && value.isEmpty) {
+      return 'Please enter mobile number';
+    }
+    else if (!regExp.hasMatch(value!)) {
+      return 'Please enter valid mobile number';
+    }
+    return null;
   }
 }

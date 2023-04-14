@@ -15,6 +15,7 @@ import 'package:dropandgouser/shared/widgets/toasts.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AchievementInfoPage extends StatelessWidget {
@@ -43,10 +44,10 @@ class AchievementInfoPage extends StatelessWidget {
             ),
           ),
           body: Container(
-            margin: const EdgeInsets.only(
-              left: 35,
-              top: 20,
-              right: 35,
+            margin: EdgeInsets.only(
+              left: 35.w,
+              top: 20.h,
+              right: 35.w,
             ),
             child: ListView(
               physics: const BouncingScrollPhysics(),
@@ -56,20 +57,20 @@ class AchievementInfoPage extends StatelessWidget {
                   state.setting?.title??'-',
                   // 'onboarding.ach_title'.tr(),
                 ),
-                10.verticalGap,
+                10.h.verticalGap,
                 StandardText.headline6(
                   context,
                   state.setting?.subtitle??'-',
                   // 'onboarding.ach_subTitle'.tr(),
                 ),
-                15.verticalGap,
+                15.h.verticalGap,
                 AchievementRadioBody(
                   data: state.setting?.data??[],
                 ),
                 Container(
-                  margin: const EdgeInsets.only(
-                    top: 19,
-                    bottom: 43,
+                  margin: EdgeInsets.only(
+                    top: 19.h,
+                    bottom: 43.h,
                   ),
                   alignment: Alignment.bottomCenter,
                   child: AppButton(

@@ -16,6 +16,7 @@ import 'package:dropandgouser/shared/widgets/toasts.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class UserLevelInfoPage extends StatelessWidget {
@@ -47,10 +48,10 @@ class UserLevelInfoPage extends StatelessWidget {
                     ),
                   ),
                   body: Container(
-                    margin: const EdgeInsets.only(
-                      left: 35,
-                      top: 20,
-                      right: 35,
+                    margin: EdgeInsets.only(
+                      left: 35.w,
+                      top: 20.h,
+                      right: 35.w,
                     ),
                     child: ListView(
                       physics: const BouncingScrollPhysics(),
@@ -60,14 +61,14 @@ class UserLevelInfoPage extends StatelessWidget {
                           state.setting?.title??'N/A'
                           // 'onboarding.level_title'.tr(),
                         ),
-                        45.verticalGap,
+                        45.h.verticalGap,
                         LevelRadioBody(
                           data: state.setting?.data,
                         ),
                         Container(
-                          margin: const EdgeInsets.only(
-                            top: 30,
-                            bottom: 43,
+                          margin: EdgeInsets.only(
+                            top: 30.h,
+                            bottom: 43.h,
                           ),
                           alignment: Alignment.bottomCenter,
                           child: AppButton(
