@@ -16,6 +16,7 @@ import 'package:dropandgouser/shared/widgets/toasts.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class GenderInfoPage extends StatefulWidget {
@@ -65,10 +66,10 @@ class _GenderInfoPageState extends State<GenderInfoPage> {
             return Container(
               width: constraints.maxWidth,
               height: constraints.maxHeight,
-              margin: const EdgeInsets.only(
-                left: 35,
-                top: 20,
-                right: 35,
+              margin: EdgeInsets.only(
+                left: 35.w,
+                top: 20.h,
+                right: 35.w,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,20 +79,20 @@ class _GenderInfoPageState extends State<GenderInfoPage> {
                     state.setting?.title??'',
                     // 'onboarding.gender_title'.tr(),
                   ),
-                  10.verticalGap,
+                  10.h.verticalGap,
                   StandardText.headline6(
                     context,
                     state.setting?.subtitle??'',
                     // 'onboarding.gender_subTitle'.tr(),
                   ),
-                  31.verticalGap,
+                  31.h.verticalGap,
                   GenderRadioBody(
                     data: state.setting?.data
                   ),
                   Expanded(
                     child: Container(
-                      margin: const EdgeInsets.only(
-                        bottom: 50,
+                      margin: EdgeInsets.only(
+                        bottom: 50.h,
                       ),
                       alignment: Alignment.bottomCenter,
                       child: AppButton(
