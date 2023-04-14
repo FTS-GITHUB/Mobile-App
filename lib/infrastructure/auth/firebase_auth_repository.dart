@@ -40,16 +40,16 @@ class FirebaseAuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<Either<ApiError, Unit>> signInWithEmailAndPassword({
+  Future<Either<ApiError, String>> signInWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
+      final response = await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return right(unit);
+      return right(response.user!.uid);
     } on FirebaseAuthException catch (e) {
       return left(e.toApiAuthError());
     }
