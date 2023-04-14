@@ -122,7 +122,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                           controller: phoneTextEditingController,
                           validator: (val) {
                             if (val!.isEmpty) {
-                              return 'Please write your phone number';
+                              return 'Please enter your phone number';
                             } else {
                               return null;
                             }
@@ -210,6 +210,13 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                           hintText: '',
                           onChanged:
                               context.read<CountryCubit>().onValueSelected,
+                          validator: (val){
+                            if(val==null || val.isEmpty ){
+                              return 'Please select country';
+                            }else {
+                              return null;
+                            }
+                          },
                         ),
                         Container(
                           margin: const EdgeInsets.only(

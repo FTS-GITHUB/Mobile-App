@@ -1,15 +1,18 @@
+import 'package:dropandgouser/application/onboarding/cubit/user_level_cubit.dart';
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/onboarding/widgets/level_radio_body.dart';
 import 'package:dropandgouser/presentation/onboarding/widgets/onboarding_appbar.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
+import 'package:dropandgouser/shared/enums/alert_type.dart';
 import 'package:dropandgouser/shared/extensions/media_query.dart';
 import 'package:dropandgouser/shared/extensions/number_extensions.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/app_button_widget.dart';
 import 'package:dropandgouser/shared/widgets/button_loading.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
+import 'package:dropandgouser/shared/widgets/toasts.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +23,7 @@ class UserLevelInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var userLevelCubit = context.read<UserLevelCubit>();
     return BlocBuilder<RecommendationSettingBloc, SettingState>(
         builder: (context, state) {
       return (state is SettingStateLoading)
@@ -74,10 +78,19 @@ class UserLevelInfoPage extends StatelessWidget {
                               DropAndGoIcons.arrowForward,
                             ),
                             onPressed: () {
-                              getIt<NavigationService>().navigateToNamed(
-                                context: context,
-                                uri: NavigationService.completeProfileRouteUri,
-                              );
+                              if(userLevelCubit.state.title!=null){
+                                getIt<NavigationService>().navigateToNamed(
+                                  context: context,
+                                  uri: NavigationService.completeProfileRouteUri,
+                                );
+                              }else{
+                                getIt<Toasts>().showToast(
+                                  context,
+                                  type: AlertType.Error,
+                                  title: "Error",
+                                  description: "Please select level and continue",
+                                );
+                              }
                             },
                           ),
                         )
