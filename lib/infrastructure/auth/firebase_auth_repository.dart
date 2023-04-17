@@ -68,7 +68,10 @@ class FirebaseAuthRepository implements IAuthRepository {
         email: email,
       )
           .catchError((err) {
-        throw FirebaseAuthException;
+        throw FirebaseAuthException(
+          code: err.code,
+          message: err.message,
+        );
       });
       return right(unit);
     } on FirebaseAuthException catch (e) {

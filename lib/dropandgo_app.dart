@@ -196,6 +196,11 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
             loginRepository: _loginRepository,
           ),
         ),
+        BlocProvider<ForgetPasswordBloc>(
+          create: (context) => LoginBloc(
+            loginRepository: _loginRepository,
+          ),
+        ),
       ], //PostSignupBloc
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,

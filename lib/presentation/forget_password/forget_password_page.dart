@@ -1,5 +1,7 @@
+import 'package:dropandgouser/application/login/login_bloc/login_bloc.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
+import 'package:dropandgouser/presentation/forget_password/forget_password_succes_dialog.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/constants/global.dart';
 import 'package:dropandgouser/shared/extensions/media_query.dart';
@@ -10,6 +12,7 @@ import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:dropandgouser/shared/widgets/standard_textfield.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
@@ -22,6 +25,12 @@ class ForgetPasswordPage extends StatefulWidget {
 class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   TextEditingController emailTextEditingController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    emailTextEditingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +79,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
               StandardTextField(
                 controller: emailTextEditingController,
                 validator: (val) =>
-                val!.isValidEmail() ? null : "Check your email",
+                    val!.isValidEmail() ? null : "Check your email",
                 inputFormatter: [
                   NoSpaceFormatter(),
                 ],
@@ -86,6 +95,11 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                   text: 'login.confirm'.tr(),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      ForgetPasswordSuccessDialog.show(context);
+                      context.read<ForgetPasswordBloc>().add(
+                            SendResetEmail(
+                                email: emailTextEditingController.text),
+                          );
                       //
                     }
                   },
