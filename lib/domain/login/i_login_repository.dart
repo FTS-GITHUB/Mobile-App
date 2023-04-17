@@ -5,5 +5,9 @@ abstract class ILoginRepository {
   Future<Either<ApiError, String>> login({
     required String email,
     required String password,
-}); 
+});
+
+  Future<Either<ApiError, Unit>> resetPassword({
+    required String email,
+  });
 }

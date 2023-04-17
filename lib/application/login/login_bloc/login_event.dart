@@ -5,12 +5,20 @@ abstract class LoginEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoginUser extends LoginEvent{
+class LoginUser extends LoginEvent {
   LoginUser({
     required this.email,
     required this.password,
-});
+  });
 
   final String email;
   final String password;
+}
+
+class SendResetEmail extends LoginEvent {
+  SendResetEmail({
+    required this.email,
+  });
+
+  final String email;
 }

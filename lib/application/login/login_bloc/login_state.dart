@@ -11,6 +11,10 @@ class LoginStateLoading extends LoginState {}
 
 class LoginStateLoaded extends LoginState {}
 
+class ForgetPasswordSendingEmail extends LoginState{}
+
+class ForgetPasswordSentEmail extends LoginState{}
+
 class LoginStateError extends LoginState {
   LoginStateError({
     required this.message,

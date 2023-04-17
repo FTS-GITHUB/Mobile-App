@@ -1,6 +1,7 @@
 import 'package:dropandgouser/domain/login/i_login_repository.dart';
 import 'package:dropandgouser/domain/services/i_auth_repository.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:fpdart/src/either.dart';
 
 class LoginRepository extends ILoginRepository {
@@ -16,6 +17,13 @@ class LoginRepository extends ILoginRepository {
     return await authRepository.signInWithEmailAndPassword(
       email: email,
       password: password,
+    );
+  }
+
+  @override
+  Future<Either<ApiError, Unit>> resetPassword({required String email})async {
+    return await authRepository.resetPassword(
+      email: email,
     );
   }
 

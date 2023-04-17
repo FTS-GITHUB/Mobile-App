@@ -8,11 +8,14 @@ part 'login_state.dart';
 
 part 'login_event.dart';
 
-class LoginBloc extends Bloc<LoginEvent, LoginState> {
+mixin ForgetPasswordBloc on Bloc<LoginEvent, LoginState>{}
+
+class LoginBloc extends Bloc<LoginEvent, LoginState> with ForgetPasswordBloc{
   LoginBloc({
     required this.loginRepository,
   }) : super(LoginStateInitial()) {
     on<LoginUser>(_onLoginUser);
+    on<SendResetEmail>(_onSendResetEmail);
   }
 
   final ILoginRepository loginRepository;
@@ -30,5 +33,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         LoginStateLoaded(),
       ),
     );
+  }
+
+  Future<void> _onSendResetEmail(SendResetEmail event, Emitter<LoginState> emit) async{
+   emit(ForgetPasswordSendingEmail());
+   final response = await loginRepository.resetPassword(email: event.email);
+   response.fold(
+         (l) => emit(LoginStateError(message: l.message ?? "Error from server")),
+         (r) => emit(
+       ForgetPasswordSentEmail(),
+     ),
+   );
   }
 }
