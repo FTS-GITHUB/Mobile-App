@@ -14,6 +14,10 @@ class DropAndGoTheme {
       ),
       primaryColor: DropAndGoColors.primary,
       scaffoldBackgroundColor: DropAndGoColors.white,
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: DropAndGoColors.primary,
+        height: 150
+      ),
       // colorScheme:
       //     ColorScheme.fromSwatch(accentColor: LocalWalkersColors.accent),
       appBarTheme: _appBarTheme,

@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 
 import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/rememberme_cubit.dart';
+import 'package:dropandgouser/application/home/cubit/home_navbar_cubit.dart';
 import 'package:dropandgouser/application/login/cubit/login_obscurepassword_cubit.dart';
 import 'package:dropandgouser/application/login/cubit/login_remember_cubit.dart';
 import 'package:dropandgouser/application/login/login_bloc/login_bloc.dart';
@@ -201,7 +202,10 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
             loginRepository: _loginRepository,
           ),
         ),
-      ], //PostSignupBloc
+        BlocProvider<HomeNavBarCubit>(
+          create: (context) => HomeNavBarCubit(),
+        ),
+      ], //HomeNavBarCubit
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,
