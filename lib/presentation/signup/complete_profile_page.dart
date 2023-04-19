@@ -276,7 +276,7 @@ class CompleteProfileForm extends StatelessWidget {
                     );
                   } else if (formKey.currentState != null &&
                       formKey.currentState!.validate()) {
-                    getIt<NavigationService>().navigateToNamed(
+                    getIt<NavigationService>().pushNamed(
                       context: context,
                       uri: NavigationService.createAccountRouteUri,
                       data: UserData(

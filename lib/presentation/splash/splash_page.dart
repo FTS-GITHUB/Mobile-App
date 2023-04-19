@@ -47,7 +47,7 @@ class SplashPage extends StatelessWidget {
               isPrefixIcon: false,
               width: context.width,
               onPressed: () {
-                getIt<NavigationService>().navigateToNamed(
+                getIt<NavigationService>().pushNamed(
                   context: context,
                   uri: NavigationService.onboardingGenderRouteUri,
                 );
@@ -72,7 +72,7 @@ class SplashPage extends StatelessWidget {
               isPrefixIcon: false,
               width: context.width,
               onPressed: () {
-                getIt<NavigationService>().navigateToNamed(
+                getIt<NavigationService>().pushNamed(
                   context: context,
                   uri: NavigationService.loginRouteUri,
                 );

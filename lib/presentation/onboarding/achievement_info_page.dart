@@ -82,7 +82,7 @@ class AchievementInfoPage extends StatelessWidget {
                     ),
                     onPressed: () {
                       if(achievementCubit.state.title!=null){
-                        getIt<NavigationService>().navigateToNamed(
+                        getIt<NavigationService>().pushNamed(
                           context: context,
                           uri: NavigationService.onboardingLevelRouteUri,
                         );

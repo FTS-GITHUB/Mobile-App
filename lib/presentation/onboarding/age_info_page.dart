@@ -87,7 +87,7 @@ class AgeInfoPage extends StatelessWidget {
                                   onPressed: () {
                                     if (ageCubit.state.value != null) {
                                       getIt<NavigationService>()
-                                          .navigateToNamed(
+                                          .pushNamed(
                                         context: context,
                                         uri: NavigationService
                                             .onboardingAchievementRouteUri,

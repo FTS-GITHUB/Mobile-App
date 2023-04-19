@@ -104,7 +104,7 @@ class _GenderInfoPageState extends State<GenderInfoPage> {
                         ),
                         onPressed: () {
                           if(genderCubit.state.value!=null){
-                            getIt<NavigationService>().navigateToNamed(
+                            getIt<NavigationService>().pushNamed(
                               context: context,
                               uri: NavigationService.onboardingAgeRouteUri,
                             );
