@@ -14,16 +14,20 @@ class Singleton {
 
 abstract class NavigationService {
   static const String splashRouteUri = '/';
-  static const String loginRouteUri = '/login';
-  static const String underConstruction = '/under-construction';
-  static const String onboardingGenderRouteUri = '/select-gender';
-  static const String onboardingAgeRouteUri = '/select-age';
-  static const String onboardingAchievementRouteUri = '/select-achievement';
-  static const String onboardingLevelRouteUri = '/select-level';
-  static const String completeProfileRouteUri = '/complete-profile';
-  static const String createAccountRouteUri = '/create-account';
-  static const String forgetPasswordRouteUri= '/forget-password';
+  static const String loginRouteUri = 'login';
+  static const String underConstruction = 'under-construction';
+  static const String onboardingGenderRouteUri = 'select-gender';
+  static const String onboardingAgeRouteUri = 'select-age';
+  static const String onboardingAchievementRouteUri = 'select-achievement';
+  static const String onboardingLevelRouteUri = 'select-level';
+  static const String completeProfileRouteUri = 'complete-profile';
+  static const String createAccountRouteUri = 'create-account';
+  static const String forgetPasswordRouteUri= 'forget-password';
   static const String homeRouteUri= 'home';
+  static const String analyticsRouteUri= 'analytics';
+  static const String downloadsRouteUri= 'downloads';
+  static const String accountRouteUri= 'account';
+
 
   void navigateToNamed({
     required BuildContext context,

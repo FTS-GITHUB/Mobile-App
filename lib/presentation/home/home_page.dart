@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
         preferredSize: const Size.fromHeight(70),
         child: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
             onPressed: () {},
           ),
           title: StandardText.headline5(
@@ -25,13 +25,13 @@ class HomePage extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 Icons.search,
               ),
             ),
             IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 Icons.notifications_none,
               ),
             ),
@@ -42,20 +42,6 @@ class HomePage extends StatelessWidget {
         child: StandardText.headline4(
           context,
           "Welcome to Home page",
-        ),
-      ),
-      bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(10),
-          topLeft: Radius.circular(10),
-        ),
-        child: HomeNavigationBar(
-          onSelectTab: (index) {
-            print(index);
-          },
-          currentTab: 0,
-          selectedItemColor: Colors.deepOrange,
-          unselectedItemColor: DropAndGoColors.white,
         ),
       ),
     );
