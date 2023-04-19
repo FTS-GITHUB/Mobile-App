@@ -1,5 +1,3 @@
-import 'package:dropandgouser/presentation/home/home_navigation_bar.dart';
-import 'package:dropandgouser/presentation/onboarding/widgets/onboarding_appbar.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';

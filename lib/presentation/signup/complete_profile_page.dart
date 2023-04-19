@@ -298,7 +298,7 @@ class CompleteProfileForm extends StatelessWidget {
 
   String? validateMobile(String? value) {
     String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-    RegExp regExp = new RegExp(patttern);
+    RegExp regExp = RegExp(patttern);
     if (value!=null && value.isEmpty) {
       return 'Please enter mobile number';
     }

@@ -14,7 +14,7 @@ class DropAndGoTheme {
       ),
       primaryColor: DropAndGoColors.primary,
       scaffoldBackgroundColor: DropAndGoColors.white,
-      navigationBarTheme: NavigationBarThemeData(
+      navigationBarTheme: const NavigationBarThemeData(
         backgroundColor: DropAndGoColors.primary,
         height: 150
       ),
