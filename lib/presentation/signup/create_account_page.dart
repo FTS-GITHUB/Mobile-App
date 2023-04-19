@@ -292,7 +292,6 @@ class CreateAccountForm extends StatelessWidget {
                         DropAndGoIcons.arrowForward,
                       ),
                       onPressed: () {
-                        print(formKey.currentState!.validate());
                         if (formKey.currentState != null &&
                             formKey.currentState!.validate()) {
                           context.read<SignupBloc>().add(
