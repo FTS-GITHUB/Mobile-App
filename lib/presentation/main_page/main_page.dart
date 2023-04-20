@@ -32,8 +32,6 @@ class _MainPageState extends State<MainPage> {
             return HomeNavigationBar(
               onSelectTab: (index) => _onItemTapped(index, context),
               currentTab: selectedIndex,
-              selectedItemColor: Colors.deepOrange,
-              unselectedItemColor: DropAndGoColors.white,
             );
           }
         ),
