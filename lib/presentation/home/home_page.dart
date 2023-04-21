@@ -1,3 +1,6 @@
+import 'package:dropandgouser/presentation/home/widgets/category_view_more_header.dart';
+import 'package:dropandgouser/presentation/home/widgets/home_rect_category.dart';
+import 'package:dropandgouser/presentation/home/widgets/home_square_category.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/extensions/extensions.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
@@ -40,51 +43,89 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Container(
-          width: context.width - 72.w,
-          height: context.height * 0.2.h,
-          padding: const EdgeInsets.only(
-            bottom: 15,
+          width: context.width,
+          margin: EdgeInsets.only(
+            top: 30.h,
+            left: 36.w,
+            right: 36.w,
           ),
-          decoration: BoxDecoration(
-            color: DropAndGoColors.primary,
-            borderRadius: BorderRadius.circular(10),
-            image: DecorationImage(
-              image: const AssetImage(
-                DropAndGoImages.defaultCategory,
-              ),
-              fit: BoxFit.cover,
-              colorFilter: DropAndGoColors.appColorFilter,
-            ),
-          ),
-          alignment: Alignment.bottomCenter,
+          alignment: Alignment.center,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              StandardText.headline4(
-                context,
-                "SELF IMPROVEMENT",
-                color: DropAndGoColors.white,
-                fontSize: 20,
+              HomeRectCategory(
+                isLiked: false,
+                onLike: () {
+                  print("Liked");
+                },
+                onShare: () {
+                  print("Shared");
+                },
               ),
-              3.verticalSpace,
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 42.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SvgPicture.asset(
-                      DropAndGoIcons.like,
-                      color: DropAndGoColors.white,
-                    ),
-                    SvgPicture.asset(
-                      DropAndGoIcons.share,
-                      color: DropAndGoColors.white,
-                    )
-                  ],
+              35.h.verticalSpace,
+              const CategoryViewMoreHeader(),
+              20.h.verticalSpace,
+              GridView.builder(
+                primary: false,
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 22,
+                  mainAxisSpacing: 22,
                 ),
-              )
+                itemBuilder: (context, index) {
+                  return HomeSquareCategory(
+                    categoryName: index ==0? "ANXIETY":null,
+                    onTap: () {},
+                  );
+                },
+                itemCount: 4,
+              ),
+              20.h.verticalSpace,
+              const CategoryViewMoreHeader(
+                categoryName: 'Recommended For You',
+              ),
+              20.h.verticalSpace,
+              GridView.builder(
+                primary: false,
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 22,
+                  mainAxisSpacing: 22,
+                ),
+                itemBuilder: (context, index) {
+                  return HomeSquareCategory(
+                    categoryName: index ==0? "ANXIETY":null,
+                    onTap: () {},
+                  );
+                },
+                itemCount: 2,
+              ),
+              20.h.verticalSpace,
+              const CategoryViewMoreHeader(
+                categoryName: 'For Better Sleep',
+              ),
+              20.h.verticalSpace,
+              GridView.builder(
+                primary: false,
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 22,
+                  mainAxisSpacing: 22,
+                ),
+                itemBuilder: (context, index) {
+                  return HomeSquareCategory(
+                    categoryName: index ==0? "ANXIETY":null,
+                    onTap: () {},
+                  );
+                },
+                itemCount: 4,
+              ),
+              15.verticalSpace,
             ],
           ),
         ),
@@ -92,3 +133,4 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+

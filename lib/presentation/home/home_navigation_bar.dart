@@ -66,10 +66,10 @@ class HomeNavigationBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: currentTab == 3
-              ? const Icon(
-                  Icons.person,
-                  color: DropAndGoColors.profileIcon,
-                )
+              ? SvgPicture.asset(
+            DropAndGoIcons.accountFilled,
+            color: DropAndGoColors.profileIcon,
+          )
               : SvgPicture.asset(
                   DropAndGoIcons.accountOutlined,
                   color: DropAndGoColors.profileIcon,
