@@ -11,5 +11,9 @@ abstract class DropAndGoColors {
   static const Color downloadIcon = Color(0xFF1877F2);
   static const Color analyticsIcon = Color(0xFFFF0000);
   static const Color profileIcon = Color(0xFF149200);
-  // #FFA800
+  static ColorFilter? appColorFilter = ColorFilter.mode(
+    black.withOpacity(1),
+    BlendMode.softLight,
+  );
+// #FFA800
 }

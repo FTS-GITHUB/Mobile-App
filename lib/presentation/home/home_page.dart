@@ -3,6 +3,7 @@ import 'package:dropandgouser/shared/extensions/extensions.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatelessWidget {
@@ -20,10 +21,8 @@ class HomePage extends StatelessWidget {
             ),
             onPressed: () {},
           ),
-          title: StandardText.headline5(
-            context,
-            "Home",
-            color: DropAndGoColors.black,
+          title: Image.asset(
+            DropAndGoImages.logo,
           ),
           actions: [
             IconButton(
@@ -43,28 +42,50 @@ class HomePage extends StatelessWidget {
       ),
       body: Center(
         child: Container(
-          width: context.width - 72,
-          height: context.height * 0.22,
+          width: context.width - 72.w,
+          height: context.height * 0.2.h,
+          padding: const EdgeInsets.only(
+            bottom: 15,
+          ),
           decoration: BoxDecoration(
             color: DropAndGoColors.primary,
             borderRadius: BorderRadius.circular(10),
-            image: const DecorationImage(
-              image: AssetImage(
+            image: DecorationImage(
+              image: const AssetImage(
                 DropAndGoImages.defaultCategory,
               ),
               fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(
-                DropAndGoColors.primary,
-                BlendMode.softLight,
-              ),
+              colorFilter: DropAndGoColors.appColorFilter,
             ),
           ),
           alignment: Alignment.bottomCenter,
-          child: StandardText.headline4(
-            context,
-            "SELF IMPROVEMENT",
-            color: DropAndGoColors.white,
-            fontSize: 20,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              StandardText.headline4(
+                context,
+                "SELF IMPROVEMENT",
+                color: DropAndGoColors.white,
+                fontSize: 20,
+              ),
+              3.verticalSpace,
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 42.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SvgPicture.asset(
+                      DropAndGoIcons.like,
+                      color: DropAndGoColors.white,
+                    ),
+                    SvgPicture.asset(
+                      DropAndGoIcons.share,
+                      color: DropAndGoColors.white,
+                    )
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),

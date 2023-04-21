@@ -17,9 +17,12 @@ abstract class DropAndGoIcons {
  static const String downloadOutlined = 'assets/icons/download_outlined.svg';
  static const String downloadFilled = 'assets/icons/download_filled.svg';
  static const String drawer = 'assets/icons/drawer_ic.svg';
+ static const String like = 'assets/icons/like.svg';
+ static const String share = 'assets/icons/share.svg';
 }
 
 abstract class DropAndGoImages {
  static const String addictions = 'assets/images/addictions.png';
  static const String defaultCategory = 'assets/images/default.png';
- }
+ static const String logo = 'assets/images/logo.png';
+}
