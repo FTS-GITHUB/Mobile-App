@@ -22,6 +22,7 @@ class CategoriesPage extends StatelessWidget {
         ),
       ),
       body: ListView.builder(
+        physics: const BouncingScrollPhysics(),
         padding: EdgeInsets.symmetric(
           horizontal: 34.w,
         ),
