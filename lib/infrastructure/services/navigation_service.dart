@@ -14,16 +14,21 @@ class Singleton {
 
 abstract class NavigationService {
   static const String splashRouteUri = '/';
-  static const String loginRouteUri = '/login';
-  static const String underConstruction = '/under-construction';
-  static const String onboardingGenderRouteUri = '/select-gender';
-  static const String onboardingAgeRouteUri = '/select-age';
-  static const String onboardingAchievementRouteUri = '/select-achievement';
-  static const String onboardingLevelRouteUri = '/select-level';
-  static const String completeProfileRouteUri = '/complete-profile';
-  static const String createAccountRouteUri = '/create-account';
-  static const String forgetPasswordRouteUri= '/forget-password';
-  static const String homeRouteUri= 'home';
+  static const String loginRouteUri = 'login';
+  static const String underConstruction = 'under-construction';
+  static const String onboardingGenderRouteUri = 'select-gender';
+  static const String onboardingAgeRouteUri = 'select-age';
+  static const String onboardingAchievementRouteUri = 'select-achievement';
+  static const String onboardingLevelRouteUri = 'select-level';
+  static const String completeProfileRouteUri = 'complete-profile';
+  static const String createAccountRouteUri = 'create-account';
+  static const String forgetPasswordRouteUri = 'forget-password';
+  static const String homeRouteUri = 'home';
+  static const String analyticsRouteUri = 'analytics';
+  static const String downloadsRouteUri = 'downloads';
+  static const String accountRouteUri = 'account';
+  static const String categoriesRouteUri = 'categories';
+  static const String searchRouteUri = 'search';
 
   void navigateToNamed({
     required BuildContext context,
@@ -44,7 +49,12 @@ abstract class NavigationService {
     required bool external,
   });
 
-//String? get currentRouteUriString;
+  void pushNamed({
+    required BuildContext context,
+    required String uri,
+    Object? data,
+    Map<String, String> params = const <String, String>{},
+  });
 }
 
 class GoRouterNavigationService extends NavigationService
@@ -57,27 +67,10 @@ class GoRouterNavigationService extends NavigationService
     required String uri,
     Object? data,
   }) =>
-      context.pushNamed(
+      context.goNamed(
         uri,
         extra: data,
       );
-
-  // @override
-  // void showSnackbar({
-  //   required String message,
-  //   bool isError = false,
-  //   Color backgroundColor = GioscoreColors.infoBox,
-  //   Color textColor = GioscoreColors.infoBoxText,
-  // }) =>
-  //     Fluttertoast.showToast(
-  //       msg: message,
-  //       toastLength: Toast.LENGTH_SHORT,
-  //       gravity: ToastGravity.TOP,
-  //       timeInSecForIosWeb: 1,
-  //       backgroundColor: isError ? GioscoreColors.alertBox : backgroundColor,
-  //       textColor: isError ? GioscoreColors.alertBoxText : textColor,
-  //       fontSize: 16.0,
-  //     );
 
   @override
   void replaceWithNamed({
@@ -90,6 +83,19 @@ class GoRouterNavigationService extends NavigationService
   @override
   void navigateBack({required BuildContext context}) => context.pop();
 
+  @override
+  void pushNamed({
+    required BuildContext context,
+    required String uri,
+    Object? data,
+    Map<String, String> params = const <String, String>{},
+  }) {
+    context.pushNamed(
+      uri,
+      extra: data,
+      params: params,
+    );
+  }
 }
 
 mixin NavigationServiceMixins implements NavigationService {

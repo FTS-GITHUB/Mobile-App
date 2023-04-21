@@ -276,7 +276,7 @@ class CompleteProfileForm extends StatelessWidget {
                     );
                   } else if (formKey.currentState != null &&
                       formKey.currentState!.validate()) {
-                    getIt<NavigationService>().navigateToNamed(
+                    getIt<NavigationService>().pushNamed(
                       context: context,
                       uri: NavigationService.createAccountRouteUri,
                       data: UserData(
@@ -298,7 +298,7 @@ class CompleteProfileForm extends StatelessWidget {
 
   String? validateMobile(String? value) {
     String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-    RegExp regExp = new RegExp(patttern);
+    RegExp regExp = RegExp(patttern);
     if (value!=null && value.isEmpty) {
       return 'Please enter mobile number';
     }

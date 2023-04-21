@@ -167,7 +167,7 @@ class LoginForm extends StatelessWidget {
             // ),
             InkWell(
               onTap: () {
-                getIt<NavigationService>().navigateToNamed(
+                getIt<NavigationService>().pushNamed(
                   context: context,
                   uri: NavigationService.forgetPasswordRouteUri,
                 );

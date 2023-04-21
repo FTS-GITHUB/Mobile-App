@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_import, implementation_imports
+
 import 'package:dropandgouser/domain/login/i_login_repository.dart';
 import 'package:dropandgouser/domain/services/i_auth_repository.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';

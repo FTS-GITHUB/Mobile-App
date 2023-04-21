@@ -80,7 +80,7 @@ class UserLevelInfoPage extends StatelessWidget {
                             ),
                             onPressed: () {
                               if(userLevelCubit.state.title!=null){
-                                getIt<NavigationService>().navigateToNamed(
+                                getIt<NavigationService>().pushNamed(
                                   context: context,
                                   uri: NavigationService.completeProfileRouteUri,
                                 );

@@ -3,17 +3,12 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:dropandgouser/domain/services/i_auth_repository.dart';
-import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
-import 'package:dropandgouser/domain/services/i_storage_repository.dart';
 import 'package:dropandgouser/domain/signup/i_signup_repository.dart';
 import 'package:dropandgouser/domain/signup/userdata.dart';
-import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/shared/constants/firestore_collections.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fpdart/src/unit.dart';
 
 part 'signup_event.dart';
 

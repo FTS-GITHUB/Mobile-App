@@ -1,3 +1,5 @@
+// ignore_for_file: implementation_imports
+
 import 'dart:io';
 
 import 'package:dropandgouser/domain/services/i_auth_repository.dart';
@@ -9,9 +11,7 @@ import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/shared/constants/firestore_collections.dart';
 import 'package:dropandgouser/shared/extensions/firebase_exception.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/src/either.dart';
-import 'package:fpdart/src/unit.dart';
 
 class SignupRepository extends ISignupRepository {
   SignupRepository({

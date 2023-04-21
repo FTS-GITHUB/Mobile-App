@@ -17,7 +17,6 @@ import 'package:dropandgouser/shared/extensions/extensions.dart';
 import 'package:dropandgouser/shared/extensions/number_extensions.dart';
 import 'package:dropandgouser/shared/extensions/string_extensions.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
-import 'package:dropandgouser/shared/packages/mytoast.dart';
 import 'package:dropandgouser/shared/widgets/app_button_widget.dart';
 import 'package:dropandgouser/shared/widgets/button_loading.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
@@ -293,7 +292,6 @@ class CreateAccountForm extends StatelessWidget {
                         DropAndGoIcons.arrowForward,
                       ),
                       onPressed: () {
-                        print(formKey.currentState!.validate());
                         if (formKey.currentState != null &&
                             formKey.currentState!.validate()) {
                           context.read<SignupBloc>().add(

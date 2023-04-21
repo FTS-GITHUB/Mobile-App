@@ -14,6 +14,7 @@ import 'package:dropandgouser/application/onboarding/cubit/user_level_cubit.dart
 import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/dob_date_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/profile_file_cubit.dart';
+import 'package:dropandgouser/application/search/cubit/is_seearch_active.dart';
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/application/signup/signup_bloc.dart';
 import 'package:dropandgouser/domain/i_setting_repository.dart';
@@ -32,6 +33,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'application/main/cubit/main_navbar_cubit.dart';
 import 'presentation/delegates/gorouter_delegate.dart';
 
 class DropAndGoApp extends StatefulWidget {
@@ -201,7 +203,13 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
             loginRepository: _loginRepository,
           ),
         ),
-      ], //PostSignupBloc
+        BlocProvider<MainNavBarCubit>(
+          create: (context) => MainNavBarCubit(),
+        ),
+        BlocProvider<IsSearchActive>(
+          create: (context) => IsSearchActive(),
+        ),
+      ], //IsSearchActive
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,
@@ -247,18 +255,6 @@ class _DropAndGoApp extends StatelessWidget {
                     textScaleFactor: 1,
                   ),
                   child: child ?? Container()
-                  // Stack(
-                  //   children: [
-                  //     child ?? Container(),
-                  //     ValueListenableBuilder(
-                  //       valueListenable: networkNotifier,
-                  //       builder: (context, value, state) {
-                  //         return Container();
-                  //         // return value ? const NoConnection() : Container();
-                  //       },
-                  //     ),
-                  //   ],
-                  // ),
                   ),
             ),
           ),

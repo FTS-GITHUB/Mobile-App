@@ -7,13 +7,12 @@ const double _smallTextScaleFactor = 0.80;
 class DropAndGoTheme {
   static ThemeData get standard {
     return ThemeData(
-      pageTransitionsTheme: const PageTransitionsTheme(
-        builders: {
-          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-        },
-      ),
       primaryColor: DropAndGoColors.primary,
       scaffoldBackgroundColor: DropAndGoColors.white,
+      navigationBarTheme: const NavigationBarThemeData(
+        backgroundColor: DropAndGoColors.primary,
+        height: 150
+      ),
       // colorScheme:
       //     ColorScheme.fromSwatch(accentColor: LocalWalkersColors.accent),
       appBarTheme: _appBarTheme,
