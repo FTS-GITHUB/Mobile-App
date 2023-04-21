@@ -28,6 +28,7 @@ abstract class NavigationService {
   static const String downloadsRouteUri = 'downloads';
   static const String accountRouteUri = 'account';
   static const String categoriesRouteUri = 'categories';
+  static const String searchRouteUri = 'search';
 
   void navigateToNamed({
     required BuildContext context,
@@ -52,6 +53,7 @@ abstract class NavigationService {
     required BuildContext context,
     required String uri,
     Object? data,
+    Map<String, String> params = const <String, String>{},
   });
 }
 

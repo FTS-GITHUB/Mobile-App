@@ -31,7 +31,12 @@ class HomePage extends StatelessWidget {
           ),
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                getIt<NavigationService>().pushNamed(
+                  context: context,
+                  uri: NavigationService.searchRouteUri,
+                );
+              },
               icon: SvgPicture.asset(
                 DropAndGoIcons.search,
               ),
@@ -46,6 +51,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Container(
           width: context.width,
           margin: EdgeInsets.only(
