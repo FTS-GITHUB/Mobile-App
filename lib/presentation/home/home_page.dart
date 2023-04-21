@@ -5,8 +5,6 @@ import 'package:dropandgouser/presentation/home/widgets/home_rect_category.dart'
 import 'package:dropandgouser/presentation/home/widgets/home_square_category.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/extensions/extensions.dart';
-import 'package:dropandgouser/shared/helpers/colors.dart';
-import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -66,10 +64,8 @@ class HomePage extends StatelessWidget {
               HomeRectCategory(
                 isLiked: false,
                 onLike: () {
-                  print("Liked");
                 },
                 onShare: () {
-                  print("Shared");
                 },
               ),
               35.h.verticalSpace,

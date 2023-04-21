@@ -4,7 +4,6 @@ class IsSearchActive extends Cubit<bool>{
   IsSearchActive():super(false);
 
   activeSearch(){
-    print(true);
     emit(true);
   }
 
