@@ -1,3 +1,5 @@
+import 'package:dropandgouser/infrastructure/di/injectable.dart';
+import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/home/widgets/category_view_more_header.dart';
 import 'package:dropandgouser/presentation/home/widgets/home_rect_category.dart';
 import 'package:dropandgouser/presentation/home/widgets/home_square_category.dart';
@@ -65,7 +67,14 @@ class HomePage extends StatelessWidget {
                 },
               ),
               35.h.verticalSpace,
-              const CategoryViewMoreHeader(),
+              CategoryViewMoreHeader(
+                onViewMore: () {
+                  getIt<NavigationService>().navigateToNamed(
+                    context: context,
+                    uri: NavigationService.categoriesRouteUri,
+                  );
+                },
+              ),
               20.h.verticalSpace,
               GridView.builder(
                 primary: false,
@@ -77,15 +86,21 @@ class HomePage extends StatelessWidget {
                 ),
                 itemBuilder: (context, index) {
                   return HomeSquareCategory(
-                    categoryName: index ==0? "ANXIETY":null,
+                    categoryName: index == 0 ? "ANXIETY" : null,
                     onTap: () {},
                   );
                 },
                 itemCount: 4,
               ),
               20.h.verticalSpace,
-              const CategoryViewMoreHeader(
+              CategoryViewMoreHeader(
                 categoryName: 'Recommended For You',
+                onViewMore: () {
+                  getIt<NavigationService>().navigateToNamed(
+                    context: context,
+                    uri: NavigationService.categoriesRouteUri,
+                  );
+                },
               ),
               20.h.verticalSpace,
               GridView.builder(
@@ -98,15 +113,21 @@ class HomePage extends StatelessWidget {
                 ),
                 itemBuilder: (context, index) {
                   return HomeSquareCategory(
-                    categoryName: index ==0? "ANXIETY":null,
+                    categoryName: index == 0 ? "ANXIETY" : null,
                     onTap: () {},
                   );
                 },
                 itemCount: 2,
               ),
               20.h.verticalSpace,
-              const CategoryViewMoreHeader(
+              CategoryViewMoreHeader(
                 categoryName: 'For Better Sleep',
+                onViewMore: () {
+                  getIt<NavigationService>().navigateToNamed(
+                    context: context,
+                    uri: NavigationService.categoriesRouteUri,
+                  );
+                },
               ),
               20.h.verticalSpace,
               GridView.builder(
@@ -119,7 +140,7 @@ class HomePage extends StatelessWidget {
                 ),
                 itemBuilder: (context, index) {
                   return HomeSquareCategory(
-                    categoryName: index ==0? "ANXIETY":null,
+                    categoryName: index == 0 ? "ANXIETY" : null,
                     onTap: () {},
                   );
                 },
@@ -133,4 +154,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-

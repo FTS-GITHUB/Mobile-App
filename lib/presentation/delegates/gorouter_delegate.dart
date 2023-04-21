@@ -2,6 +2,7 @@ import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/account/account_page.dart';
 import 'package:dropandgouser/presentation/analytics/analytics_page.dart';
+import 'package:dropandgouser/presentation/categories/categories_page.dart';
 import 'package:dropandgouser/presentation/downloads/downloads_page.dart';
 import 'package:dropandgouser/presentation/forget_password/forget_password_page.dart';
 import 'package:dropandgouser/presentation/home/home_page.dart';
@@ -110,6 +111,16 @@ class GoRouterDelegate {
             builder: (context, routerState) {
               return const HomePage();
             },
+            routes: [
+              GoRoute(
+                parentNavigatorKey: _shellNavigatorKey,
+                path: NavigationService.categoriesRouteUri,
+                name: NavigationService.categoriesRouteUri,
+                builder: (context, routerState) {
+                  return const CategoriesPage();
+                },
+              ),
+            ]
           ),
           GoRoute(
             parentNavigatorKey: _shellNavigatorKey,
