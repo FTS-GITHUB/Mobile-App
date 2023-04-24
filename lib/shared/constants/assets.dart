@@ -22,6 +22,8 @@ abstract class DropAndGoIcons {
  static const String share = 'assets/icons/share.svg';
  static const String likeFilled = 'assets/icons/like_filled.svg';
  static const String backSpaceOutlined = 'assets/icons/tag-cross.svg';
+ static const String favoriteOutlined = 'assets/icons/heart_filled.svg';
+ static const String favoriteFilled = 'assets/icons/heart_outlined.svg';
 }
 
 abstract class DropAndGoImages {
