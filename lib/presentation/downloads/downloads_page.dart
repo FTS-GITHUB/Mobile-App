@@ -28,21 +28,33 @@ class DownloadsPage extends StatelessWidget {
         primary: true,
         slivers: [
           SliverToBoxAdapter(
-            child: HomeRectCategory(),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 36.w),
+              child: HomeRectCategory(),
+            ),
           ),
           SliverToBoxAdapter(
-            child: StandardText.headline5(
-              context,
-              "Downloads",
-              color: DropAndGoColors.primary,
+            child: 37.h.verticalSpace,
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 36.w),
+              child: StandardText.headline5(
+                context,
+                "Liked",
+                color: DropAndGoColors.primary,
+              ),
             ),
+          ),
+          SliverToBoxAdapter(
+            child: 20.h.verticalSpace,
           ),
           SliverToBoxAdapter(
             child: ListView.builder(
               shrinkWrap: true,
               padding: EdgeInsets.only(
-                left: 16.w,
-                right: 10.w,
+                left: 36.w,
+                right: 28.w,
               ),
               primary: false,
               itemCount: 12,
@@ -52,7 +64,7 @@ class DownloadsPage extends StatelessWidget {
                     title: "ANXIETY",
                     artistName: "Artist Name",
                     imageUrl: DropAndGoImages.addictions,
-                    isFavorite: index == 1 ? true : false,
+                    isFavorite: true,
                     onFavoritePressed: () {},
                   ),
                 );
