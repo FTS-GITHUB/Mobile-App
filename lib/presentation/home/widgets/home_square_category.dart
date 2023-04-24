@@ -1,4 +1,4 @@
-import 'package:dropandgouser/shared/aniamtions/fade_animation.dart';
+import 'package:dropandgouser/shared/animations/fade_animation.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
