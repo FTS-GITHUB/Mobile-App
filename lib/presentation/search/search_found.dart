@@ -1,4 +1,5 @@
 import 'package:dropandgouser/domain/search/search.dart';
+import 'package:dropandgouser/presentation/search/widgets/search_item.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/helpers/typography/font_weights.dart';
@@ -31,63 +32,5 @@ class SearchFound extends StatelessWidget {
             ),
           );
         });
-  }
-}
-
-class SearchItem extends StatelessWidget {
-  const SearchItem({
-    Key? key,
-    required this.search,
-  }) : super(key: key);
-
-  final Search search;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 18),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              DropAndGoImages.addictions,
-              width: 73.w,
-              height: 70.h,
-              fit: BoxFit.cover,
-            ),
-          ),
-          10.w.horizontalSpace,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              StandardText.headline6(
-                context,
-                search.title ?? '',
-              ),
-              6.h.verticalSpace,
-              StandardText.button(
-                search.artistName ?? "Artist Name",
-                fontSize: 10,
-                fontWeight: DropAndGoFontWeight.medium,
-                color: DropAndGoColors.primary.withOpacity(.4),
-                letterSpacing: 0.37.sp,
-              ),
-            ],
-          ),
-          Expanded(
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: IconButton(
-                icon: !(search.isFavorite != null && search.isFavorite!)
-                    ? SvgPicture.asset(DropAndGoIcons.favoriteFilled)
-                    : SvgPicture.asset(DropAndGoIcons.favoriteOutlined),
-                onPressed: search.onFavoritePressed,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
