@@ -3,6 +3,7 @@ import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/home/widgets/category_view_more_header.dart';
 import 'package:dropandgouser/presentation/home/widgets/home_rect_category.dart';
 import 'package:dropandgouser/presentation/home/widgets/home_square_category.dart';
+import 'package:dropandgouser/shared/aniamtions/fade_animation.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/extensions/extensions.dart';
 import 'package:flutter/material.dart';

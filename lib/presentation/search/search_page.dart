@@ -1,4 +1,5 @@
 import 'package:dropandgouser/application/search/cubit/is_seearch_active.dart';
+import 'package:dropandgouser/presentation/search/search_found.dart';
 import 'package:dropandgouser/presentation/search/search_history.dart';
 import 'package:dropandgouser/presentation/search/search_not_found.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
@@ -68,7 +69,8 @@ class _SearchPageState extends State<SearchPage> {
                 builder: (context, isSearchActive) {
               return isSearchActive
                   ? const SearchHistory()
-                  : const SearchNotFound();
+                  : const SearchFound();
+                  // : const SearchNotFound();
             })),
       ),
     );
