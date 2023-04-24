@@ -2,6 +2,7 @@ import 'package:dropandgouser/application/main/cubit/main_navbar_cubit.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/home/home_navigation_bar.dart';
+import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,22 +20,25 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: widget.child,
-      bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(10),
-          topLeft: Radius.circular(10),
-        ),
-        child: BlocBuilder<MainNavBarCubit, int>(
-          builder: (context, selectedIndex) {
-            return HomeNavigationBar(
-              onSelectTab: (index) => _onItemTapped(index, context),
-              currentTab: selectedIndex,
-            );
-          }
-        ),
-      ),
+    return BlocBuilder<MainNavBarCubit, int>(
+        builder: (context, selectedIndex) {
+          return Scaffold(
+            body: widget.child,
+            bottomNavigationBar: Container(
+              color: selectedIndex==2?const Color(0xFF1a3d49):null,
+              child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    topLeft: Radius.circular(10),
+                  ),
+                  child: HomeNavigationBar(
+                    onSelectTab: (index) => _onItemTapped(index, context),
+                    currentTab: selectedIndex,
+                  )
+              ),
+            ),
+          );
+        }
     );
   }
 

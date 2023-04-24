@@ -31,4 +31,5 @@ abstract class DropAndGoImages {
  static const String defaultCategory = 'assets/images/default.png';
  static const String logo = 'assets/images/logo.png';
  static const String error = 'assets/images/404.png';
+ static const String analyticsBackground = 'assets/images/analytics.png';
 }
