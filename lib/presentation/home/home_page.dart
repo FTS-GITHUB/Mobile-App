@@ -19,14 +19,12 @@ class HomePage extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
         child: AppBar(
-          leading: IconButton(
-            icon: SvgPicture.asset(
-              DropAndGoIcons.drawer,
+          centerTitle: false,
+          title: Transform.scale(
+            scale: .8,
+            child: Image.asset(
+              DropAndGoImages.logo,
             ),
-            onPressed: () {},
-          ),
-          title: Image.asset(
-            DropAndGoImages.logo,
           ),
           actions: [
             IconButton(

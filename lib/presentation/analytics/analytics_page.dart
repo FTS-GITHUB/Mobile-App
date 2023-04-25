@@ -7,11 +7,11 @@ import 'package:dropandgouser/shared/extensions/media_query.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/app_button_widget.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class _SplineAreaData {
   _SplineAreaData(
@@ -140,7 +140,9 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                           ),
                         ],
                       ),
-                      Flexible(child: _buildSplineAreaChart()),
+                      Flexible(child: Container(
+                        margin: EdgeInsets.only(top: 25.h, left: 12.w,),
+                          child: LineChartWidget())),
                     ],
                   ),
                 ),
@@ -159,19 +161,25 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                     childAspectRatio: 2.1.h,
                   ),
                   itemBuilder: (context, index) {
-                    return index ==0?const StreakItem(
-                      title: 'Current Streak',
-                      data: "12d",
-                    ):index==1?const StreakItem(
-                      title: 'Longest Streak',
-                      data: "16d",
-                    ):index==3?const StreakItem(
-                      title: 'Sessions listened',
-                      data: "45",
-                    ):const StreakItem(
-                      title: 'Packs listened',
-                      data: "15",
-                    );
+                    return index == 0
+                        ? const StreakItem(
+                            title: 'Current Streak',
+                            data: "12d",
+                          )
+                        : index == 1
+                            ? const StreakItem(
+                                title: 'Longest Streak',
+                                data: "16d",
+                              )
+                            : index == 3
+                                ? const StreakItem(
+                                    title: 'Sessions listened',
+                                    data: "45",
+                                  )
+                                : const StreakItem(
+                                    title: 'Packs listened',
+                                    data: "15",
+                                  );
                   },
                 )
               ],
@@ -181,51 +189,119 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       ),
     );
   }
+}
 
-  SfCartesianChart _buildSplineAreaChart() {
-    return SfCartesianChart(
-      plotAreaBorderWidth: 0,
-      primaryXAxis: DateTimeCategoryAxis(
-        // intervalType: DateTimeIntervalType.days,
-        interval: 1,
-        majorGridLines: const MajorGridLines(width: 0),
-        majorTickLines: const MajorTickLines(size: 0),
-        edgeLabelPlacement: EdgeLabelPlacement.shift,
-        labelStyle: const TextStyle(
-          color: DropAndGoColors.white,
-        ),
-      ),
-      primaryYAxis: NumericAxis(
-        labelFormat: '{value}m',
-        labelStyle: const TextStyle(
-          color: DropAndGoColors.white,
-        ),
-        edgeLabelPlacement: EdgeLabelPlacement.hide,
-        axisLine: const AxisLine(width: 0),
-        majorGridLines: const MajorGridLines(width: 0),
-        majorTickLines: const MajorTickLines(size: 0),
-      ),
-      series: _getSplineAreaSeries(),
-    );
-  }
+class LineChartWidget extends StatelessWidget {
+  const LineChartWidget({super.key});
 
-  List<ChartSeries<_SplineAreaData, DateTime>> _getSplineAreaSeries() {
-    return <ChartSeries<_SplineAreaData, DateTime>>[
-      SplineAreaSeries<_SplineAreaData, DateTime>(
-        dataSource: chartData!,
-        gradient: const LinearGradient(
-          colors: [
-            Color.fromRGBO(255, 255, 255, 1),
-            Color.fromRGBO(255, 255, 255, 0.3)
+  final gradientColors = const LinearGradient(
+    colors: [
+      Color.fromRGBO(255, 255, 255, 1),
+      Color.fromRGBO(255, 255, 255, .3),
+    ],
+    begin: Alignment.bottomCenter,
+    end: Alignment.topCenter,
+  );
+
+  @override
+  Widget build(BuildContext context) => LineChart(
+        LineChartData(
+          minX: 0,
+          maxX: 6,
+          minY: 0,
+          maxY: 40,
+
+          titlesData: LineTitles.getTitleData(context),
+          gridData: FlGridData(
+            show: false,
+          ),
+          lineBarsData: [
+            LineChartBarData(
+              spots: [
+                FlSpot(0, 35),
+                FlSpot(1, 29),
+                FlSpot(2, 25),
+                FlSpot(3, 37),
+                FlSpot(4, 22),
+                FlSpot(5, 18),
+                FlSpot(6, 40),
+              ],
+              isCurved: true,
+              gradient: gradientColors,
+              barWidth: 0,
+              dotData: FlDotData(show: false),
+              belowBarData: BarAreaData(
+                show: true,
+                gradient: gradientColors,
+              ),
+            ),
           ],
-          begin: Alignment.bottomCenter,
-          end: Alignment.topCenter,
         ),
-        xValueMapper: (_SplineAreaData sales, _) {
-          return sales.year;
-        },
-        yValueMapper: (_SplineAreaData sales, _) => sales.y1,
+      );
+}
+
+class LineTitles {
+  static getTitleData(BuildContext context) => FlTitlesData(
+        show: true,
+        bottomTitles: AxisTitles(
+          axisNameSize: 30,
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 26,
+            interval: 1,
+            getTitlesWidget: (value, titleMeta) {
+              String labelX ='';
+              switch(value.toInt()){
+                case (0):
+                  labelX='Sun';
+                  break;
+                case (1):
+                  labelX='Mon';
+                  break;
+                case (2):
+                  labelX='Tue';
+                  break;
+                case (3):
+                  labelX='Tue';
+                  break;
+                case (4):
+                  labelX='Thu';
+                  break;
+                case (5):
+                  labelX='Fri';
+                  break;
+                case (6):
+                  labelX='Sat';
+                  break;
+              }
+              return StandardText.headline6(
+                context,
+                labelX,
+                color: DropAndGoColors.white,
+                fontSize: 12,
+              );
+            },
+          ),
+        ),
+      rightTitles: AxisTitles(
+        sideTitles: SideTitles(showTitles: false),
       ),
-    ];
-  }
+      topTitles: AxisTitles(
+        sideTitles: SideTitles(showTitles: false),
+      ),
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 35,
+            getTitlesWidget: (value, _) {
+              return StandardText.headline6(
+                context,
+                "${value.toInt().toString()}m",
+                color: DropAndGoColors.white,
+                fontSize: 12,
+              );
+            },
+          ),
+        ),
+      );
 }

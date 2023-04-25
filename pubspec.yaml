@@ -17,6 +17,7 @@ dependencies:
   firebase_core: ^2.4.0
   firebase_storage:
   permission_handler: ^10.2.0
+  fl_chart: ^0.62.0
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.1
@@ -44,7 +45,6 @@ dependencies:
   path: ^1.8.1
   shared_preferences: ^2.0.15
   shimmer: ^2.0.0
-  syncfusion_flutter_charts: ^21.1.39
   url_launcher: ^6.1.9
 
 #dependency_overrides:
