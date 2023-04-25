@@ -44,11 +44,11 @@ class HomeNavigationBar extends StatelessWidget {
           icon: currentTab == 1
               ? SvgPicture.asset(
                   DropAndGoIcons.downloadFilled,
-                  color: DropAndGoColors.downloadIcon,
+                  color: DropAndGoColors.blue,
                 )
               : SvgPicture.asset(
                   DropAndGoIcons.downloadOutlined,
-                  color: DropAndGoColors.downloadIcon,
+                  color: DropAndGoColors.blue,
                 ),
           label: 'Download',
         ),

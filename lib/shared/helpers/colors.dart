@@ -8,12 +8,16 @@ abstract class DropAndGoColors {
   static const Color red = Colors.red;
   static const Color transparent = Colors.transparent;
   static const Color homeIcon = Color(0xFFFFA800);
-  static const Color downloadIcon = Color(0xFF1877F2);
   static const Color analyticsIcon = Color(0xFFFF0000);
   static const Color profileIcon = Color(0xFF149200);
   static ColorFilter? appColorFilter = ColorFilter.mode(
     black.withOpacity(.4),
     BlendMode.hardLight,
   );
-// #FFA800
+  static const Color purple = Color(0xFF9510B8);
+  static const Color blue = Color(0xFF1877F2);
+  static const Color green = Color(0xFF17600B);
+  static const Color yellow = Color(0xFFFFBF00);
+  static const Color orange = Color(0xFFDD5000);
+// #1877F2
 }
