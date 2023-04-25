@@ -130,31 +130,31 @@ class GoRouterDelegate {
                   return const SearchPage();
                 },
               ),
+              GoRoute(
+                parentNavigatorKey: _shellNavigatorKey,
+                path: NavigationService.downloadsRouteUri,
+                name: NavigationService.downloadsRouteUri,
+                builder: (context, routerState) {
+                  return const DownloadsPage();
+                },
+              ),
+              GoRoute(
+                parentNavigatorKey: _shellNavigatorKey,
+                path: NavigationService.analyticsRouteUri,
+                name: NavigationService.analyticsRouteUri,
+                builder: (context, routerState) {
+                  return const AnalyticsPage();
+                },
+              ),
+              GoRoute(
+                parentNavigatorKey: _shellNavigatorKey,
+                path: NavigationService.accountRouteUri,
+                name: NavigationService.accountRouteUri,
+                builder: (context, routerState) {
+                  return const AccountPage();
+                },
+              ),
             ]
-          ),
-          GoRoute(
-            parentNavigatorKey: _shellNavigatorKey,
-            path: '/${NavigationService.downloadsRouteUri}',
-            name: NavigationService.downloadsRouteUri,
-            builder: (context, routerState) {
-              return const DownloadsPage();
-            },
-          ),
-          GoRoute(
-            parentNavigatorKey: _shellNavigatorKey,
-            path: '/${NavigationService.analyticsRouteUri}',
-            name: NavigationService.analyticsRouteUri,
-            builder: (context, routerState) {
-              return const AnalyticsPage();
-            },
-          ),
-          GoRoute(
-            parentNavigatorKey: _shellNavigatorKey,
-            path: '/${NavigationService.accountRouteUri}',
-            name: NavigationService.accountRouteUri,
-            builder: (context, routerState) {
-              return const AccountPage();
-            },
           ),
         ],
         builder: (context, routerState, child){

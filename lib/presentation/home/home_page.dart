@@ -3,7 +3,7 @@ import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/home/widgets/category_view_more_header.dart';
 import 'package:dropandgouser/presentation/home/widgets/home_rect_category.dart';
 import 'package:dropandgouser/presentation/home/widgets/home_square_category.dart';
-import 'package:dropandgouser/shared/aniamtions/fade_animation.dart';
+import 'package:dropandgouser/shared/animations/slide_animation.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/extensions/extensions.dart';
 import 'package:flutter/material.dart';
@@ -19,14 +19,12 @@ class HomePage extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
         child: AppBar(
-          leading: IconButton(
-            icon: SvgPicture.asset(
-              DropAndGoIcons.drawer,
+          centerTitle: false,
+          title: Transform.scale(
+            scale: .8,
+            child: Image.asset(
+              DropAndGoImages.logo,
             ),
-            onPressed: () {},
-          ),
-          title: Image.asset(
-            DropAndGoImages.logo,
           ),
           actions: [
             IconButton(
@@ -70,13 +68,15 @@ class HomePage extends StatelessWidget {
                 },
               ),
               35.h.verticalSpace,
-              CategoryViewMoreHeader(
-                onViewMore: () {
-                  getIt<NavigationService>().navigateToNamed(
-                    context: context,
-                    uri: NavigationService.categoriesRouteUri,
-                  );
-                },
+              SlideInAnimation(
+                child: CategoryViewMoreHeader(
+                  onViewMore: () {
+                    getIt<NavigationService>().navigateToNamed(
+                      context: context,
+                      uri: NavigationService.categoriesRouteUri,
+                    );
+                  },
+                ),
               ),
               20.h.verticalSpace,
               GridView.builder(
@@ -96,14 +96,16 @@ class HomePage extends StatelessWidget {
                 itemCount: 4,
               ),
               20.h.verticalSpace,
-              CategoryViewMoreHeader(
-                categoryName: 'Recommended For You',
-                onViewMore: () {
-                  getIt<NavigationService>().navigateToNamed(
-                    context: context,
-                    uri: NavigationService.categoriesRouteUri,
-                  );
-                },
+              SlideInAnimation(
+                child: CategoryViewMoreHeader(
+                  categoryName: 'Recommended For You',
+                  onViewMore: () {
+                    getIt<NavigationService>().navigateToNamed(
+                      context: context,
+                      uri: NavigationService.categoriesRouteUri,
+                    );
+                  },
+                ),
               ),
               20.h.verticalSpace,
               GridView.builder(
@@ -123,14 +125,16 @@ class HomePage extends StatelessWidget {
                 itemCount: 2,
               ),
               20.h.verticalSpace,
-              CategoryViewMoreHeader(
-                categoryName: 'For Better Sleep',
-                onViewMore: () {
-                  getIt<NavigationService>().navigateToNamed(
-                    context: context,
-                    uri: NavigationService.categoriesRouteUri,
-                  );
-                },
+              SlideInAnimation(
+                child: CategoryViewMoreHeader(
+                  categoryName: 'For Better Sleep',
+                  onViewMore: () {
+                    getIt<NavigationService>().navigateToNamed(
+                      context: context,
+                      uri: NavigationService.categoriesRouteUri,
+                    );
+                  },
+                ),
               ),
               20.h.verticalSpace,
               GridView.builder(

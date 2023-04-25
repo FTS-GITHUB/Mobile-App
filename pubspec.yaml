@@ -17,6 +17,7 @@ dependencies:
   firebase_core: ^2.4.0
   firebase_storage:
   permission_handler: ^10.2.0
+  fl_chart: ^0.62.0
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.1

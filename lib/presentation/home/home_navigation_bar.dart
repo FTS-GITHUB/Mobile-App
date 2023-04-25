@@ -56,11 +56,9 @@ class HomeNavigationBar extends StatelessWidget {
           icon: currentTab == 2
               ? SvgPicture.asset(
                   DropAndGoIcons.analyticsFilled,
-                  color: DropAndGoColors.analyticsIcon,
                 )
               : SvgPicture.asset(
                   DropAndGoIcons.analyticsOutlined,
-                  color: DropAndGoColors.analyticsIcon,
                 ),
           label: 'Analytics',
         ),
