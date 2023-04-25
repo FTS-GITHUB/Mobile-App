@@ -1,6 +1,7 @@
 import 'package:dropandgouser/application/main/cubit/main_navbar_cubit.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
+import 'package:dropandgouser/presentation/analytics/widgets/line_chart_widget.dart';
 import 'package:dropandgouser/presentation/analytics/widgets/streak_item.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/extensions/media_query.dart';
@@ -140,9 +141,15 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                           ),
                         ],
                       ),
-                      Flexible(child: Container(
-                        margin: EdgeInsets.only(top: 25.h, left: 12.w,),
-                          child: LineChartWidget())),
+                      Flexible(
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            top: 25.h,
+                            left: 12.w,
+                          ),
+                          child: const LineChartWidget(),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -189,119 +196,4 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       ),
     );
   }
-}
-
-class LineChartWidget extends StatelessWidget {
-  const LineChartWidget({super.key});
-
-  final gradientColors = const LinearGradient(
-    colors: [
-      Color.fromRGBO(255, 255, 255, 1),
-      Color.fromRGBO(255, 255, 255, .3),
-    ],
-    begin: Alignment.bottomCenter,
-    end: Alignment.topCenter,
-  );
-
-  @override
-  Widget build(BuildContext context) => LineChart(
-        LineChartData(
-          minX: 0,
-          maxX: 6,
-          minY: 0,
-          maxY: 40,
-
-          titlesData: LineTitles.getTitleData(context),
-          gridData: FlGridData(
-            show: false,
-          ),
-          lineBarsData: [
-            LineChartBarData(
-              spots: [
-                FlSpot(0, 35),
-                FlSpot(1, 29),
-                FlSpot(2, 25),
-                FlSpot(3, 37),
-                FlSpot(4, 22),
-                FlSpot(5, 18),
-                FlSpot(6, 40),
-              ],
-              isCurved: true,
-              gradient: gradientColors,
-              barWidth: 0,
-              dotData: FlDotData(show: false),
-              belowBarData: BarAreaData(
-                show: true,
-                gradient: gradientColors,
-              ),
-            ),
-          ],
-        ),
-      );
-}
-
-class LineTitles {
-  static getTitleData(BuildContext context) => FlTitlesData(
-        show: true,
-        bottomTitles: AxisTitles(
-          axisNameSize: 30,
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 26,
-            interval: 1,
-            getTitlesWidget: (value, titleMeta) {
-              String labelX ='';
-              switch(value.toInt()){
-                case (0):
-                  labelX='Sun';
-                  break;
-                case (1):
-                  labelX='Mon';
-                  break;
-                case (2):
-                  labelX='Tue';
-                  break;
-                case (3):
-                  labelX='Tue';
-                  break;
-                case (4):
-                  labelX='Thu';
-                  break;
-                case (5):
-                  labelX='Fri';
-                  break;
-                case (6):
-                  labelX='Sat';
-                  break;
-              }
-              return StandardText.headline6(
-                context,
-                labelX,
-                color: DropAndGoColors.white,
-                fontSize: 12,
-              );
-            },
-          ),
-        ),
-      rightTitles: AxisTitles(
-        sideTitles: SideTitles(showTitles: false),
-      ),
-      topTitles: AxisTitles(
-        sideTitles: SideTitles(showTitles: false),
-      ),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 35,
-            getTitlesWidget: (value, _) {
-              return StandardText.headline6(
-                context,
-                "${value.toInt().toString()}m",
-                color: DropAndGoColors.white,
-                fontSize: 12,
-              );
-            },
-          ),
-        ),
-      );
 }
