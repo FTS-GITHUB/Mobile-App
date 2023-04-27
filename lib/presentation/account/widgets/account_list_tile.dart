@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:dropandgouser/shared/constants/assets.dart';
+import 'package:dropandgouser/shared/helpers/typography/font_weights.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,7 +35,8 @@ class AccountListTile extends StatelessWidget {
       title: StandardText.headline5(
         context,
         title,
-        fontSize: 20.sp,
+        fontSize: 20.h,
+        fontWeight: DropAndGoFontWeight.semiBold,
       ),
       trailing: Transform.rotate(
         angle: pi,

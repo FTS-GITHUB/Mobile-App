@@ -68,12 +68,12 @@ class AccountPage extends StatelessWidget {
               iconUrl: DropAndGoIcons.shieldTick,
               onTap: (){},
             ),
-            AccountListTile(
-              avatarColor: DropAndGoColors.orange,
-              title: 'Language',
-              iconUrl: DropAndGoIcons.language,
-              onTap: (){},
-            ),
+            // AccountListTile(
+            //   avatarColor: DropAndGoColors.orange,
+            //   title: 'Language',
+            //   iconUrl: DropAndGoIcons.language,
+            //   onTap: (){},
+            // ),
             25.verticalSpace,
             const Divider(
               height: 1,
