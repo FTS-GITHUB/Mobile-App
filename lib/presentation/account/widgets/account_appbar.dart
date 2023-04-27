@@ -40,7 +40,7 @@ class AccountAppBar extends StatelessWidget {
       titleSpacing: -5,
       title: StandardText.headline4(
         context,
-        'Personal info',
+        title,
         color: DropAndGoColors.primary,
         fontSize: 20,
       ),
