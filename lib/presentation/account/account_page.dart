@@ -59,7 +59,12 @@ class AccountPage extends StatelessWidget {
               avatarColor: DropAndGoColors.blue,
               title: 'Notification',
               iconUrl: DropAndGoIcons.notificationBold,
-              onTap: () {},
+              onTap: () {
+                getIt<NavigationService>().pushNamed(
+                  context: context,
+                  uri: NavigationService.notificationRouteUri,
+                );
+              },
             ),
             AccountListTile(
               avatarColor: DropAndGoColors.green,

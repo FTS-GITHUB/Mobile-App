@@ -6,6 +6,7 @@ import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.d
 import 'package:dropandgouser/application/complete_profile/cubit/profile_file_cubit.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
+import 'package:dropandgouser/presentation/account/widgets/account_appbar.dart';
 import 'package:dropandgouser/presentation/signup/widgets/drop&go_date_picker.dart';
 import 'package:dropandgouser/presentation/signup/widgets/user_avatar.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
@@ -45,35 +46,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
-        child: AppBar(
-          centerTitle: false,
-          leading: InkWell(
-            borderRadius: BorderRadius.circular(25),
-            onTap: () {
-              getIt<NavigationService>().navigateBack(context: context);
-            },
-            child: Transform.rotate(
-              angle: pi,
-              child: Transform.scale(
-                scale: .4,
-                child: SvgPicture.asset(
-                  DropAndGoIcons.arrowForward,
-                  color: DropAndGoColors.primary,
-                ),
-              ),
-            ),
-          ),
-          // leadingWidth: 50,
-          titleSpacing: -5,
-          title: StandardText.headline4(
-            context,
-            'Personal info',
-            color: DropAndGoColors.primary,
-            fontSize: 20,
-          ),
-        ),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(70),
+        child: AccountAppBar(title: 'Personal Info',),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 35.w),

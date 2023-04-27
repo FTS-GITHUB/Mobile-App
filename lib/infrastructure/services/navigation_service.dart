@@ -30,6 +30,7 @@ abstract class NavigationService {
   static const String categoriesRouteUri = 'categories';
   static const String searchRouteUri = 'search';
   static const String personalInfoRouteUri = 'edit-profile';
+  static const String notificationRouteUri = 'notification';
   //
 
   void navigateToNamed({
