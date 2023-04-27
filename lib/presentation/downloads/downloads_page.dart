@@ -44,7 +44,7 @@ class DownloadsPage extends StatelessWidget {
           SliverToBoxAdapter(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 36.w),
-              child: HomeRectCategory(),
+              child: const HomeRectCategory(),
             ),
           ),
           SliverToBoxAdapter(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'media_query.dart';
 
 extension CheckPlatform on BuildContext {

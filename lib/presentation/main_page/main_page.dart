@@ -2,7 +2,6 @@ import 'package:dropandgouser/application/main/cubit/main_navbar_cubit.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/home/home_navigation_bar.dart';
-import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

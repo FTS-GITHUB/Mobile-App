@@ -1,5 +1,4 @@
 import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.dart';
-import 'package:dropandgouser/application/complete_profile/cubit/rememberme_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/achievement_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/age_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/gender_cubit.dart';
@@ -9,24 +8,15 @@ import 'package:dropandgouser/application/signup/signup_bloc.dart';
 import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
+import 'package:dropandgouser/presentation/onboarding/widgets/onboarding_appbar.dart';
 import 'package:dropandgouser/presentation/signup/create_account_form.dart';
 import 'package:dropandgouser/presentation/signup/signup_success_dialog.dart';
-import 'package:dropandgouser/presentation/onboarding/widgets/onboarding_appbar.dart';
-import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/enums/alert_type.dart';
-import 'package:dropandgouser/shared/extensions/extensions.dart';
-import 'package:dropandgouser/shared/extensions/number_extensions.dart';
-import 'package:dropandgouser/shared/extensions/string_extensions.dart';
-import 'package:dropandgouser/shared/helpers/colors.dart';
-import 'package:dropandgouser/shared/widgets/app_button_widget.dart';
 import 'package:dropandgouser/shared/widgets/button_loading.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
-import 'package:dropandgouser/shared/widgets/standard_textfield.dart';
 import 'package:dropandgouser/shared/widgets/toasts.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({

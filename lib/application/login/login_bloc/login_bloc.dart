@@ -4,9 +4,8 @@ import 'package:dropandgouser/domain/login/i_login_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'login_state.dart';
-
 part 'login_event.dart';
+part 'login_state.dart';
 
 mixin ForgetPasswordBloc on Bloc<LoginEvent, LoginState>{}
 

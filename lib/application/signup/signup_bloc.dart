@@ -11,7 +11,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'signup_event.dart';
-
 part 'signup_state.dart';
 
 mixin PostSignupBloc on Bloc<SignupEvent, SignupState> {}

@@ -75,7 +75,7 @@ class AccountPage extends StatelessWidget {
               onTap: (){},
             ),
             25.verticalSpace,
-            Divider(
+            const Divider(
               height: 1,
               color: DropAndGoColors.primary,
             ),

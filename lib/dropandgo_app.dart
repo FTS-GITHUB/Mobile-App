@@ -2,7 +2,10 @@
 
 import 'dart:ui' as ui;
 
+import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.dart';
+import 'package:dropandgouser/application/complete_profile/cubit/dob_date_cubit.dart';
+import 'package:dropandgouser/application/complete_profile/cubit/profile_file_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/rememberme_cubit.dart';
 import 'package:dropandgouser/application/login/cubit/login_obscurepassword_cubit.dart';
 import 'package:dropandgouser/application/login/cubit/login_remember_cubit.dart';
@@ -11,9 +14,6 @@ import 'package:dropandgouser/application/onboarding/cubit/achievement_cubit.dar
 import 'package:dropandgouser/application/onboarding/cubit/age_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/gender_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/user_level_cubit.dart';
-import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
-import 'package:dropandgouser/application/complete_profile/cubit/dob_date_cubit.dart';
-import 'package:dropandgouser/application/complete_profile/cubit/profile_file_cubit.dart';
 import 'package:dropandgouser/application/search/cubit/is_seearch_active.dart';
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/application/signup/signup_bloc.dart';
@@ -33,6 +33,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'application/main/cubit/main_navbar_cubit.dart';
 import 'presentation/delegates/gorouter_delegate.dart';
 
