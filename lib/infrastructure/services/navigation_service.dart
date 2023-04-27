@@ -29,6 +29,8 @@ abstract class NavigationService {
   static const String accountRouteUri = 'account';
   static const String categoriesRouteUri = 'categories';
   static const String searchRouteUri = 'search';
+  static const String personalInfoRouteUri = 'edit-profile';
+  //
 
   void navigateToNamed({
     required BuildContext context,

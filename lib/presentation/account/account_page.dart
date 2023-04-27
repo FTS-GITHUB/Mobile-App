@@ -48,25 +48,30 @@ class AccountPage extends StatelessWidget {
               avatarColor: DropAndGoColors.purple,
               title: 'Personal Info',
               iconUrl: DropAndGoIcons.userBold,
-              onTap: (){},
+              onTap: () {
+                getIt<NavigationService>().navigateToNamed(
+                  context: context,
+                  uri: NavigationService.personalInfoRouteUri,
+                );
+              },
             ),
             AccountListTile(
               avatarColor: DropAndGoColors.blue,
               title: 'Notification',
               iconUrl: DropAndGoIcons.notificationBold,
-              onTap: (){},
+              onTap: () {},
             ),
             AccountListTile(
               avatarColor: DropAndGoColors.green,
               title: 'Preference',
               iconUrl: DropAndGoIcons.setting,
-              onTap: (){},
+              onTap: () {},
             ),
             AccountListTile(
               avatarColor: DropAndGoColors.yellow,
               title: 'Security',
               iconUrl: DropAndGoIcons.shieldTick,
-              onTap: (){},
+              onTap: () {},
             ),
             // AccountListTile(
             //   avatarColor: DropAndGoColors.orange,
@@ -84,7 +89,7 @@ class AccountPage extends StatelessWidget {
               avatarColor: DropAndGoColors.primary,
               title: 'Log out',
               iconUrl: DropAndGoIcons.logout,
-              onTap: (){},
+              onTap: () {},
             ),
           ],
         ),
