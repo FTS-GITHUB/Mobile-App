@@ -25,6 +25,12 @@ abstract class DropAndGoIcons {
  static const String backSpaceOutlined = 'assets/icons/tag-cross.svg';
  static const String favoriteOutlined = 'assets/icons/heart_filled.svg';
  static const String favoriteFilled = 'assets/icons/heart_outlined.svg';
+ static const String userBold = 'assets/icons/user.svg';
+ static const String language = 'assets/icons/language-square.svg';
+ static const String setting = 'assets/icons/setting-2.svg';
+ static const String shieldTick = 'assets/icons/shield-tick.svg';
+ static const String logout = 'assets/icons/logout.svg';
+ static const String notificationBold = 'assets/icons/notification.svg';
 }
 
 abstract class DropAndGoImages {

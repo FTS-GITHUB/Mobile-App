@@ -12,12 +12,14 @@ class AccountListTile extends StatelessWidget {
     Key? key,
     required this.avatarColor,
     required this.title,
+    required this.iconUrl,
     this.onTap
   }) : super(key: key);
 
   final Color avatarColor;
   final String title;
   final VoidCallback? onTap;
+  final String iconUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +27,10 @@ class AccountListTile extends StatelessWidget {
       contentPadding: EdgeInsets.symmetric(vertical: 8.h),
       onTap: onTap,
       leading: CircleAvatar(
-        radius: 22,
+        radius: 25,
         // minRadius: 30.h,
         backgroundColor: avatarColor,
-        child: const Icon(
-          Icons.person,
-          color: DropAndGoColors.white,
-        ),
+        child: SvgPicture.asset(iconUrl),
       ),
       title: StandardText.headline5(
         context,

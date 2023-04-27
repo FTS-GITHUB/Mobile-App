@@ -47,26 +47,31 @@ class AccountPage extends StatelessWidget {
             AccountListTile(
               avatarColor: DropAndGoColors.purple,
               title: 'Personal Info',
+              iconUrl: DropAndGoIcons.userBold,
               onTap: (){},
             ),
             AccountListTile(
               avatarColor: DropAndGoColors.blue,
               title: 'Notification',
+              iconUrl: DropAndGoIcons.notificationBold,
               onTap: (){},
             ),
             AccountListTile(
               avatarColor: DropAndGoColors.green,
               title: 'Preference',
+              iconUrl: DropAndGoIcons.setting,
               onTap: (){},
             ),
             AccountListTile(
               avatarColor: DropAndGoColors.yellow,
               title: 'Security',
+              iconUrl: DropAndGoIcons.shieldTick,
               onTap: (){},
             ),
             AccountListTile(
               avatarColor: DropAndGoColors.orange,
               title: 'Language',
+              iconUrl: DropAndGoIcons.language,
               onTap: (){},
             ),
             25.verticalSpace,
@@ -78,6 +83,7 @@ class AccountPage extends StatelessWidget {
             AccountListTile(
               avatarColor: DropAndGoColors.primary,
               title: 'Log out',
+              iconUrl: DropAndGoIcons.logout,
               onTap: (){},
             ),
           ],
