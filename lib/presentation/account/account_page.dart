@@ -49,7 +49,7 @@ class AccountPage extends StatelessWidget {
               title: 'Personal Info',
               iconUrl: DropAndGoIcons.userBold,
               onTap: () {
-                getIt<NavigationService>().navigateToNamed(
+                getIt<NavigationService>().pushNamed(
                   context: context,
                   uri: NavigationService.personalInfoRouteUri,
                 );

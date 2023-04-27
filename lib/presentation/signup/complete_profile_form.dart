@@ -10,6 +10,7 @@ import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/signup/widgets/drop&go_date_picker.dart';
 import 'package:dropandgouser/presentation/signup/widgets/user_avatar.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
+import 'package:dropandgouser/shared/constants/global.dart';
 import 'package:dropandgouser/shared/enums/alert_type.dart';
 import 'package:dropandgouser/shared/extensions/extensions.dart';
 import 'package:dropandgouser/shared/extensions/number_extensions.dart';
@@ -226,17 +227,5 @@ class CompleteProfileForm extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String? validateMobile(String? value) {
-    String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-    RegExp regExp = RegExp(patttern);
-    if (value!=null && value.isEmpty) {
-      return 'Please enter mobile number';
-    }
-    else if (!regExp.hasMatch(value!)) {
-      return 'Please enter valid mobile number';
-    }
-    return null;
   }
 }

@@ -154,16 +154,6 @@ class GoRouterDelegate {
                 builder: (context, routerState) {
                   return const AccountPage();
                 },
-                routes: [
-                  GoRoute(
-                    parentNavigatorKey: _shellNavigatorKey,
-                    path: NavigationService.personalInfoRouteUri,
-                    name: NavigationService.personalInfoRouteUri,
-                    builder: (context, routerState) {
-                      return const PersonalInfoPage();
-                    },
-                  ),
-                ],
               ),
             ]
           ),
@@ -171,6 +161,14 @@ class GoRouterDelegate {
         builder: (context, routerState, child){
           return MainPage(child: child);
         }
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: "/${NavigationService.personalInfoRouteUri}",
+        name: NavigationService.personalInfoRouteUri,
+        builder: (context, routerState) {
+          return const PersonalInfoPage();
+        },
       ),
     ],
   );
