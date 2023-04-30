@@ -1,6 +1,7 @@
 import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/account/account_page.dart';
+import 'package:dropandgouser/presentation/account/change_password_page.dart';
 import 'package:dropandgouser/presentation/account/notification_page.dart';
 import 'package:dropandgouser/presentation/account/personal_info_page.dart';
 import 'package:dropandgouser/presentation/account/preference_page.dart';
@@ -195,6 +196,14 @@ class GoRouterDelegate {
         name: NavigationService.securityRouteUri,
         builder: (context, routerState) {
           return const SecurityPage();
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: "/${NavigationService.changePasswordRouteUri}",
+        name: NavigationService.changePasswordRouteUri,
+        builder: (context, routerState) {
+          return const ChangePasswordPage();
         },
       ),
     ],

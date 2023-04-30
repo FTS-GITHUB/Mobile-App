@@ -1,3 +1,5 @@
+import 'package:dropandgouser/infrastructure/di/injectable.dart';
+import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/account/widgets/account_appbar.dart';
 import 'package:dropandgouser/presentation/account/widgets/app_switch.dart';
 import 'package:dropandgouser/shared/extensions/extensions.dart';
@@ -50,6 +52,10 @@ class SecurityPage extends StatelessWidget {
               text: 'Change Password',
               width: context.width,
               onPressed: (){
+                getIt<NavigationService>().pushNamed(
+                  context: context,
+                  uri: NavigationService.changePasswordRouteUri,
+                );
                 print('change password');
               },
             ),

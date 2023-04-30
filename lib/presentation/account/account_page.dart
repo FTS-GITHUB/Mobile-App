@@ -6,6 +6,7 @@ import 'package:dropandgouser/presentation/account/widgets/profile_tile.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,7 +33,7 @@ class AccountPage extends StatelessWidget {
           ),
           title: StandardText.headline4(
             context,
-            "Account",
+            "account.title".tr(),
             fontSize: 30.sp,
             color: DropAndGoColors.primary,
           ),
@@ -46,7 +47,7 @@ class AccountPage extends StatelessWidget {
             20.verticalSpace,
             AccountListTile(
               avatarColor: DropAndGoColors.purple,
-              title: 'Personal Info',
+              title: 'account.info'.tr(),
               iconUrl: DropAndGoIcons.userBold,
               onTap: () {
                 getIt<NavigationService>().pushNamed(
@@ -57,7 +58,7 @@ class AccountPage extends StatelessWidget {
             ),
             AccountListTile(
               avatarColor: DropAndGoColors.blue,
-              title: 'Notification',
+              title: 'account.notification'.tr(),
               iconUrl: DropAndGoIcons.notificationBold,
               onTap: () {
                 getIt<NavigationService>().pushNamed(
@@ -68,7 +69,7 @@ class AccountPage extends StatelessWidget {
             ),
             AccountListTile(
               avatarColor: DropAndGoColors.green,
-              title: 'Preference',
+              title: 'account.pref'.tr(),
               iconUrl: DropAndGoIcons.setting,
               onTap: () {
                 getIt<NavigationService>().pushNamed(
@@ -79,7 +80,7 @@ class AccountPage extends StatelessWidget {
             ),
             AccountListTile(
               avatarColor: DropAndGoColors.yellow,
-              title: 'Security',
+              title: 'account.security'.tr(),
               iconUrl: DropAndGoIcons.shieldTick,
               onTap: () {
                 getIt<NavigationService>().pushNamed(
@@ -102,7 +103,7 @@ class AccountPage extends StatelessWidget {
             20.verticalSpace,
             AccountListTile(
               avatarColor: DropAndGoColors.primary,
-              title: 'Log out',
+              title: 'account.logout'.tr(),
               iconUrl: DropAndGoIcons.logout,
               onTap: () {},
             ),
