@@ -110,7 +110,7 @@ class AccountPage extends StatelessWidget {
                 showModalBottomSheet(
                   barrierColor: Colors.transparent,
                   context: context,
-                  builder: (ctx) => LogoutBottomSheet(),
+                  builder: (ctx) => const LogoutBottomSheet(),
                 );
               },
             ),

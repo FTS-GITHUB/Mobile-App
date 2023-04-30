@@ -1,11 +1,8 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/profile_file_cubit.dart';
-import 'package:dropandgouser/infrastructure/di/injectable.dart';
-import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/account/widgets/account_appbar.dart';
 import 'package:dropandgouser/presentation/signup/widgets/drop&go_date_picker.dart';
 import 'package:dropandgouser/presentation/signup/widgets/user_avatar.dart';

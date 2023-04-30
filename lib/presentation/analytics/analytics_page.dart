@@ -134,7 +134,6 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                             height: 35,
                             radius: 4,
                             onPressed: () {
-                              print("Hoefler Text");
                             },
                             text: 'This Week',
                           ),

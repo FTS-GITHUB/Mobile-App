@@ -56,7 +56,6 @@ class SecurityPage extends StatelessWidget {
                   context: context,
                   uri: NavigationService.changePasswordRouteUri,
                 );
-                print('change password');
               },
             ),
           ],

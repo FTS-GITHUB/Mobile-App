@@ -1,8 +1,6 @@
 import 'package:dropandgouser/presentation/account/widgets/account_appbar.dart';
 import 'package:dropandgouser/presentation/account/widgets/app_switch.dart';
-import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

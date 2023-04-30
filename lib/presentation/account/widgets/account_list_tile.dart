@@ -1,7 +1,5 @@
-import 'dart:math';
 
 import 'package:dropandgouser/presentation/account/widgets/icon_forward.dart';
-import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/helpers/typography/font_weights.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
