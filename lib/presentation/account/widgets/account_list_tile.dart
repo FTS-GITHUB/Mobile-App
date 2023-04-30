@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:dropandgouser/presentation/account/widgets/icon_forward.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/helpers/typography/font_weights.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
@@ -38,12 +39,7 @@ class AccountListTile extends StatelessWidget {
         fontSize: 20.h,
         fontWeight: DropAndGoFontWeight.semiBold,
       ),
-      trailing: Transform.rotate(
-        angle: pi,
-        child: SvgPicture.asset(
-          DropAndGoIcons.arrowLeft,
-        ),
-      ),
+      trailing: const IconForward(),
     );
   }
 }

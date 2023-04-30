@@ -1,5 +1,5 @@
 import 'package:dropandgouser/presentation/account/widgets/account_appbar.dart';
-import 'package:dropandgouser/presentation/account/widgets/cupertino_switch.dart';
+import 'package:dropandgouser/presentation/account/widgets/app_switch.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,8 +12,8 @@ class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(70),
         child: AccountAppBar(
           title: 'Notification',
         ),
@@ -28,19 +28,19 @@ class NotificationPage extends StatelessWidget {
               'Notify me when',
             ),
             22.verticalSpace,
-            AppCupertinoSwitch(
+            AppSwitch(
               title: "remind me at bedtime",
               switchValue: true,
               onChangedSwitch: (val){},
             ),
             26.verticalSpace,
-            AppCupertinoSwitch(
+            AppSwitch(
               title: "set a reminder",
               switchValue: false,
               onChangedSwitch: (val){},
             ),
             26.verticalSpace,
-            AppCupertinoSwitch(
+            AppSwitch(
               title: "notify me of new drops",
               switchValue: true,
               onChangedSwitch: (val){},

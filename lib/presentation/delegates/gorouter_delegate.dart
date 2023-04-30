@@ -3,6 +3,7 @@ import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/account/account_page.dart';
 import 'package:dropandgouser/presentation/account/notification_page.dart';
 import 'package:dropandgouser/presentation/account/personal_info_page.dart';
+import 'package:dropandgouser/presentation/account/preference_page.dart';
 import 'package:dropandgouser/presentation/analytics/analytics_page.dart';
 import 'package:dropandgouser/presentation/categories/categories_page.dart';
 import 'package:dropandgouser/presentation/downloads/downloads_page.dart';
@@ -177,6 +178,14 @@ class GoRouterDelegate {
         name: NavigationService.notificationRouteUri,
         builder: (context, routerState) {
           return const NotificationPage();
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: "/${NavigationService.preferenceRouteUri}",
+        name: NavigationService.preferenceRouteUri,
+        builder: (context, routerState) {
+          return const PreferencePage();
         },
       ),
     ],

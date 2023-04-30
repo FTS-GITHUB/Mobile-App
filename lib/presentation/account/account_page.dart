@@ -70,7 +70,12 @@ class AccountPage extends StatelessWidget {
               avatarColor: DropAndGoColors.green,
               title: 'Preference',
               iconUrl: DropAndGoIcons.setting,
-              onTap: () {},
+              onTap: () {
+                getIt<NavigationService>().pushNamed(
+                  context: context,
+                  uri: NavigationService.preferenceRouteUri,
+                );
+              },
             ),
             AccountListTile(
               avatarColor: DropAndGoColors.yellow,
