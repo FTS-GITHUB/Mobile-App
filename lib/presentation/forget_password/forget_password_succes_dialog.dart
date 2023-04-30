@@ -13,7 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ForgetPasswordSuccessDialog {
   static Future<void> show(BuildContext context) {
     return showDialog(
-      barrierDismissible: false,
       barrierColor: DropAndGoColors.transparent,
       context: context,
       builder: (context) =>

@@ -29,7 +29,8 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 class GoRouterDelegate {
   static final GoRouter routerConfig = GoRouter(
-    initialLocation: '/${NavigationService.homeRouteUri}',
+    initialLocation: NavigationService.splashRouteUri,
+    // initialLocation: '/${NavigationService.homeRouteUri}',
     navigatorKey:_rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: [
