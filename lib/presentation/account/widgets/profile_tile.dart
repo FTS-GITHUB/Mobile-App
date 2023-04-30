@@ -1,3 +1,5 @@
+import 'package:dropandgouser/infrastructure/di/injectable.dart';
+import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/helpers/typography/font_weights.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
@@ -38,10 +40,18 @@ class ProfileTile extends StatelessWidget {
         Expanded(
           child: Container(
             alignment: Alignment.centerRight,
-            child: SvgPicture.asset(
-              DropAndGoIcons.edit,
-              width: 25,
-              height: 25,
+            child: InkWell(
+              onTap: (){
+                getIt<NavigationService>().pushNamed(
+                  context: context,
+                  uri: NavigationService.personalInfoRouteUri,
+                );
+              },
+              child: SvgPicture.asset(
+                DropAndGoIcons.edit,
+                width: 25,
+                height: 25,
+              ),
             ),
           ),
         ),

@@ -39,7 +39,7 @@ class AccountPage extends StatelessWidget {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 35.w),
+        margin: EdgeInsets.symmetric(horizontal: 35.w),
         child: Column(
           children: [
             const ProfileTile(),
@@ -81,7 +81,12 @@ class AccountPage extends StatelessWidget {
               avatarColor: DropAndGoColors.yellow,
               title: 'Security',
               iconUrl: DropAndGoIcons.shieldTick,
-              onTap: () {},
+              onTap: () {
+                getIt<NavigationService>().pushNamed(
+                  context: context,
+                  uri: NavigationService.securityRouteUri,
+                );
+              },
             ),
             // AccountListTile(
             //   avatarColor: DropAndGoColors.orange,
