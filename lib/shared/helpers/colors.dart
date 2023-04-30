@@ -20,5 +20,6 @@ abstract class DropAndGoColors {
   static const Color yellow = Color(0xFFFFBF00);
   static const Color orange = Color(0xFFDD5000);
   static const Color lightGreen = Color(0xFF149200);
+  static const Color grey = Color(0xFFD9D9D9);
 // #149200
 }

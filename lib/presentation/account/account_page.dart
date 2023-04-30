@@ -1,6 +1,7 @@
 import 'package:dropandgouser/application/main/cubit/main_navbar_cubit.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
+import 'package:dropandgouser/presentation/account/logout_bottom_sheet.dart';
 import 'package:dropandgouser/presentation/account/widgets/account_list_tile.dart';
 import 'package:dropandgouser/presentation/account/widgets/profile_tile.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
@@ -105,7 +106,13 @@ class AccountPage extends StatelessWidget {
               avatarColor: DropAndGoColors.primary,
               title: 'account.logout'.tr(),
               iconUrl: DropAndGoIcons.logout,
-              onTap: () {},
+              onTap: () {
+                showModalBottomSheet(
+                  barrierColor: Colors.transparent,
+                  context: context,
+                  builder: (ctx) => LogoutBottomSheet(),
+                );
+              },
             ),
           ],
         ),

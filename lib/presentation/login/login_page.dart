@@ -24,14 +24,14 @@ class _LoginPageState extends State<LoginPage> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
         child: AppBar(
-          leading: IconButton(
-            icon: SvgPicture.asset(
-              DropAndGoIcons.arrowBack,
-            ),
-            onPressed: () {
-              getIt<NavigationService>().navigateBack(context: context);
-            },
-          ),
+          // leading: IconButton(
+          //   icon: SvgPicture.asset(
+          //     DropAndGoIcons.arrowBack,
+          //   ),
+          //   onPressed: () {
+          //     getIt<NavigationService>().navigateBack(context: context);
+          //   },
+          // ),
         ),
       ),
       body: SingleChildScrollView(
