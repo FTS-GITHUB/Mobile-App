@@ -29,6 +29,12 @@ abstract class NavigationService {
   static const String accountRouteUri = 'account';
   static const String categoriesRouteUri = 'categories';
   static const String searchRouteUri = 'search';
+  static const String personalInfoRouteUri = 'edit-profile';
+  static const String notificationRouteUri = 'notification';
+  static const String preferenceRouteUri = 'preference';
+  static const String securityRouteUri = 'security';
+  static const String changePasswordRouteUri = 'change-password';
+  //
 
   void navigateToNamed({
     required BuildContext context,

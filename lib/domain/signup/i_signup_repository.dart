@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
 import 'package:fpdart/fpdart.dart';

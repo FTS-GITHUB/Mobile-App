@@ -4,9 +4,8 @@ import 'package:dropandgouser/domain/common/setting.dart';
 import 'package:dropandgouser/domain/i_setting_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'setting_state.dart';
-
 part 'setting_event.dart';
+part 'setting_state.dart';
 
 mixin GenderSettingBloc on Bloc<SettingEvent, SettingState> {}
 

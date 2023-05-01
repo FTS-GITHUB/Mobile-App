@@ -1,9 +1,5 @@
-import 'package:dropandgouser/infrastructure/di/injectable.dart';
-import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/login/login_form.dart';
-import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -24,14 +20,14 @@ class _LoginPageState extends State<LoginPage> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
         child: AppBar(
-          leading: IconButton(
-            icon: SvgPicture.asset(
-              DropAndGoIcons.arrowBack,
-            ),
-            onPressed: () {
-              getIt<NavigationService>().navigateBack(context: context);
-            },
-          ),
+          // leading: IconButton(
+          //   icon: SvgPicture.asset(
+          //     DropAndGoIcons.arrowBack,
+          //   ),
+          //   onPressed: () {
+          //     getIt<NavigationService>().navigateBack(context: context);
+          //   },
+          // ),
         ),
       ),
       body: SingleChildScrollView(

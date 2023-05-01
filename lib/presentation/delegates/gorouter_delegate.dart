@@ -1,6 +1,11 @@
 import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/account/account_page.dart';
+import 'package:dropandgouser/presentation/account/change_password_page.dart';
+import 'package:dropandgouser/presentation/account/notification_page.dart';
+import 'package:dropandgouser/presentation/account/personal_info_page.dart';
+import 'package:dropandgouser/presentation/account/preference_page.dart';
+import 'package:dropandgouser/presentation/account/security_page.dart';
 import 'package:dropandgouser/presentation/analytics/analytics_page.dart';
 import 'package:dropandgouser/presentation/categories/categories_page.dart';
 import 'package:dropandgouser/presentation/downloads/downloads_page.dart';
@@ -8,13 +13,13 @@ import 'package:dropandgouser/presentation/forget_password/forget_password_page.
 import 'package:dropandgouser/presentation/home/home_page.dart';
 import 'package:dropandgouser/presentation/login/login_page.dart';
 import 'package:dropandgouser/presentation/main_page/main_page.dart';
-import 'package:dropandgouser/presentation/search/search_page.dart';
-import 'package:dropandgouser/presentation/signup/complete_profile_page.dart';
-import 'package:dropandgouser/presentation/signup/create_account_page.dart';
 import 'package:dropandgouser/presentation/onboarding/achievement_info_page.dart';
 import 'package:dropandgouser/presentation/onboarding/age_info_page.dart';
 import 'package:dropandgouser/presentation/onboarding/gender_info_page.dart';
 import 'package:dropandgouser/presentation/onboarding/user_level_info_page.dart';
+import 'package:dropandgouser/presentation/search/search_page.dart';
+import 'package:dropandgouser/presentation/signup/complete_profile_page.dart';
+import 'package:dropandgouser/presentation/signup/create_account_page.dart';
 import 'package:dropandgouser/presentation/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -24,7 +29,8 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 class GoRouterDelegate {
   static final GoRouter routerConfig = GoRouter(
-    initialLocation: '/${NavigationService.homeRouteUri}',
+    initialLocation: NavigationService.splashRouteUri,
+    // initialLocation: '/${NavigationService.homeRouteUri}',
     navigatorKey:_rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: [
@@ -160,6 +166,46 @@ class GoRouterDelegate {
         builder: (context, routerState, child){
           return MainPage(child: child);
         }
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: "/${NavigationService.personalInfoRouteUri}",
+        name: NavigationService.personalInfoRouteUri,
+        builder: (context, routerState) {
+          return const PersonalInfoPage();
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: "/${NavigationService.notificationRouteUri}",
+        name: NavigationService.notificationRouteUri,
+        builder: (context, routerState) {
+          return const NotificationPage();
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: "/${NavigationService.preferenceRouteUri}",
+        name: NavigationService.preferenceRouteUri,
+        builder: (context, routerState) {
+          return const PreferencePage();
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: "/${NavigationService.securityRouteUri}",
+        name: NavigationService.securityRouteUri,
+        builder: (context, routerState) {
+          return const SecurityPage();
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: "/${NavigationService.changePasswordRouteUri}",
+        name: NavigationService.changePasswordRouteUri,
+        builder: (context, routerState) {
+          return const ChangePasswordPage();
+        },
       ),
     ],
   );

@@ -16,22 +16,22 @@ class CategoryViewMoreHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        StandardText.headline4(
-          context,
-          categoryName??'Explore by Categories',
-          fontSize: 20,
-        ),
-        InkWell(
-          onTap: onViewMore,
-          child: SvgPicture.asset(
+    return InkWell(
+      onTap: onViewMore,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          StandardText.headline4(
+            context,
+            categoryName??'Explore by Categories',
+            fontSize: 20,
+          ),
+          SvgPicture.asset(
             DropAndGoIcons.arrowForward,
             color: DropAndGoColors.primary,
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -29,5 +29,31 @@
   "forget": {
     "title": "Forgot Password",
     "subtitle": "Please Enter Your Email address. we will send an link for verification in next Step.  "
+  },
+  "change_pw": {
+    "title": "Change Password",
+    "old": "Old password",
+    "new": "New password",
+    "confirm": "Confirm password"
+  },
+  "account": {
+    "title": "Account",
+    "info": "Personal Info",
+    "notification": "Notification",
+    "pref": "Preference",
+    "security": "Security",
+    "logout": "Log out",
+    "logout_desc": "Are you Sure you want to log out",
+    "yes_log": "Yes, Logout",
+    "cancel": "Cancel",
+    "remember": "Remember me",
+    "bio_id": "Biometric ID",
+    "face_id": "Face ID",
+    "change_password": "Change Password",
+    "download": "Download over WIFI only",
+    "clear": "Clear Cache",
+    "audio": "Audio",
+    "aud_qua": "Audio Quality",
+    "auto_download": "Automatically Download Audio"
   }
 }
