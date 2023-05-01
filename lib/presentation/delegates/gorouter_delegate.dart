@@ -8,6 +8,7 @@ import 'package:dropandgouser/presentation/account/preference_page.dart';
 import 'package:dropandgouser/presentation/account/security_page.dart';
 import 'package:dropandgouser/presentation/analytics/analytics_page.dart';
 import 'package:dropandgouser/presentation/categories/categories_page.dart';
+import 'package:dropandgouser/presentation/category_detail/category_detail_page.dart';
 import 'package:dropandgouser/presentation/downloads/downloads_page.dart';
 import 'package:dropandgouser/presentation/forget_password/forget_password_page.dart';
 import 'package:dropandgouser/presentation/home/home_page.dart';
@@ -29,8 +30,8 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 class GoRouterDelegate {
   static final GoRouter routerConfig = GoRouter(
-    initialLocation: NavigationService.splashRouteUri,
-    // initialLocation: '/${NavigationService.homeRouteUri}',
+    // initialLocation: NavigationService.splashRouteUri,
+    initialLocation: '/${NavigationService.homeRouteUri}',
     navigatorKey:_rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: [
@@ -158,6 +159,17 @@ class GoRouterDelegate {
                 name: NavigationService.accountRouteUri,
                 builder: (context, routerState) {
                   return const AccountPage();
+                },
+              ),
+              GoRoute(
+                parentNavigatorKey: _shellNavigatorKey,
+                path: NavigationService.categoryDetailRouteUri,
+                // path: NavigationService.categoryDetailRouteUri,
+                name: NavigationService.categoryDetailRouteUri,
+                builder: (context, routerState) {
+                  return CategoryDetailPage(
+                    categoryTitle: routerState.extra as String,
+                  );
                 },
               ),
             ]

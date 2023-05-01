@@ -62,9 +62,14 @@ class HomePage extends StatelessWidget {
             children: [
               HomeRectCategory(
                 isLiked: false,
-                onLike: () {
-                },
-                onShare: () {
+                onLike: () {},
+                onShare: () {},
+                onTap: () {
+                  getIt<NavigationService>().navigateToNamed(
+                    context: context,
+                    uri: NavigationService.categoryDetailRouteUri,
+                    data: "ANXIETY",
+                  );
                 },
               ),
               35.h.verticalSpace,
@@ -90,7 +95,13 @@ class HomePage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return HomeSquareCategory(
                     categoryName: index == 0 ? "ANXIETY" : null,
-                    onTap: () {},
+                    onTap: () {
+                      getIt<NavigationService>().navigateToNamed(
+                        context: context,
+                        uri: NavigationService.categoryDetailRouteUri,
+                        data: "ANXIETY",
+                      );
+                    },
                   );
                 },
                 itemCount: 4,
@@ -119,7 +130,13 @@ class HomePage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return HomeSquareCategory(
                     categoryName: index == 0 ? "ANXIETY" : null,
-                    onTap: () {},
+                    onTap: () {
+                      getIt<NavigationService>().navigateToNamed(
+                        context: context,
+                        uri: NavigationService.categoryDetailRouteUri,
+                        data: "ANXIETY",
+                      );
+                    },
                   );
                 },
                 itemCount: 2,
@@ -148,7 +165,13 @@ class HomePage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return HomeSquareCategory(
                     categoryName: index == 0 ? "ANXIETY" : null,
-                    onTap: () {},
+                    onTap: () {
+                      getIt<NavigationService>().navigateToNamed(
+                        context: context,
+                        uri: NavigationService.categoryDetailRouteUri,
+                        data: "ANXIETY",
+                      );
+                    },
                   );
                 },
                 itemCount: 4,

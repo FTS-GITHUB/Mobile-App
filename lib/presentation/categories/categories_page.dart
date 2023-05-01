@@ -1,3 +1,5 @@
+import 'package:dropandgouser/infrastructure/di/injectable.dart';
+import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/home/widgets/home_rect_category.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
@@ -40,6 +42,21 @@ class CategoriesPage extends StatelessWidget {
                           : index == 3
                               ? "PANIC"
                               : "SELF IMPROVEMENT",
+              onTap: () {
+                getIt<NavigationService>().navigateToNamed(
+                  context: context,
+                  uri: NavigationService.categoryDetailRouteUri,
+                  data: index == 0
+                      ? "ANXIETY"
+                      : index == 1
+                          ? "DEPRESSION"
+                          : index == 2
+                              ? "ADDICTIONS"
+                              : index == 3
+                                  ? "PANIC"
+                                  : "SELF IMPROVEMENT",
+                );
+              },
             ),
           );
         },

@@ -31,6 +31,7 @@ abstract class DropAndGoIcons {
  static const String shieldTick = 'assets/icons/shield-tick.svg';
  static const String logout = 'assets/icons/logout.svg';
  static const String notificationBold = 'assets/icons/notification.svg';
+ static const String playCircle = 'assets/icons/playcircle.svg';
 }
 
 abstract class DropAndGoImages {
