@@ -15,6 +15,7 @@ class HomeRectCategory extends StatelessWidget {
     this.onShare,
     this.onTap,
     this.height,
+    this.imageUrl,
   }) : super(key: key);
 
   final String categoryName;
@@ -23,6 +24,7 @@ class HomeRectCategory extends StatelessWidget {
   final VoidCallback? onShare;
   final VoidCallback? onTap;
   final double? height;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +40,8 @@ class HomeRectCategory extends StatelessWidget {
           color: DropAndGoColors.primary,
           borderRadius: BorderRadius.circular(10.h),
           image: DecorationImage(
-            image: const AssetImage(
-              DropAndGoImages.defaultCategory,
+            image: AssetImage(
+              imageUrl?? DropAndGoImages.defaultCategory,
             ),
             fit: BoxFit.cover,
             colorFilter: DropAndGoColors.appColorFilter,

@@ -22,21 +22,24 @@ class CategoryDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: StandardText.headline4(
-          context,
-          categoryTitle,
-          color: DropAndGoColors.black,
-        ),
-        leading: IconButton(
-          icon: SvgPicture.asset(
-            DropAndGoIcons.arrowLeft,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(70),
+        child: AppBar(
+          title: StandardText.headline4(
+            context,
+            categoryTitle,
+            color: DropAndGoColors.black,
           ),
-          onPressed: () {
-            getIt<NavigationService>().navigateBack(
-              context: context,
-            );
-          },
+          leading: IconButton(
+            icon: SvgPicture.asset(
+              DropAndGoIcons.arrowLeft,
+            ),
+            onPressed: () {
+              getIt<NavigationService>().navigateBack(
+                context: context,
+              );
+            },
+          ),
         ),
       ),
       body: Container(
@@ -62,7 +65,15 @@ class CategoryDetailPage extends StatelessWidget {
                 primary: false,
                 itemCount: 12,
                 itemBuilder: (context, index) {
-                  return SongItem();
+                  return SongItem(
+                    onTap: () {
+                      getIt<NavigationService>().pushNamed(
+                        context: context,
+                        uri: NavigationService.plyaerAudioRouteUri,
+                        data: index.toString(),
+                      );
+                    },
+                  );
                 },
               )
             ],

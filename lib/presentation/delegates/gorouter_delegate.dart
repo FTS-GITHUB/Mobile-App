@@ -18,6 +18,7 @@ import 'package:dropandgouser/presentation/onboarding/achievement_info_page.dart
 import 'package:dropandgouser/presentation/onboarding/age_info_page.dart';
 import 'package:dropandgouser/presentation/onboarding/gender_info_page.dart';
 import 'package:dropandgouser/presentation/onboarding/user_level_info_page.dart';
+import 'package:dropandgouser/presentation/player_audio/player_audio_page.dart';
 import 'package:dropandgouser/presentation/search/search_page.dart';
 import 'package:dropandgouser/presentation/signup/complete_profile_page.dart';
 import 'package:dropandgouser/presentation/signup/create_account_page.dart';
@@ -164,11 +165,20 @@ class GoRouterDelegate {
               GoRoute(
                 parentNavigatorKey: _shellNavigatorKey,
                 path: NavigationService.categoryDetailRouteUri,
-                // path: NavigationService.categoryDetailRouteUri,
                 name: NavigationService.categoryDetailRouteUri,
                 builder: (context, routerState) {
                   return CategoryDetailPage(
                     categoryTitle: routerState.extra as String,
+                  );
+                },
+              ),
+              GoRoute(
+                parentNavigatorKey: _shellNavigatorKey,
+                path: NavigationService.plyaerAudioRouteUri,
+                name: NavigationService.plyaerAudioRouteUri,
+                builder: (context, routerState) {
+                  return PlayerAudioPage(
+                    playerId: routerState.extra as String,
                   );
                 },
               ),

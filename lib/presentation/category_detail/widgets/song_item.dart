@@ -6,45 +6,52 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SongItem extends StatelessWidget {
-  const SongItem({Key? key}) : super(key: key);
+  const SongItem({
+    Key? key,
+    this.onTap,
+  }) : super(key: key);
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 18),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              DropAndGoImages.defaultCategory,
-              width: 50.w,
-              height: 50.h,
-              fit: BoxFit.cover,
-              color: DropAndGoColors.primary.withOpacity(.4),
-              colorBlendMode: BlendMode.hardLight,
-            ),
-          ),
-          10.w.horizontalSpace,
-          Expanded(
-            child: StandardText.headline6(
-              context,
-              'Through the veins Through the' ?? '',
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-              icon: SvgPicture.asset(
-                DropAndGoIcons.playCircle,
-                width: 30,
-                height: 30,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 18),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(
+                DropAndGoImages.defaultCategory,
+                width: 50.w,
+                height: 50.h,
+                fit: BoxFit.cover,
+                color: DropAndGoColors.primary.withOpacity(.4),
+                colorBlendMode: BlendMode.hardLight,
               ),
-              onPressed: () {},
             ),
-          ),
-        ],
+            10.w.horizontalSpace,
+            Expanded(
+              child: StandardText.headline6(
+                context,
+                'Through the veins Through the' ?? '',
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                icon: SvgPicture.asset(
+                  DropAndGoIcons.playCircle,
+                  width: 30,
+                  height: 30,
+                ),
+                onPressed: onTap,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
