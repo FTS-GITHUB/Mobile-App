@@ -6,7 +6,6 @@ import 'package:dropandgouser/shared/packages/rating_bar.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class SessionCompletePage extends StatelessWidget {
   const SessionCompletePage({Key? key}) : super(key: key);
@@ -22,7 +21,7 @@ class SessionCompletePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CompleteTick(),
+            const CompleteTick(),
             48.verticalSpace,
             StandardText.headline4(
               context,
@@ -66,7 +65,7 @@ class SessionCompletePage extends StatelessWidget {
                   'Rating is $rating',
                 );
               },
-            )
+            ),
           ],
         ),
       ),

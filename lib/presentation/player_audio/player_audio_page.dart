@@ -5,7 +5,6 @@ import 'package:dropandgouser/presentation/home/widgets/home_rect_category.dart'
 import 'package:dropandgouser/presentation/player_audio/widgets/controls.dart';
 import 'package:dropandgouser/presentation/session_complete/session_complete_page.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
-import 'package:dropandgouser/shared/extensions/media_query.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/packages/audio_progress_bar.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,6 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../shared/widgets/standard_text.dart';
 import 'dart:math';
-import 'package:audio_progress_bars/audio_progress_bars.dart';
 
 class PlayerAudioPage extends StatefulWidget {
   const PlayerAudioPage({
@@ -38,7 +36,7 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
       AudioSource.uri(
         Uri.parse(
             'https://cdn.pixabay.com/download/audio/2023/01/01/audio_816821e627.mp3'),
-        tag: MediaItem(
+        tag: const MediaItem(
           id: '1',
           title: 'Through the veins',
           artist: 'Ema johns',
@@ -47,7 +45,7 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
       AudioSource.uri(
         Uri.parse(
             'https://cdn.pixabay.com/audio/2022/10/14/audio_9939f792cb.mp3'),
-        tag: MediaItem(
+        tag: const MediaItem(
           id: '2',
           title: 'Relaxing',
           artist: 'Vicky',
@@ -147,7 +145,7 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                             flex: 10,
                             child: StandardText.headline4(
                               context,
-                              metadata.title ?? 'N/A',
+                              metadata.title,
                               color: DropAndGoColors.primary,
                               align: TextAlign.start,
                               fontSize: 30,

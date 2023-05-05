@@ -12,33 +12,33 @@ class CompleteTickPainter extends CustomPainter {
 @override
 void paint(Canvas canvas, Size size) {
 
-Paint paint_0_fill = Paint()..style=PaintingStyle.fill;
-paint_0_fill.shader = ui.Gradient.linear(Offset(size.width*0.5028902,size.height*0.09638554), Offset(size.width*0.5028902,size.height*0.8915663), [Colors.white.withOpacity(1),Color(0xffCBCBCB).withOpacity(1)], [0.226264,1]);
-canvas.drawCircle(Offset(size.width*0.5028902,size.height*0.4939759),size.width*0.3815029,paint_0_fill);
+Paint paint0Fill = Paint()..style=PaintingStyle.fill;
+paint0Fill.shader = ui.Gradient.linear(Offset(size.width*0.5028902,size.height*0.09638554), Offset(size.width*0.5028902,size.height*0.8915663), [Colors.white.withOpacity(1),const Color(0xffCBCBCB).withOpacity(1)], [0.226264,1]);
+canvas.drawCircle(Offset(size.width*0.5028902,size.height*0.4939759),size.width*0.3815029,paint0Fill);
 
-Paint paint_1_fill = Paint()..style=PaintingStyle.fill;
-paint_1_fill.color = Colors.white.withOpacity(1.0);
-canvas.drawCircle(Offset(size.width*0.05780347,size.height*0.1445783),size.width*0.05780347,paint_1_fill);
+Paint paint1Fill = Paint()..style=PaintingStyle.fill;
+paint1Fill.color = Colors.white.withOpacity(1.0);
+canvas.drawCircle(Offset(size.width*0.05780347,size.height*0.1445783),size.width*0.05780347,paint1Fill);
 
-Paint paint_2_fill = Paint()..style=PaintingStyle.fill;
-paint_2_fill.color = Colors.white.withOpacity(1.0);
-canvas.drawCircle(Offset(size.width*0.9421965,size.height*0.3373494),size.width*0.05780347,paint_2_fill);
+Paint paint2Fill = Paint()..style=PaintingStyle.fill;
+paint2Fill.color = Colors.white.withOpacity(1.0);
+canvas.drawCircle(Offset(size.width*0.9421965,size.height*0.3373494),size.width*0.05780347,paint2Fill);
 
-Paint paint_3_fill = Paint()..style=PaintingStyle.fill;
-paint_3_fill.color = Color(0xff7A7A7A).withOpacity(1.0);
-canvas.drawCircle(Offset(size.width*0.4913295,size.height*0.02409639),size.width*0.02312139,paint_3_fill);
+Paint paint3Fill = Paint()..style=PaintingStyle.fill;
+paint3Fill.color = const Color(0xff7A7A7A).withOpacity(1.0);
+canvas.drawCircle(Offset(size.width*0.4913295,size.height*0.02409639),size.width*0.02312139,paint3Fill);
 
-Paint paint_4_fill = Paint()..style=PaintingStyle.fill;
-paint_4_fill.color = Color(0xff7A7A7A).withOpacity(1.0);
-canvas.drawCircle(Offset(size.width*0.1387283,size.height*0.8012048),size.width*0.02312139,paint_4_fill);
+Paint paint4Fill = Paint()..style=PaintingStyle.fill;
+paint4Fill.color = const Color(0xff7A7A7A).withOpacity(1.0);
+canvas.drawCircle(Offset(size.width*0.1387283,size.height*0.8012048),size.width*0.02312139,paint4Fill);
 
-Paint paint_5_fill = Paint()..style=PaintingStyle.fill;
-paint_5_fill.color = Color(0xff7A7A7A).withOpacity(1.0);
-canvas.drawCircle(Offset(size.width*0.8843931,size.height*0.8012048),size.width*0.02312139,paint_5_fill);
+Paint paint5Fill = Paint()..style=PaintingStyle.fill;
+paint5Fill.color = const Color(0xff7A7A7A).withOpacity(1.0);
+canvas.drawCircle(Offset(size.width*0.8843931,size.height*0.8012048),size.width*0.02312139,paint5Fill);
 
-Paint paint_6_fill = Paint()..style=PaintingStyle.fill;
-paint_6_fill.color = Colors.white.withOpacity(1.0);
-canvas.drawCircle(Offset(size.width*0.5000000,size.height*0.9849398),size.width*0.01445087,paint_6_fill);
+Paint paint6Fill = Paint()..style=PaintingStyle.fill;
+paint6Fill.color = Colors.white.withOpacity(1.0);
+canvas.drawCircle(Offset(size.width*0.5000000,size.height*0.9849398),size.width*0.01445087,paint6Fill);
 
 Path path_7 = Path();
 path_7.moveTo(size.width*0.5028902,size.height*0.6288916);
@@ -54,9 +54,9 @@ path_7.cubicTo(size.width*0.5643064,size.height*0.6100663,size.width*0.6142832,s
 path_7.cubicTo(size.width*0.6142832,size.height*0.4299705,size.width*0.5643064,size.height*0.3778867,size.width*0.5028902,size.height*0.3778867);
 path_7.close();
 
-Paint paint_7_fill = Paint()..style=PaintingStyle.fill;
-paint_7_fill.color = Colors.black.withOpacity(1.0);
-canvas.drawPath(path_7,paint_7_fill);
+Paint paint7Fill = Paint()..style=PaintingStyle.fill;
+paint7Fill.color = Colors.black.withOpacity(1.0);
+canvas.drawPath(path_7,paint7Fill);
 
 Path path_8 = Path();
 path_8.moveTo(size.width*0.4857902,size.height*0.5389313);
@@ -73,9 +73,9 @@ path_8.lineTo(size.width*0.4921723,size.height*0.5361699);
 path_8.cubicTo(size.width*0.4904803,size.height*0.5379355,size.width*0.4881844,size.height*0.5389289,size.width*0.4857902,size.height*0.5389313);
 path_8.close();
 
-Paint paint_8_fill = Paint()..style=PaintingStyle.fill;
-paint_8_fill.color = Colors.black.withOpacity(1.0);
-canvas.drawPath(path_8,paint_8_fill);
+Paint paint8Fill = Paint()..style=PaintingStyle.fill;
+paint8Fill.color = Colors.black.withOpacity(1.0);
+canvas.drawPath(path_8,paint8Fill);
 
 }
 

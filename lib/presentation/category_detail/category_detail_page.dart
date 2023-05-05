@@ -1,9 +1,7 @@
-import 'package:dropandgouser/domain/search/search.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/category_detail/widgets/song_item.dart';
 import 'package:dropandgouser/presentation/home/widgets/home_rect_category.dart';
-import 'package:dropandgouser/presentation/search/widgets/search_item.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';

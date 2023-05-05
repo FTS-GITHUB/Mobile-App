@@ -35,7 +35,7 @@ class SongItem extends StatelessWidget {
             Expanded(
               child: StandardText.headline6(
                 context,
-                'Through the veins Through the' ?? '',
+                'Through the veins Through the',
                 overflow: TextOverflow.ellipsis,
               ),
             ),
