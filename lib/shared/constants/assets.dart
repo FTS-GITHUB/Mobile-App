@@ -32,6 +32,9 @@ abstract class DropAndGoIcons {
  static const String logout = 'assets/icons/logout.svg';
  static const String notificationBold = 'assets/icons/notification.svg';
  static const String playCircle = 'assets/icons/playcircle.svg';
+ static const String pauseCircle = 'assets/icons/pause-circle.svg';
+ static const String next = 'assets/icons/next.svg';
+ static const String previous = 'assets/icons/previous.svg';
 }
 
 abstract class DropAndGoImages {
