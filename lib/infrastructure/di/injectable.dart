@@ -12,28 +12,29 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 
 final GetIt getIt = GetIt.instance;
-final firebaseAuth = FirebaseAuth.instance;
-final firestore = FirebaseFirestore.instance;
-final firebaseStorage = FirebaseStorage.instance;
+final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+final FirebaseFirestore firestore = FirebaseFirestore.instance;
+final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 // final googleSignIn = GoogleSignIn();
 
 void registerServices() {
   getIt.registerSingleton<NavigationService>(
     GoRouterNavigationService(),
   );
-  getIt.registerSingleton<IAuthRepository>(
+  getIt.registerLazySingleton<IAuthRepository>(()=>
     FirebaseAuthRepository(
       firebaseAuth,
     ),
   );
 
-  getIt.registerSingleton<ICloudFirestoreRepository>(
+  getIt.registerLazySingleton<ICloudFirestoreRepository>(()=>
     FirestoreService(firestore),
   );
 
-  getIt.registerSingleton<IStorageRepository>(
+  getIt.registerLazySingleton<IStorageRepository>(
+      ()=>
     FirebaseStorageRepository(firebaseStorage),
   );
 
-  getIt.registerSingleton<Toasts>(Toasts());
+  getIt.registerLazySingleton<Toasts>(()=>Toasts());
 }
