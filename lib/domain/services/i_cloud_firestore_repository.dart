@@ -31,5 +31,11 @@ abstract class ICloudFirestoreRepository{
     required String docId,
   });
 
-
+  Future<Either<FirebaseException, Unit>> uploadNestedCollection({
+    required String firstCollectionName,
+    required String secondCollection2Name,
+    required String firstDocId,
+    required String secondDocId,
+    required dynamic object,
+  });
 }

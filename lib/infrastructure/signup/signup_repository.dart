@@ -6,6 +6,7 @@ import 'package:dropandgouser/domain/services/i_auth_repository.dart';
 import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
 import 'package:dropandgouser/domain/services/i_storage_repository.dart';
 import 'package:dropandgouser/domain/signup/i_signup_repository.dart';
+import 'package:dropandgouser/domain/signup/user_setting.dart';
 import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/shared/constants/firestore_collections.dart';
@@ -80,5 +81,34 @@ class SignupRepository extends ISignupRepository {
       file: file,
     );
     return imageResponse.fold((l) => left(l.toApiError()), (r) => right(r));
+  }
+
+  @override
+  Future<Either<ApiError, UserSetting>> uploadUserSetting({
+    required String docId,
+    required UserSetting userSetting,
+  }) async {
+    if (firebaseAuth.currentUser == null) {
+      return left(
+        ApiError(
+          message: 'Not Authorized',
+        ),
+      );
+    }
+    final response = await firestoreRepository.uploadNestedCollection(
+      firstCollectionName: FirestoreCollections.users,
+      firstDocId: docId,
+      secondCollection2Name: FirestoreCollections.settings,
+      secondDocId: docId,
+      object: userSetting.toJson(),
+    );
+    return response.fold(
+      (l) => left(
+        l.toApiError(),
+      ),
+      (r) => right(
+        userSetting,
+      ),
+    );
   }
 }

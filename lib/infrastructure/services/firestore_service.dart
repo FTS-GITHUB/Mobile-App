@@ -49,16 +49,20 @@ class FirestoreService implements ICloudFirestoreRepository {
   }) async {
     try {
       late QuerySnapshot<Map<String, dynamic>> documentSnapshot;
-      if(whereKey!=null){
-        await _firestore.collection(collectionName).where(whereKey, isEqualTo: whereValue).get().then(
+      if (whereKey != null) {
+        await _firestore
+            .collection(collectionName)
+            .where(whereKey, isEqualTo: whereValue)
+            .get()
+            .then(
               (QuerySnapshot<Map<String, dynamic>> value) =>
-          documentSnapshot = value,
-        );
-      }else{
+                  documentSnapshot = value,
+            );
+      } else {
         await _firestore.collection(collectionName).get().then(
               (QuerySnapshot<Map<String, dynamic>> value) =>
-          documentSnapshot = value,
-        );
+                  documentSnapshot = value,
+            );
       }
       return right(documentSnapshot);
     } on FirebaseException catch (e) {
@@ -96,6 +100,27 @@ class FirestoreService implements ICloudFirestoreRepository {
       final response =
           await _firestore.collection(collectionName).doc(docId).get();
       return right(response);
+    } on FirebaseException catch (e) {
+      return left(e);
+    }
+  }
+
+  @override
+  Future<Either<FirebaseException, Unit>> uploadNestedCollection({
+    required String firstCollectionName,
+    required String secondCollection2Name,
+    required String firstDocId,
+    required String secondDocId,
+    required object,
+  }) async {
+    try {
+      await _firestore
+          .collection(firstCollectionName)
+          .doc(firstDocId)
+          .collection(secondCollection2Name)
+          .doc(secondDocId)
+          .set(object);
+      return right(unit);
     } on FirebaseException catch (e) {
       return left(e);
     }

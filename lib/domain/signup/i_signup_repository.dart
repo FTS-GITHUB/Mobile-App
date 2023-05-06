@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dropandgouser/domain/signup/user_setting.dart';
 import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
 import 'package:fpdart/fpdart.dart';
@@ -20,5 +21,8 @@ abstract class ISignupRepository {
     required File file,
   });
 
-
+  Future<Either<ApiError, UserSetting>> uploadUserSetting({
+    required String docId,
+    required UserSetting userSetting,
+  });
 }

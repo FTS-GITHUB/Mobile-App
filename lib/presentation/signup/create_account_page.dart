@@ -5,6 +5,7 @@ import 'package:dropandgouser/application/onboarding/cubit/gender_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/user_level_cubit.dart';
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/application/signup/signup_bloc.dart';
+import 'package:dropandgouser/domain/signup/user_setting.dart';
 import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
@@ -15,6 +16,7 @@ import 'package:dropandgouser/shared/enums/alert_type.dart';
 import 'package:dropandgouser/shared/widgets/button_loading.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:dropandgouser/shared/widgets/toasts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -87,9 +89,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 achievement: context.read<AchievementCubit>().state.title,
                 profilePicUrl: state.profilePicUrl,
               );
+              UserSetting userSetting = UserSetting();
               context.read<PostSignupBloc>().add(
                     UploadUserData(
                       userData: userData,
+                      userSetting: userSetting,
                       userId: state.userId,
                     ),
                   );

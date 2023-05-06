@@ -30,6 +30,12 @@ class UserData {
     fromJson: dateFromJson,
   )
   final DateTime? dateOfBirth;
+  @JsonKey(
+    name: 'created_at',
+    toJson: dateToJson,
+    fromJson: dateFromJson,
+  )
+  final DateTime? createdAt;
   @JsonKey(includeToJson: false, includeFromJson: false)
   File? file;
 
@@ -46,6 +52,7 @@ class UserData {
     this.country,
     this.dateOfBirth,
     this.file,
+    this.createdAt,
   });
 
   UserData copyWith({
@@ -60,6 +67,7 @@ class UserData {
     String? phoneNo,
     String? country,
     DateTime? dateOfBirth,
+    DateTime? createdAt,
   }) =>
       UserData(
         id: id ?? this.id,
@@ -73,6 +81,7 @@ class UserData {
         phoneNo: phoneNo ?? this.phoneNo,
         country: country ?? this.country,
         dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+        createdAt: createdAt ?? this.createdAt,
       );
 
   factory UserData.fromSnapshot(DocumentSnapshot snapshot) {

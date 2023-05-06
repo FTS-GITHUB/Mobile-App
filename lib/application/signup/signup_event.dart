@@ -18,10 +18,12 @@ class CreateNewAccount extends SignupEvent {
 class UploadUserData extends SignupEvent {
   UploadUserData({
     required this.userData,
+    required this.userSetting,
     required this.userId,
   });
 
   final UserData userData;
+  final UserSetting userSetting;
   final String userId;
 }
 
@@ -31,5 +33,15 @@ class UploadProfilePicture extends SignupEvent {
     required this.userId,
 });
   final File file;
+  final String userId;
+}
+
+class UploadUserSetting extends SignupEvent {
+  UploadUserSetting({
+    required this.userSetting,
+    required this.userId,
+  });
+
+  final UserSetting userSetting;
   final String userId;
 }
