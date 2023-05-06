@@ -1,3 +1,5 @@
+import 'package:dropandgouser/infrastructure/di/injectable.dart';
+import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/session_complete/widgets/complete_tick.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/extensions/media_query.dart';
@@ -60,10 +62,12 @@ class SessionCompletePage extends StatelessWidget {
               filledIcon: DropAndGoIcons.starBold,
               emptyIcon: DropAndGoIcons.star,
               size: 25,
-              onRatingChanged: (rating) {
+              onRatingChanged: (rating) async {
                 debugPrint(
                   'Rating is $rating',
                 );
+                await Future.delayed(const Duration(seconds: 2));
+                getIt<NavigationService>().navigateBack(context: context);
               },
             ),
           ],

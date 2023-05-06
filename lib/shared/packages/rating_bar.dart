@@ -146,11 +146,19 @@ class _RatingBarState extends State<RatingBar> {
       iconData = widget.filledIcon;
       color = widget.filledColor;
     }
-    return SvgPicture.asset(
-      iconData,
-      color: color,
-      width: widget.size,
-      height: widget.size,
+    return Container(
+      width: 35,
+      height: 35,
+      padding: const EdgeInsets.only(
+        left: 8.0,
+      ),
+      child: SvgPicture.asset(
+        iconData,
+        color: color,
+        width: 25,
+        height: 25,
+        fit: BoxFit.contain,
+      ),
     );
   }
 }
