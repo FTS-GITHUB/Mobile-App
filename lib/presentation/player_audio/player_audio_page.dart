@@ -19,10 +19,10 @@ import 'dart:math';
 class PlayerAudioPage extends StatefulWidget {
   const PlayerAudioPage({
     Key? key,
-    required this.playerId,
+    required this.categoryId,
   }) : super(key: key);
 
-  final String playerId;
+  final String categoryId;
 
   @override
   State<PlayerAudioPage> createState() => _PlayerAudioPageState();

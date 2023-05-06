@@ -35,7 +35,7 @@ abstract class NavigationService {
   static const String securityRouteUri = 'security';
   static const String changePasswordRouteUri = 'change-password';
   static const String categoryDetailRouteUri = 'category-detail';
-  static const String plyaerAudioRouteUri = 'audio';
+  // static const String plyaerAudioRouteUri = 'audio';
   //
 
   void navigateToNamed({

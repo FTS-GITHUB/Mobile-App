@@ -167,21 +167,21 @@ class GoRouterDelegate {
                 path: NavigationService.categoryDetailRouteUri,
                 name: NavigationService.categoryDetailRouteUri,
                 builder: (context, routerState) {
-                  return CategoryDetailPage(
-                    categoryTitle: routerState.extra as String,
-                  );
-                },
-              ),
-              GoRoute(
-                parentNavigatorKey: _shellNavigatorKey,
-                path: NavigationService.plyaerAudioRouteUri,
-                name: NavigationService.plyaerAudioRouteUri,
-                builder: (context, routerState) {
                   return PlayerAudioPage(
-                    playerId: routerState.extra as String,
+                    categoryId: routerState.extra as String,
                   );
                 },
               ),
+              // GoRoute(
+              //   parentNavigatorKey: _shellNavigatorKey,
+              //   path: NavigationService.plyaerAudioRouteUri,
+              //   name: NavigationService.plyaerAudioRouteUri,
+              //   builder: (context, routerState) {
+              //     return PlayerAudioPage(
+              //       categoryId: routerState.extra as String,
+              //     );
+              //   },
+              // ),
             ]
           ),
         ],
