@@ -57,10 +57,10 @@ class UserSetting {
 
   factory UserSetting.fromSnapshot(DocumentSnapshot snapshot) {
     final Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
-    return UserSetting.fromJson(snapshot.id, data);
+    return UserSetting.fromJson(data);
   }
 
-  factory UserSetting.fromJson(String id, Map<String, dynamic> json) =>
+  factory UserSetting.fromJson(Map<String, dynamic> json) =>
       _$UserSettingFromJson(json);
 
   Map<String, dynamic> toDocument() => toJson()..remove('id');
