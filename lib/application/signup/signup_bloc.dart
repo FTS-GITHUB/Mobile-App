@@ -7,6 +7,7 @@ import 'package:dropandgouser/domain/signup/i_signup_repository.dart';
 import 'package:dropandgouser/domain/signup/user_setting.dart';
 import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/shared/constants/firestore_collections.dart';
+import 'package:dropandgouser/shared/helpers/shared_preferences_helper.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,11 +50,13 @@ class SignupBloc extends Bloc<SignupEvent, SignupState>
           ),
         );
       },
-      (String r) => emit(
+      (String r) {
+        emit(
         SignupStateCreatedAccount(
           userId: r,
         ),
-      ),
+      );
+      },
     );
   }
 
@@ -67,10 +70,13 @@ class SignupBloc extends Bloc<SignupEvent, SignupState>
     );
     response.fold(
       (l) => emit(SignupStateError(message: l.message ?? 'Error1')),
-      (r) => add(UploadUserSetting(
+      (r) async{
+        add(UploadUserSetting(
         userSetting: event.userSetting,
         userId: event.userId,
-      )),
+      ));
+        await SharedPreferenceHelper.saveUser(r);
+      },
     );
   }
 
@@ -99,9 +105,12 @@ class SignupBloc extends Bloc<SignupEvent, SignupState>
     );
     response.fold(
       (l) => emit(SignupStateError(message: l.message ?? 'Error1')),
-      (r) => emit(
+      (r) async{
+        await SharedPreferenceHelper.saveUserSetting(event.userSetting);
+        emit(
         SignupStateUploadedData(),
-      ),
+      );
+      },
     );
   }
 }
