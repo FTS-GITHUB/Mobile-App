@@ -35,6 +35,26 @@ class UserSetting {
   @JsonKey(name: 'is_set_reminder')
   bool? isSetReminder;
 
+  UserSetting copyWith({
+  String? audioQuality,
+  bool? isAutoDownload,
+  bool? isBiometric,
+  bool? isDownloadWifi,
+  bool? isFaceId,
+  bool? isRemember,
+  bool? isRemindBedtime,
+  bool? isSetReminder,
+})=> UserSetting(
+    audioQuality: audioQuality?? this.audioQuality,
+      isAutoDownload: isAutoDownload?? this.isAutoDownload,
+      isBiometric: isBiometric?? this.isBiometric,
+      isDownloadWifi: isDownloadWifi?? this.isDownloadWifi,
+      isFaceId: isFaceId?? this.isFaceId,
+      isRemember: isRemember?? this.isRemember,
+      isRemindBedtime: isRemindBedtime?? this.isRemindBedtime,
+      isSetReminder: isSetReminder?? this.isSetReminder,
+    );
+
   factory UserSetting.fromSnapshot(DocumentSnapshot snapshot) {
     final Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
     return UserSetting.fromJson(snapshot.id, data);
