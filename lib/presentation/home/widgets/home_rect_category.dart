@@ -39,7 +39,15 @@ class HomeRectCategory extends StatelessWidget {
         decoration: BoxDecoration(
           color: DropAndGoColors.primary,
           borderRadius: BorderRadius.circular(10.h),
-          image: DecorationImage(
+          image: imageUrl==null?
+          DecorationImage(
+            image: const AssetImage(
+                DropAndGoImages.defaultCategory
+            ),
+            fit: BoxFit.cover,
+            colorFilter: DropAndGoColors.appColorFilter,
+          ):
+          DecorationImage(
             image: NetworkImage(
               imageUrl!
             ),
