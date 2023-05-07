@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     HomeRectCategory(
-                      categoryName: state.randomCategory.name??null,
+                      categoryName: state.randomCategory.name,
                       imageUrl: state.randomCategory.imageUrl,
                       isLiked: false,
                       onLike: () {},
@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                         mainAxisSpacing: 22,
                       ),
                       itemBuilder: (context, index) {
-                        Category category = state.recommendedCategories[index];
+                        Category category = state.allCategories[index];
                         return HomeSquareCategory(
                           imageUrl: category.imageUrl??'',
                           categoryName: category.name,
