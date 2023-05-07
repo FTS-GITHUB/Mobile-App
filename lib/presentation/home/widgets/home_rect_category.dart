@@ -18,7 +18,7 @@ class HomeRectCategory extends StatelessWidget {
     this.imageUrl,
   }) : super(key: key);
 
-  final String categoryName;
+  final String? categoryName;
   final bool isLiked;
   final VoidCallback? onLike;
   final VoidCallback? onShare;
@@ -40,8 +40,8 @@ class HomeRectCategory extends StatelessWidget {
           color: DropAndGoColors.primary,
           borderRadius: BorderRadius.circular(10.h),
           image: DecorationImage(
-            image: AssetImage(
-              imageUrl?? DropAndGoImages.defaultCategory,
+            image: NetworkImage(
+              imageUrl!
             ),
             fit: BoxFit.cover,
             colorFilter: DropAndGoColors.appColorFilter,
@@ -54,7 +54,7 @@ class HomeRectCategory extends StatelessWidget {
           children: [
             StandardText.headline4(
               context,
-              categoryName,
+              categoryName??'N/A',
               color: DropAndGoColors.white,
               align: TextAlign.center,
               fontSize: height == null ? 20.sp : 30.sp,

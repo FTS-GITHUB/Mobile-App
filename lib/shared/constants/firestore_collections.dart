@@ -1,6 +1,7 @@
 abstract class FirestoreCollections{
   static const String users = 'users';
   static const String settings = 'settings';
+  static const String categories = 'categories';
 }
 
 abstract class FirestoreDocuments{

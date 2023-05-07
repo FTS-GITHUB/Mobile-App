@@ -7,6 +7,7 @@ import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.d
 import 'package:dropandgouser/application/complete_profile/cubit/dob_date_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/profile_file_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/rememberme_cubit.dart';
+import 'package:dropandgouser/application/home/home_bloc/home_bloc.dart';
 import 'package:dropandgouser/application/login/cubit/login_obscurepassword_cubit.dart';
 import 'package:dropandgouser/application/login/cubit/login_remember_cubit.dart';
 import 'package:dropandgouser/application/login/login_bloc/login_bloc.dart';
@@ -18,6 +19,7 @@ import 'package:dropandgouser/application/search/cubit/is_seearch_active.dart';
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/application/signup/signup_bloc.dart';
 import 'package:dropandgouser/application/splash/splash_bloc/splash_bloc.dart';
+import 'package:dropandgouser/domain/home/i_home_repository.dart';
 import 'package:dropandgouser/domain/i_setting_repository.dart';
 import 'package:dropandgouser/domain/login/i_login_repository.dart';
 import 'package:dropandgouser/domain/services/i_auth_repository.dart';
@@ -25,6 +27,7 @@ import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart'
 import 'package:dropandgouser/domain/services/i_storage_repository.dart';
 import 'package:dropandgouser/domain/signup/i_signup_repository.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
+import 'package:dropandgouser/infrastructure/home/home_repository.dart';
 import 'package:dropandgouser/infrastructure/login/login_repository.dart';
 import 'package:dropandgouser/infrastructure/setting/setting_repository.dart';
 import 'package:dropandgouser/infrastructure/signup/signup_repository.dart';
@@ -56,6 +59,7 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
   late ISignupRepository _signupRepository;
   late ILoginRepository _loginRepository;
   late SplashRepository _splashRepository;
+  late IHomeRepository _homeRepository;
 
   // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   // final _networkNotifier = ValueNotifier(false);
@@ -109,6 +113,9 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
       authRepository: _authRepository,
     );
     _splashRepository = SplashRepository(_cloudFirestoreRepository);
+    _homeRepository = HomeRepository(
+      cloudFirestoreRepository: _cloudFirestoreRepository,
+    );
   }
 
   @override
@@ -220,7 +227,10 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
             _splashRepository,
           )..add(CheckAuthState()),
         ),
-      ], //IsSearchActive
+        BlocProvider<HomeBloc>(
+          create: (context) => HomeBloc(homeRepository: _homeRepository),
+        ),
+      ], //HomeBloc
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,
@@ -265,8 +275,7 @@ class _DropAndGoApp extends StatelessWidget {
                   data: MediaQuery.of(context).copyWith(
                     textScaleFactor: 1,
                   ),
-                  child: child ?? Container()
-                  ),
+                  child: child ?? Container()),
             ),
           ),
           locale: context.locale,
