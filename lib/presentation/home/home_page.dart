@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                           },
                         );
                       },
-                      itemCount: state.allCategories.length>2?2:state.allCategories.length,
+                      itemCount: state.allCategories.length>4?4:state.allCategories.length,
                     ),
                     20.h.verticalSpace,
                     SlideInAnimation(
@@ -205,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                           },
                         );
                       },
-                      itemCount: state.forBetterSleepCategories.length>2?2:state.forBetterSleepCategories.length,
+                      itemCount: state.forBetterSleepCategories.length>4?4:state.forBetterSleepCategories.length,
                     ),
                     15.verticalSpace,
                   ],
