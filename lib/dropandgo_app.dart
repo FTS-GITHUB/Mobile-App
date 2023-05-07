@@ -17,6 +17,7 @@ import 'package:dropandgouser/application/onboarding/cubit/user_level_cubit.dart
 import 'package:dropandgouser/application/search/cubit/is_seearch_active.dart';
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/application/signup/signup_bloc.dart';
+import 'package:dropandgouser/application/splash/splash_bloc/splash_bloc.dart';
 import 'package:dropandgouser/domain/i_setting_repository.dart';
 import 'package:dropandgouser/domain/login/i_login_repository.dart';
 import 'package:dropandgouser/domain/services/i_auth_repository.dart';
@@ -27,6 +28,7 @@ import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/login/login_repository.dart';
 import 'package:dropandgouser/infrastructure/setting/setting_repository.dart';
 import 'package:dropandgouser/infrastructure/signup/signup_repository.dart';
+import 'package:dropandgouser/infrastructure/splash/splash_repository.dart';
 import 'package:dropandgouser/shared/helpers/shared_preferences_helper.dart';
 import 'package:dropandgouser/shared/helpers/theme.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -53,6 +55,7 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
   late IStorageRepository _storageRepository;
   late ISignupRepository _signupRepository;
   late ILoginRepository _loginRepository;
+  late SplashRepository _splashRepository;
 
   // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   // final _networkNotifier = ValueNotifier(false);
@@ -105,6 +108,7 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
     _loginRepository = LoginRepository(
       authRepository: _authRepository,
     );
+    _splashRepository = SplashRepository(_cloudFirestoreRepository);
   }
 
   @override
@@ -209,6 +213,12 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
         ),
         BlocProvider<IsSearchActive>(
           create: (context) => IsSearchActive(),
+        ),
+        BlocProvider<SplashBloc>(
+          create: (context) => SplashBloc(
+            _authRepository,
+            _splashRepository,
+          )..add(CheckAuthState()),
         ),
       ], //IsSearchActive
       child: _DropAndGoApp(

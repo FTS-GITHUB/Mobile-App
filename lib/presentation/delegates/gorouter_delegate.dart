@@ -22,6 +22,7 @@ import 'package:dropandgouser/presentation/player_audio/player_audio_page.dart';
 import 'package:dropandgouser/presentation/search/search_page.dart';
 import 'package:dropandgouser/presentation/signup/complete_profile_page.dart';
 import 'package:dropandgouser/presentation/signup/create_account_page.dart';
+import 'package:dropandgouser/presentation/splash/initial_splash.dart';
 import 'package:dropandgouser/presentation/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -31,14 +32,22 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 class GoRouterDelegate {
   static final GoRouter routerConfig = GoRouter(
-    initialLocation: NavigationService.splashRouteUri,
+    initialLocation: NavigationService.initialSplashRouteUri,
     // initialLocation: '/${NavigationService.homeRouteUri}',
     navigatorKey:_rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
         parentNavigatorKey:_rootNavigatorKey,
-        path: NavigationService.splashRouteUri,
+        path: NavigationService.initialSplashRouteUri,
+        name: NavigationService.initialSplashRouteUri,
+        builder: (context, routerState) {
+          return const InitialSplashPage();
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey:_rootNavigatorKey,
+        path: '/${NavigationService.splashRouteUri}',
         name: NavigationService.splashRouteUri,
         builder: (context, routerState) {
           return const SplashPage();

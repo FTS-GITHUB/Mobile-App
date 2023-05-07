@@ -102,4 +102,31 @@ class UserData {
   Map<String, dynamic> toDocument() => toJson()..remove('id');
 
   Map<String, dynamic> toJson() => _$UserDataToJson(this);
+
+  Map<String, dynamic> toJsonLocal() => userDataToJsonLocal(this);
+
+  Map<String, dynamic> userDataToJsonLocal(UserData instance) {
+    final val = <String, dynamic>{};
+
+    void writeNotNull(String key, dynamic value) {
+      if (value != null) {
+        val[key] = value;
+      }
+    }
+
+    writeNotNull('id', instance.id);
+    writeNotNull('full_name', instance.fullName);
+    writeNotNull('gender', instance.gender);
+    writeNotNull('age_group', instance.ageGroup);
+    writeNotNull('achievement', instance.achievement);
+    writeNotNull('level', instance.level);
+    writeNotNull('profile_pic_url', instance.profilePicUrl);
+    writeNotNull('email', instance.email);
+    writeNotNull('phoneNo', instance.phoneNo);
+    writeNotNull('country', instance.country);
+    writeNotNull('date_of_birth', instance.dateOfBirth.toString());
+    writeNotNull('created_at', instance.createdAt.toString());
+    val['is_deleted'] = instance.isDeleted;
+    return val;
+  }
 }

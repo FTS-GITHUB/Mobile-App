@@ -10,6 +10,7 @@ import 'package:dropandgouser/infrastructure/splash/splash_repository.dart';
 import 'package:dropandgouser/shared/helpers/shared_preferences_helper.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'splash_event.dart';
@@ -23,6 +24,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   ) : super(SplashStateInitial()) {
     on<CheckAuthState>(_onCheckAuthState);
     on<GetUserSettings>(_onGetUserSettings);
+    on<GetUser>(_onGetUser);
   }
 
   final IAuthRepository authRepository;
@@ -31,32 +33,70 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   Future<void> _onCheckAuthState(
       CheckAuthState event, Emitter<SplashState> emit) async {
     emit(SplashStateLoading());
-    UserData? userData = await SharedPreferenceHelper.getUser();
-    if (userData != null) {
-      // User data is found locally
-      getIt<UserService>().userData = userData;
-      // add event to get user settings;
-      add(
-        GetUserSettings(
-          userId: userData.id!,
-        ),
-      );
-    } else {
-      User? user = await authRepository.getSignedInUser();
-      // if(user !=null) {
-      //   emit(SplashStateAuthenticated());
-      // } else {
-      //   emit(SplashStateUnauthenticated());
-      // }
-    }
+    await authRepository.getSignedInUser().catchError(
+        (err){
+          emit(SplashStateError(message: err.toString(),),);
+        }
+    ).then((value){
+      if(value==null){
+        emit(SplashStateUnauthenticated());
+      }else{
+        debugPrint(value.uid);
+        getIt<UserService>().userData= UserData(id: value.uid);
+        debugPrint('User id is:: ${getIt<UserService>().userData?.id}');
+        emit(SplashStateAuthenticated());
+      }
+    });
+    // SharedPreferenceHelper.deletePreferences(PreferencesKey.userKey);
+    // UserData? userData = await SharedPreferenceHelper.getUser();
+    // if (userData != null && userData.id!=null) {
+    //   print(userData.toJson());
+    //   // User data is found locally
+    //   getIt<UserService>().userData = userData;
+    //   // add event to get user settings;
+    //   add(
+    //     GetUserSettings(
+    //       userId: userData.id!,
+    //     ),
+    //   );
+    // } else {
+    //   // in case local db is not found it will get data from
+    //   User? user = await authRepository.getSignedInUser();
+    //   if (user == null) {
+    //     emit(SplashStateUnauthenticated());
+    //   } else {
+    //     add(
+    //       GetUser(
+    //         userId: user.uid,
+    //       ),
+    //     );
+    //   }
+    // }
+  }
+
+  Future<void> _onGetUser(GetUser event, Emitter<SplashState> emit) async {
+    final response = await splashRepository.getUser(userid: event.userId);
+    response.fold(
+            (l) =>
+            emit(SplashStateError(message: l.message ?? 'Failed to connect')),
+            (r) {
+          SharedPreferenceHelper.saveUser(r);
+          getIt<UserService>().userData = r;
+          add(GetUserSettings(userId: event.userId));
+        });
   }
 
   Future<void> _onGetUserSettings(
       GetUserSettings event, Emitter<SplashState> emit) async {
     final response =
         await splashRepository.getUserSettings(userid: event.userId);
-    response.fold((l) => emit(SplashStateError(message: l.message?? 'Failed to connect')), (r){
-
-    } );
+    response.fold(
+        (l) =>
+            emit(SplashStateError(message: l.message ?? 'Failed to connect')),
+        (r) {
+      SharedPreferenceHelper.saveUserSetting(r);
+      getIt<UserService>().userSetting = r;
+      emit(SplashStateAuthenticated());
+    });
   }
 }

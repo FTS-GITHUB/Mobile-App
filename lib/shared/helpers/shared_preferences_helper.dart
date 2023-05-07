@@ -36,7 +36,7 @@ class SharedPreferenceHelper {
       return _sharedPrefInstance.setString(
         PreferencesKey.userKey,
         json.encode(
-          data.toJson(),
+          data.toJsonLocal(),
         ),
       );
     } else {
