@@ -98,7 +98,7 @@ class SignupRepository extends ISignupRepository {
     final response = await firestoreRepository.uploadNestedCollection(
       firstCollectionName: FirestoreCollections.users,
       firstDocId: docId,
-      secondCollection2Name: FirestoreCollections.settings,
+      secondCollectionName: FirestoreCollections.settings,
       secondDocId: docId,
       object: userSetting.toJson(),
     );

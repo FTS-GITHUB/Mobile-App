@@ -1,7 +1,9 @@
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract class IAuthRepository {
+  Future<User?> getSignedInUser();
 
   Future<void> signOut();
 

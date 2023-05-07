@@ -38,6 +38,10 @@ class UserData {
   final DateTime? createdAt;
   @JsonKey(includeToJson: false, includeFromJson: false)
   File? file;
+  @JsonKey(
+    name: 'is_deleted',
+  )
+  final bool isDeleted;
 
   UserData({
     this.id,
@@ -53,6 +57,7 @@ class UserData {
     this.dateOfBirth,
     this.file,
     this.createdAt,
+    this.isDeleted=false,
   });
 
   UserData copyWith({
@@ -68,6 +73,7 @@ class UserData {
     String? country,
     DateTime? dateOfBirth,
     DateTime? createdAt,
+    bool? isDeleted,
   }) =>
       UserData(
         id: id ?? this.id,
@@ -82,6 +88,7 @@ class UserData {
         country: country ?? this.country,
         dateOfBirth: dateOfBirth ?? this.dateOfBirth,
         createdAt: createdAt ?? this.createdAt,
+        isDeleted: isDeleted?? this.isDeleted,
       );
 
   factory UserData.fromSnapshot(DocumentSnapshot snapshot) {

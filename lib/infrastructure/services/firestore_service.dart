@@ -108,7 +108,7 @@ class FirestoreService implements ICloudFirestoreRepository {
   @override
   Future<Either<FirebaseException, Unit>> uploadNestedCollection({
     required String firstCollectionName,
-    required String secondCollection2Name,
+    required String secondCollectionName,
     required String firstDocId,
     required String secondDocId,
     required object,
@@ -117,10 +117,28 @@ class FirestoreService implements ICloudFirestoreRepository {
       await _firestore
           .collection(firstCollectionName)
           .doc(firstDocId)
-          .collection(secondCollection2Name)
+          .collection(secondCollectionName)
           .doc(secondDocId)
           .set(object);
       return right(unit);
+    } on FirebaseException catch (e) {
+      return left(e);
+    }
+  }
+
+  @override
+  Future<Either<FirebaseException, DocumentSnapshot<Map<String, dynamic>>>> getNestedDocument(
+      {required String firstCollectionName,
+      required String secondCollectionName,
+      required String docId}) async {
+    try {
+      final response = await _firestore
+          .collection(firstCollectionName)
+          .doc(docId)
+          .collection(secondCollectionName)
+          .doc(docId)
+          .get();
+      return right(response);
     } on FirebaseException catch (e) {
       return left(e);
     }
