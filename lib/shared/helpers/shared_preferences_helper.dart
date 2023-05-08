@@ -31,30 +31,30 @@ class SharedPreferenceHelper {
   }
 
   /// Save User login data for feature use
-  static Future<bool> saveUser(UserData? data) async {
-    if (data != null) {
-      return _sharedPrefInstance.setString(
-        PreferencesKey.userKey,
-        json.encode(
-          data.toJsonLocal(),
-        ),
-      );
-    } else {
-      return deletePreferences(PreferencesKey.userKey);
-    }
-  }
-
-  static Future<UserData?> getUser() async {
-    UserData user = UserData();
-    if (_sharedPrefInstance.getString(PreferencesKey.userKey) != null) {
-      user = UserData.fromJson(
-        json.decode(
-          _sharedPrefInstance.getString(PreferencesKey.userKey)!,
-        ),
-      );
-    }
-    return user;
-  }
+  // static Future<bool> saveUser(UserData? data) async {
+  //   if (data != null) {
+  //     return _sharedPrefInstance.setString(
+  //       PreferencesKey.userKey,
+  //       json.encode(
+  //         data.toJsonLocal(),
+  //       ),
+  //     );
+  //   } else {
+  //     return deletePreferences(PreferencesKey.userKey);
+  //   }
+  // }
+  //
+  // static Future<UserData?> getUser() async {
+  //   UserData user = UserData();
+  //   if (_sharedPrefInstance.getString(PreferencesKey.userKey) != null) {
+  //     user = UserData.fromJson(
+  //       json.decode(
+  //         _sharedPrefInstance.getString(PreferencesKey.userKey)!,
+  //       ),
+  //     );
+  //   }
+  //   return user;
+  // }
 
   static Future<bool> saveUserSetting(UserSetting? data) async {
     if (data != null) {

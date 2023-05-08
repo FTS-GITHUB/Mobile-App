@@ -1,3 +1,4 @@
+import 'package:dropandgouser/domain/home/category.dart';
 import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/account/account_page.dart';
@@ -135,7 +136,9 @@ class GoRouterDelegate {
                 path: NavigationService.categoriesRouteUri,
                 name: NavigationService.categoriesRouteUri,
                 builder: (context, routerState) {
-                  return const CategoriesPage();
+                  return CategoriesPage(
+                    categories: routerState.extra as List<Category>,
+                  );
                 },
               ),
               GoRoute(

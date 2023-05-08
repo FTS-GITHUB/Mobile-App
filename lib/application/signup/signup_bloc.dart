@@ -71,7 +71,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState>
     response.fold(
       (l) => emit(SignupStateError(message: l.message ?? 'Error1')),
       (r) async{
-        await SharedPreferenceHelper.saveUser(r);
+        // await SharedPreferenceHelper.saveUser(r);
         add(UploadUserSetting(
         userSetting: event.userSetting,
         userId: event.userId,

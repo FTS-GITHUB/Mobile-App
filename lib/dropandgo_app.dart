@@ -8,6 +8,7 @@ import 'package:dropandgouser/application/complete_profile/cubit/dob_date_cubit.
 import 'package:dropandgouser/application/complete_profile/cubit/profile_file_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/rememberme_cubit.dart';
 import 'package:dropandgouser/application/home/home_bloc/home_bloc.dart';
+import 'package:dropandgouser/application/home/user_bloc/user_bloc.dart';
 import 'package:dropandgouser/application/login/cubit/login_obscurepassword_cubit.dart';
 import 'package:dropandgouser/application/login/cubit/login_remember_cubit.dart';
 import 'package:dropandgouser/application/login/login_bloc/login_bloc.dart';
@@ -230,7 +231,12 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
         BlocProvider<HomeBloc>(
           create: (context) => HomeBloc(homeRepository: _homeRepository),
         ),
-      ], //HomeBloc
+        BlocProvider<UserBloc>(
+          create: (context) => UserBloc(
+            splashRepository: _splashRepository,
+          ),
+        ),
+      ], //UserBloc
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,

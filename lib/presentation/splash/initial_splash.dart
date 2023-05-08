@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:dropandgouser/application/home/user_bloc/user_bloc.dart';
 import 'package:dropandgouser/application/splash/splash_bloc/splash_bloc.dart';
+import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/shared/enums/alert_type.dart';
@@ -29,6 +31,11 @@ class _InitialSplashPageState extends State<InitialSplashPage> {
     return BlocListener<SplashBloc, SplashState>(
       listener: (context, state) {
         if (state is SplashStateAuthenticated) {
+          if (getIt<UserService>().userData?.id != null) {
+            context.read<UserBloc>().add(
+                  FetchUser(userId: getIt<UserService>().userData!.id),
+                );
+          }
           getIt<NavigationService>().navigateToNamed(
             context: context,
             uri: NavigationService.homeRouteUri,

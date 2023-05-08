@@ -23,8 +23,8 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     this.splashRepository,
   ) : super(SplashStateInitial()) {
     on<CheckAuthState>(_onCheckAuthState);
-    on<GetUserSettings>(_onGetUserSettings);
-    on<GetUser>(_onGetUser);
+    // on<GetUserSettings>(_onGetUserSettings);
+    // on<GetUser>(_onGetUser);
   }
 
   final IAuthRepository authRepository;
@@ -72,31 +72,5 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     //     );
     //   }
     // }
-  }
-
-  Future<void> _onGetUser(GetUser event, Emitter<SplashState> emit) async {
-    final response = await splashRepository.getUser(userid: event.userId);
-    response.fold(
-            (l) =>
-            emit(SplashStateError(message: l.message ?? 'Failed to connect')),
-            (r) {
-          SharedPreferenceHelper.saveUser(r);
-          getIt<UserService>().userData = r;
-          add(GetUserSettings(userId: event.userId));
-        });
-  }
-
-  Future<void> _onGetUserSettings(
-      GetUserSettings event, Emitter<SplashState> emit) async {
-    final response =
-        await splashRepository.getUserSettings(userid: event.userId);
-    response.fold(
-        (l) =>
-            emit(SplashStateError(message: l.message ?? 'Failed to connect')),
-        (r) {
-      SharedPreferenceHelper.saveUserSetting(r);
-      getIt<UserService>().userSetting = r;
-      emit(SplashStateAuthenticated());
-    });
   }
 }

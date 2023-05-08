@@ -6,8 +6,14 @@ import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../domain/home/category.dart';
+
 class CategoriesPage extends StatelessWidget {
-  const CategoriesPage({Key? key}) : super(key: key);
+  const CategoriesPage({Key? key,
+    required this.categories,
+  }) : super(key: key);
+
+  final List<Category> categories;
 
   @override
   Widget build(BuildContext context) {

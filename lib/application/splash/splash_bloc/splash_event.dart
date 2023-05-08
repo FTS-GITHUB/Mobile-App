@@ -7,16 +7,16 @@ class SplashEvent extends Equatable{
 
 class CheckAuthState extends SplashEvent{}
 
-class GetUser extends SplashEvent{
-  GetUser({
-    required this.userId,
-  });
-  final String userId;
-}
-
-class GetUserSettings extends SplashEvent{
-  GetUserSettings({
-    required this.userId,
-});
-  final String userId;
-}
+// class GetUser extends SplashEvent{
+//   GetUser({
+//     required this.userId,
+//   });
+//   final String userId;
+// }
+//
+// class GetUserSettings extends SplashEvent{
+//   GetUserSettings({
+//     required this.userId,
+// });
+//   final String userId;
+// }
