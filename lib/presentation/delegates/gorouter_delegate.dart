@@ -1,3 +1,4 @@
+import 'package:dropandgouser/domain/home/category.dart';
 import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/account/account_page.dart';
@@ -17,9 +18,11 @@ import 'package:dropandgouser/presentation/onboarding/achievement_info_page.dart
 import 'package:dropandgouser/presentation/onboarding/age_info_page.dart';
 import 'package:dropandgouser/presentation/onboarding/gender_info_page.dart';
 import 'package:dropandgouser/presentation/onboarding/user_level_info_page.dart';
+import 'package:dropandgouser/presentation/player_audio/player_audio_page.dart';
 import 'package:dropandgouser/presentation/search/search_page.dart';
 import 'package:dropandgouser/presentation/signup/complete_profile_page.dart';
 import 'package:dropandgouser/presentation/signup/create_account_page.dart';
+import 'package:dropandgouser/presentation/splash/initial_splash.dart';
 import 'package:dropandgouser/presentation/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -29,14 +32,22 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 class GoRouterDelegate {
   static final GoRouter routerConfig = GoRouter(
-    initialLocation: NavigationService.splashRouteUri,
+    initialLocation: NavigationService.initialSplashRouteUri,
     // initialLocation: '/${NavigationService.homeRouteUri}',
     navigatorKey:_rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
         parentNavigatorKey:_rootNavigatorKey,
-        path: NavigationService.splashRouteUri,
+        path: NavigationService.initialSplashRouteUri,
+        name: NavigationService.initialSplashRouteUri,
+        builder: (context, routerState) {
+          return const InitialSplashPage();
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey:_rootNavigatorKey,
+        path: '/${NavigationService.splashRouteUri}',
         name: NavigationService.splashRouteUri,
         builder: (context, routerState) {
           return const SplashPage();
@@ -124,7 +135,9 @@ class GoRouterDelegate {
                 path: NavigationService.categoriesRouteUri,
                 name: NavigationService.categoriesRouteUri,
                 builder: (context, routerState) {
-                  return const CategoriesPage();
+                  return CategoriesPage(
+                    categories: routerState.extra as List<Category>,
+                  );
                 },
               ),
               GoRoute(
@@ -160,6 +173,26 @@ class GoRouterDelegate {
                   return const AccountPage();
                 },
               ),
+              GoRoute(
+                parentNavigatorKey: _shellNavigatorKey,
+                path: NavigationService.categoryDetailRouteUri,
+                name: NavigationService.categoryDetailRouteUri,
+                builder: (context, routerState) {
+                  return PlayerAudioPage(
+                    categoryId: routerState.extra as String,
+                  );
+                },
+              ),
+              // GoRoute(
+              //   parentNavigatorKey: _shellNavigatorKey,
+              //   path: NavigationService.plyaerAudioRouteUri,
+              //   name: NavigationService.plyaerAudioRouteUri,
+              //   builder: (context, routerState) {
+              //     return PlayerAudioPage(
+              //       categoryId: routerState.extra as String,
+              //     );
+              //   },
+              // ),
             ]
           ),
         ],

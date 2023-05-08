@@ -1,5 +1,4 @@
 import 'package:dropandgouser/shared/animations/fade_animation.dart';
-import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +9,12 @@ class HomeSquareCategory extends StatelessWidget {
     Key? key,
     this.categoryName,
     this.onTap,
+    required this.imageUrl,
   }) : super(key: key);
 
   final String? categoryName;
   final VoidCallback? onTap;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +31,8 @@ class HomeSquareCategory extends StatelessWidget {
             color: DropAndGoColors.primary,
             borderRadius: BorderRadius.circular(10.h),
             image: DecorationImage(
-              image: const AssetImage(
-                DropAndGoImages.addictions,
+              image: NetworkImage(
+                imageUrl,
               ),
               fit: BoxFit.cover,
               colorFilter: DropAndGoColors.appColorFilter,

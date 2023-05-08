@@ -13,7 +13,8 @@ class Singleton {
 }
 
 abstract class NavigationService {
-  static const String splashRouteUri = '/';
+  static const String initialSplashRouteUri = '/';
+  static const String splashRouteUri = 'splash';
   static const String loginRouteUri = 'login';
   static const String underConstruction = 'under-construction';
   static const String onboardingGenderRouteUri = 'select-gender';
@@ -34,6 +35,8 @@ abstract class NavigationService {
   static const String preferenceRouteUri = 'preference';
   static const String securityRouteUri = 'security';
   static const String changePasswordRouteUri = 'change-password';
+  static const String categoryDetailRouteUri = 'category-detail';
+  // static const String plyaerAudioRouteUri = 'audio';
   //
 
   void navigateToNamed({

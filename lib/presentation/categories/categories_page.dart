@@ -1,11 +1,19 @@
+import 'package:dropandgouser/infrastructure/di/injectable.dart';
+import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/home/widgets/home_rect_category.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../domain/home/category.dart';
+
 class CategoriesPage extends StatelessWidget {
-  const CategoriesPage({Key? key}) : super(key: key);
+  const CategoriesPage({Key? key,
+    required this.categories,
+  }) : super(key: key);
+
+  final List<Category> categories;
 
   @override
   Widget build(BuildContext context) {
@@ -26,20 +34,20 @@ class CategoriesPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(
           horizontal: 34.w,
         ),
-        itemCount: 5,
+        itemCount: categories.length,
         itemBuilder: (context, index) {
           return Container(
             margin: EdgeInsets.only(bottom: 20.h),
             child: HomeRectCategory(
-              categoryName: index == 0
-                  ? "ANXIETY"
-                  : index == 1
-                      ? "DEPRESSION"
-                      : index == 2
-                          ? "ADDICTIONS"
-                          : index == 3
-                              ? "PANIC"
-                              : "SELF IMPROVEMENT",
+              imageUrl: categories[index].imageUrl,
+              categoryName: categories[index].name??'',
+              onTap: () {
+                getIt<NavigationService>().navigateToNamed(
+                  context: context,
+                  uri: NavigationService.categoryDetailRouteUri,
+                  data: categories[index].id,
+                );
+              },
             ),
           );
         },

@@ -81,6 +81,11 @@ class FirebaseAuthRepository implements IAuthRepository {
     }
   }
 
+  @override
+  Future<User?> getSignedInUser() async{
+    return _firebaseAuth.currentUser;
+  }
+
 // @override
 // Future<Either<ApiError, Unit>> signInWithGoogle() async {
 //   try {

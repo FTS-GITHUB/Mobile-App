@@ -5,6 +5,7 @@ import 'package:dropandgouser/application/onboarding/cubit/gender_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/user_level_cubit.dart';
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/application/signup/signup_bloc.dart';
+import 'package:dropandgouser/domain/signup/user_setting.dart';
 import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
@@ -86,10 +87,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 level: context.read<UserLevelCubit>().state.title,
                 achievement: context.read<AchievementCubit>().state.title,
                 profilePicUrl: state.profilePicUrl,
+                createdAt: DateTime.now(),
               );
+              UserSetting userSetting = UserSetting();
               context.read<PostSignupBloc>().add(
                     UploadUserData(
                       userData: userData,
+                      userSetting: userSetting,
                       userId: state.userId,
                     ),
                   );

@@ -30,8 +30,22 @@ class UserData {
     fromJson: dateFromJson,
   )
   final DateTime? dateOfBirth;
+  @JsonKey(
+    name: 'created_at',
+    toJson: dateToJson,
+    fromJson: dateFromJson,
+  )
+  final DateTime? createdAt;
   @JsonKey(includeToJson: false, includeFromJson: false)
   File? file;
+  @JsonKey(
+    name: 'is_deleted',
+  )
+  final bool isDeleted;
+  @JsonKey(
+    name: 'liked_categories',
+  )
+  final List<String>? likedCategories;
 
   UserData({
     this.id,
@@ -46,6 +60,9 @@ class UserData {
     this.country,
     this.dateOfBirth,
     this.file,
+    this.createdAt,
+    this.isDeleted=false,
+    this.likedCategories,
   });
 
   UserData copyWith({
@@ -60,6 +77,9 @@ class UserData {
     String? phoneNo,
     String? country,
     DateTime? dateOfBirth,
+    DateTime? createdAt,
+    bool? isDeleted,
+    List<String>? likedCategories,
   }) =>
       UserData(
         id: id ?? this.id,
@@ -73,15 +93,18 @@ class UserData {
         phoneNo: phoneNo ?? this.phoneNo,
         country: country ?? this.country,
         dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+        createdAt: createdAt ?? this.createdAt,
+        isDeleted: isDeleted?? this.isDeleted,
+        likedCategories: likedCategories?? this.likedCategories,
       );
 
   factory UserData.fromSnapshot(DocumentSnapshot snapshot) {
     final Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
-    return UserData.fromJson(snapshot.id, data);
+    return UserData.fromJson(data);
   }
 
-  factory UserData.fromJson(String id, Map<String, dynamic> json) =>
-      _$UserDataFromJson(json)..id = id;
+  factory UserData.fromJson(Map<String, dynamic> json) =>
+      _$UserDataFromJson(json);
 
   Map<String, dynamic> toDocument() => toJson()..remove('id');
 

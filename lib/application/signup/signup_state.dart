@@ -26,6 +26,13 @@ class SignupStateUploadedPicture extends SignupState {
   final String userId;
 }
 
+class SignupStateUploadedSettings extends SignupState {
+  SignupStateUploadedSettings({
+    required this.userId,
+  });
+  final String userId;
+}
+
 class SignupStateUploadedData extends SignupState {}
 
 class SignupStateError extends SignupState {

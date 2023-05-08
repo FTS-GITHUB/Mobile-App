@@ -23,14 +23,23 @@ abstract class DropAndGoIcons {
  static const String share = 'assets/icons/share.svg';
  static const String likeFilled = 'assets/icons/like_filled.svg';
  static const String backSpaceOutlined = 'assets/icons/tag-cross.svg';
- static const String favoriteOutlined = 'assets/icons/heart_filled.svg';
- static const String favoriteFilled = 'assets/icons/heart_outlined.svg';
+ static const String favoriteFilled = 'assets/icons/heart_filled.svg';
+ static const String favoriteOutlined = 'assets/icons/heart_outlined.svg';
  static const String userBold = 'assets/icons/user.svg';
  static const String language = 'assets/icons/language-square.svg';
  static const String setting = 'assets/icons/setting-2.svg';
  static const String shieldTick = 'assets/icons/shield-tick.svg';
  static const String logout = 'assets/icons/logout.svg';
  static const String notificationBold = 'assets/icons/notification.svg';
+ static const String playCircle = 'assets/icons/playcircle.svg';
+ static const String pauseCircle = 'assets/icons/pause-circle.svg';
+ static const String next = 'assets/icons/next.svg';
+ static const String previous = 'assets/icons/previous.svg';
+ static const String shareFill = 'assets/icons/share-fill.svg';
+ static const String circleShapes = 'assets/icons/circle-shapes.svg';
+ static const String tickCircle = 'assets/icons/tick-circle.svg';
+ static const String star = 'assets/icons/star.svg';
+ static const String starBold = 'assets/icons/star-bold.svg';
 }
 
 abstract class DropAndGoImages {

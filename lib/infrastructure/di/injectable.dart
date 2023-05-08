@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropandgouser/domain/services/i_auth_repository.dart';
 import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
 import 'package:dropandgouser/domain/services/i_storage_repository.dart';
+import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/infrastructure/auth/firebase_auth_repository.dart';
 import 'package:dropandgouser/infrastructure/services/firebase_storage_service.dart';
 import 'package:dropandgouser/infrastructure/services/firestore_service.dart';
@@ -12,28 +13,32 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 
 final GetIt getIt = GetIt.instance;
-final firebaseAuth = FirebaseAuth.instance;
-final firestore = FirebaseFirestore.instance;
-final firebaseStorage = FirebaseStorage.instance;
+final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+final FirebaseFirestore firestore = FirebaseFirestore.instance;
+final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 // final googleSignIn = GoogleSignIn();
 
 void registerServices() {
   getIt.registerSingleton<NavigationService>(
     GoRouterNavigationService(),
   );
-  getIt.registerSingleton<IAuthRepository>(
+  getIt.registerSingleton<UserService>(
+    UserService(),
+  );
+  getIt.registerLazySingleton<IAuthRepository>(()=>
     FirebaseAuthRepository(
       firebaseAuth,
     ),
   );
 
-  getIt.registerSingleton<ICloudFirestoreRepository>(
+  getIt.registerLazySingleton<ICloudFirestoreRepository>(()=>
     FirestoreService(firestore),
   );
 
-  getIt.registerSingleton<IStorageRepository>(
+  getIt.registerLazySingleton<IStorageRepository>(
+      ()=>
     FirebaseStorageRepository(firebaseStorage),
   );
 
-  getIt.registerSingleton<Toasts>(Toasts());
+  getIt.registerLazySingleton<Toasts>(()=>Toasts());
 }
