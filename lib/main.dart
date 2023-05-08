@@ -11,7 +11,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await Future.delayed(
-    Duration(
+    const Duration(
       seconds: 1,
     ),
   );

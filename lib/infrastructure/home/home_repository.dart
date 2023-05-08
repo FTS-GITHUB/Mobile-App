@@ -1,3 +1,5 @@
+// ignore_for_file: implementation_imports
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropandgouser/domain/home/category.dart';
 import 'package:dropandgouser/domain/home/i_home_repository.dart';
@@ -26,15 +28,13 @@ class HomeRepository implements IHomeRepository {
             ), (
       QuerySnapshot<Map<String, dynamic>> querySnapshot,
     ) {
-      querySnapshot.docs.forEach((
-        QueryDocumentSnapshot<Map<String, dynamic>> documentSnapshot,
-      ) {
+      for (var documentSnapshot in querySnapshot.docs) {
         Category category = Category.fromJson(
           documentSnapshot.id,
           documentSnapshot.data(),
         );
         categories.add(category);
-      });
+      }
       return right(categories);
     });
   }

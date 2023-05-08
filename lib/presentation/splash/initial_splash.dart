@@ -51,7 +51,7 @@ class _InitialSplashPageState extends State<InitialSplashPage> {
             description: state.message,
           );
         }
-        print('Stat is : $state');
+        debugPrint('State is : $state');
       },
       child: Scaffold(
         body: SizedBox(

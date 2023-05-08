@@ -80,8 +80,8 @@ class _HomePageState extends State<HomePage> {
               BlocListener<UserBloc, UserState>(
                 listener: (context, state){
                   if(state is UserStateLoaded){
-                    print("User Name: ${state.userData.fullName}");
-                    print("Liked Categories: ${state.userData.likedCategories}");
+                    debugPrint("User Name: ${state.userData.fullName}");
+                    debugPrint("Liked Categories: ${state.userData.likedCategories}");
                   }
                 },
                 child: BlocBuilder<UserBloc, UserState>(builder: (context, userState) {

@@ -28,7 +28,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         (l) => emit(HomeStateError(
               message: l.message ?? "Failed to connect",
             )), (List<Category> categories) {
-          print('Categories ${categories.length}');
       List<Category>? recommendedCategories = <Category>[];
       List<Category> forBetterSleepCategories = <Category>[];
       late Category randomCategory;
@@ -40,7 +39,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }else{
         randomCategory = Category();
       }
-      print(randomCategory.toJson());
       emit(
         HomeStateLoaded(
           randomCategory: randomCategory,
