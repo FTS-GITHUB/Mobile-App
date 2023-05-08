@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dropandgouser/domain/signup/user_setting.dart';
-import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 ///Usage:

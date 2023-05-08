@@ -16,7 +16,6 @@ import 'package:dropandgouser/shared/enums/alert_type.dart';
 import 'package:dropandgouser/shared/widgets/button_loading.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:dropandgouser/shared/widgets/toasts.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

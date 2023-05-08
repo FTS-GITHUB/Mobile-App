@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dropandgouser/domain/player_audio/position_data.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
@@ -13,8 +15,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:rxdart/rxdart.dart';
+
 import '../../shared/widgets/standard_text.dart';
-import 'dart:math';
 
 class PlayerAudioPage extends StatefulWidget {
   const PlayerAudioPage({

@@ -9,7 +9,6 @@ import 'package:dropandgouser/presentation/account/preference_page.dart';
 import 'package:dropandgouser/presentation/account/security_page.dart';
 import 'package:dropandgouser/presentation/analytics/analytics_page.dart';
 import 'package:dropandgouser/presentation/categories/categories_page.dart';
-import 'package:dropandgouser/presentation/category_detail/category_detail_page.dart';
 import 'package:dropandgouser/presentation/downloads/downloads_page.dart';
 import 'package:dropandgouser/presentation/forget_password/forget_password_page.dart';
 import 'package:dropandgouser/presentation/home/home_page.dart';

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dropandgouser/application/home/user_bloc/user_bloc.dart';
 import 'package:dropandgouser/application/splash/splash_bloc/splash_bloc.dart';
 import 'package:dropandgouser/domain/services/user_service.dart';

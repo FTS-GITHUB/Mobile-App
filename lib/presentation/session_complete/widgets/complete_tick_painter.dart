@@ -1,6 +1,7 @@
 //Add this CustomPaint widget to the Widget Tree
-import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
+
+import 'package:flutter/material.dart';
 
 // CustomPaint(
 // size: Size(WIDTH, (WIDTH*0.9595375722543352).toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
