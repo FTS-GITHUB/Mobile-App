@@ -1,4 +1,5 @@
 import 'package:dropandgouser/application/search/cubit/is_seearch_active.dart';
+import 'package:dropandgouser/application/search/search_bloc/search_bloc.dart';
 import 'package:dropandgouser/presentation/search/search_found.dart';
 import 'package:dropandgouser/presentation/search/search_history.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
@@ -6,6 +7,8 @@ import 'package:dropandgouser/shared/widgets/standard_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../shared/widgets/button_loading.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -18,6 +21,12 @@ class _SearchPageState extends State<SearchPage> {
   final FocusNode _focus = FocusNode();
 
   final searchTextEditingController = TextEditingController();
+
+  @override
+  void initState() {
+    context.read<SearchBloc>().add(FetchPreviousSearches());
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -67,9 +76,18 @@ class _SearchPageState extends State<SearchPage> {
             child: BlocBuilder<IsSearchActive, bool>(
                 builder: (context, isSearchActive) {
               return isSearchActive
-                  ? const SearchHistory()
+                  ? BlocBuilder<SearchBloc, SearchState>(
+                      builder: (context, state) {
+                      return (state is SearchStateLoading)
+                          ? const DropAndGoButtonLoading()
+                          : (state is SearchStateLoaded)
+                              ? SearchHistory(
+                        searches: state.previousSearches,
+                      )
+                              : const SizedBox.shrink();
+                    })
                   : const SearchFound();
-                  // : const SearchNotFound();
+              // : const SearchNotFound();
             })),
       ),
     );

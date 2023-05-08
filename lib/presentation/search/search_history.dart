@@ -6,7 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SearchHistory extends StatelessWidget {
-  const SearchHistory({Key? key}) : super(key: key);
+  const SearchHistory({Key? key,required
+  this.searches,
+  }) : super(key: key);
+
+  final List<String> searches;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +29,7 @@ class SearchHistory extends StatelessWidget {
           primary: false,
           padding: EdgeInsets.symmetric(vertical: 15.h),
           shrinkWrap: true,
-          itemCount: 25,
+          itemCount: searches.length,
           itemBuilder: (context, index) {
             return Container(
               padding: EdgeInsets.only(bottom: 15.h),
@@ -35,7 +39,7 @@ class SearchHistory extends StatelessWidget {
                 children: [
                   StandardText.headline6(
                     context,
-                    'Previous Search',
+                    searches[index],
                   ),
                   IconButton(
                     onPressed: () {},

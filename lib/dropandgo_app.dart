@@ -41,6 +41,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'application/main/cubit/main_navbar_cubit.dart';
+import 'application/search/search_bloc/search_bloc.dart';
 import 'presentation/delegates/gorouter_delegate.dart';
 
 class DropAndGoApp extends StatefulWidget {
@@ -237,7 +238,13 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
             splashRepository: _splashRepository,
           ),
         ),
-      ], //UserBloc
+        BlocProvider<SearchBloc>(
+          create: (context) => SearchBloc(
+            authRepository: _authRepository,
+            homeRepository: _homeRepository,
+          ),
+        ),
+      ], //SearchBloc
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,
