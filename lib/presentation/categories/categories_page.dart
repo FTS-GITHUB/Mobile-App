@@ -34,33 +34,18 @@ class CategoriesPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(
           horizontal: 34.w,
         ),
-        itemCount: 5,
+        itemCount: categories.length,
         itemBuilder: (context, index) {
           return Container(
             margin: EdgeInsets.only(bottom: 20.h),
             child: HomeRectCategory(
-              categoryName: index == 0
-                  ? "ANXIETY"
-                  : index == 1
-                      ? "DEPRESSION"
-                      : index == 2
-                          ? "ADDICTIONS"
-                          : index == 3
-                              ? "PANIC"
-                              : "SELF IMPROVEMENT",
+              imageUrl: categories[index].imageUrl,
+              categoryName: categories[index].name??'',
               onTap: () {
                 getIt<NavigationService>().navigateToNamed(
                   context: context,
                   uri: NavigationService.categoryDetailRouteUri,
-                  data: index == 0
-                      ? "ANXIETY"
-                      : index == 1
-                          ? "DEPRESSION"
-                          : index == 2
-                              ? "ADDICTIONS"
-                              : index == 3
-                                  ? "PANIC"
-                                  : "SELF IMPROVEMENT",
+                  data: categories[index].id,
                 );
               },
             ),

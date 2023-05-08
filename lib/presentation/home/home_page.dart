@@ -58,12 +58,12 @@ class _HomePageState extends State<HomePage> {
                 DropAndGoIcons.search,
               ),
             ),
-            IconButton(
-              onPressed: () {},
-              icon: SvgPicture.asset(
-                DropAndGoIcons.notification,
-              ),
-            ),
+            // IconButton(
+            //   onPressed: () {},
+            //   icon: SvgPicture.asset(
+            //     DropAndGoIcons.notification,
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -136,6 +136,7 @@ class _HomePageState extends State<HomePage> {
                                     getIt<NavigationService>().navigateToNamed(
                                       context: context,
                                       uri: NavigationService.categoriesRouteUri,
+                                      data: state.allCategories,
                                     );
                                   },
                                 ),
@@ -179,6 +180,7 @@ class _HomePageState extends State<HomePage> {
                                     getIt<NavigationService>().navigateToNamed(
                                       context: context,
                                       uri: NavigationService.categoriesRouteUri,
+                                      data: state.recommendedCategories,
                                     );
                                   },
                                 ),
@@ -223,6 +225,7 @@ class _HomePageState extends State<HomePage> {
                                     getIt<NavigationService>().navigateToNamed(
                                       context: context,
                                       uri: NavigationService.categoriesRouteUri,
+                                      data: state.forBetterSleepCategories,
                                     );
                                   },
                                 ),

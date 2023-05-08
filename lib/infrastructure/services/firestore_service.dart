@@ -127,10 +127,11 @@ class FirestoreService implements ICloudFirestoreRepository {
   }
 
   @override
-  Future<Either<FirebaseException, DocumentSnapshot<Map<String, dynamic>>>> getNestedDocument(
-      {required String firstCollectionName,
-      required String secondCollectionName,
-      required String docId}) async {
+  Future<Either<FirebaseException, DocumentSnapshot<Map<String, dynamic>>>>
+      getNestedDocument(
+          {required String firstCollectionName,
+          required String secondCollectionName,
+          required String docId}) async {
     try {
       final response = await _firestore
           .collection(firstCollectionName)
@@ -142,5 +143,24 @@ class FirestoreService implements ICloudFirestoreRepository {
     } on FirebaseException catch (e) {
       return left(e);
     }
+  }
+
+  @override
+  Future<Either<FirebaseException, QuerySnapshot<Map<String, dynamic>>>>
+      getNestedCollection({
+    required String firstCollectionName,
+    required String secondCollectionName,
+    required String docId,
+  })async {
+    try{
+    final response = await _firestore
+        .collection(firstCollectionName)
+        .doc(docId)
+        .collection(secondCollectionName)
+        .get();
+    return right(response);
+  } on FirebaseException catch (e) {
+  return left(e);
+  }
   }
 }

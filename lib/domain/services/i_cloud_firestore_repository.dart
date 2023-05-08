@@ -44,4 +44,10 @@ abstract class ICloudFirestoreRepository{
     required String secondCollectionName,
     required String docId,
   });
+
+  Future<Either<FirebaseException, QuerySnapshot<Map<String, dynamic>>>> getNestedCollection({
+    required String firstCollectionName,
+    required String secondCollectionName,
+    required String docId,
+  });
 }
