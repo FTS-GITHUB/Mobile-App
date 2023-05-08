@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dropandgouser/domain/services/i_auth_repository.dart';
 import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/domain/signup/user_setting.dart';
 import 'package:dropandgouser/domain/signup/userdata.dart';
@@ -14,24 +15,26 @@ part 'user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc({
+    required this.authRepository,
     required this.splashRepository,
   }) : super(UserStateInitial()) {
     on<FetchUser>(_onFetchUser);
     on<FetchUserSetting>(_onFetchUserSetting);
   }
 
+  final IAuthRepository authRepository;
   final SplashRepository splashRepository;
 
   Future<void> _onFetchUser(FetchUser event, Emitter<UserState> emit) async {
     emit(UserStateLoading());
-    if (event.userId == null) {
+    if (authRepository.userId == null) {
       emit(
         UserStateError(
           message: 'You are not authorized',
         ),
       );
     } else {
-      final response = await splashRepository.getUser(userid: event.userId!);
+      final response = await splashRepository.getUser(userid: authRepository.userId!);
       response.fold(
         (l) => emit(
           UserStateError(
@@ -43,7 +46,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           add(
             FetchUserSetting(
               userData: r,
-              userId: event.userId,
+              userId: authRepository.userId,
             ),
           );
         },

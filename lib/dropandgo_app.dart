@@ -233,6 +233,7 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
         ),
         BlocProvider<UserBloc>(
           create: (context) => UserBloc(
+            authRepository: _authRepository,
             splashRepository: _splashRepository,
           ),
         ),

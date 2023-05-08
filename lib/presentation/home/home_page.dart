@@ -28,6 +28,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
+    context.read<UserBloc>().add(FetchUser());
     context.read<HomeBloc>().add(FetchCategories());
     super.initState();
   }
@@ -76,16 +77,18 @@ class _HomePageState extends State<HomePage> {
             right: 36.w,
           ),
           alignment: Alignment.center,
-          child:
-              BlocListener<UserBloc, UserState>(
-                listener: (context, state){
-                  if(state is UserStateLoaded){
-                    debugPrint("User Name: ${state.userData.fullName}");
-                    debugPrint("Liked Categories: ${state.userData.likedCategories}");
-                  }
-                },
-                child: BlocBuilder<UserBloc, UserState>(builder: (context, userState) {
-            return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+          child: BlocListener<UserBloc, UserState>(
+            listener: (context, state) {
+              if (state is UserStateLoaded) {
+                debugPrint("User Name: ${state.userData.fullName}");
+                debugPrint(
+                    "Liked Categories: ${state.userData.likedCategories}");
+              }
+            },
+            child:
+                BlocBuilder<UserBloc, UserState>(builder: (context, userState) {
+              return BlocBuilder<HomeBloc, HomeState>(
+                  builder: (context, state) {
                 return (state is HomeStateLoading)
                     ? const DropAndGoButtonLoading()
                     : (state is HomeStateLoaded)
@@ -103,12 +106,10 @@ class _HomePageState extends State<HomePage> {
                                                 state.randomCategory.name,
                                             imageUrl:
                                                 state.randomCategory.imageUrl,
-                                            isLiked: userState
-                                                            .userData
+                                            isLiked: userState.userData
                                                             .likedCategories !=
                                                         null &&
-                                                userState
-                                                        .userData
+                                                    userState.userData
                                                         .likedCategories!
                                                         .contains(state
                                                             .randomCategory.id!)
@@ -150,12 +151,14 @@ class _HomePageState extends State<HomePage> {
                                   mainAxisSpacing: 22,
                                 ),
                                 itemBuilder: (context, index) {
-                                  Category category = state.allCategories[index];
+                                  Category category =
+                                      state.allCategories[index];
                                   return HomeSquareCategory(
                                     imageUrl: category.imageUrl ?? '',
                                     categoryName: category.name,
                                     onTap: () {
-                                      getIt<NavigationService>().navigateToNamed(
+                                      getIt<NavigationService>()
+                                          .navigateToNamed(
                                         context: context,
                                         uri: NavigationService
                                             .categoryDetailRouteUri,
@@ -197,7 +200,8 @@ class _HomePageState extends State<HomePage> {
                                     imageUrl: category.imageUrl ?? '',
                                     categoryName: category.name,
                                     onTap: () {
-                                      getIt<NavigationService>().navigateToNamed(
+                                      getIt<NavigationService>()
+                                          .navigateToNamed(
                                         context: context,
                                         uri: NavigationService
                                             .categoryDetailRouteUri,
@@ -206,9 +210,10 @@ class _HomePageState extends State<HomePage> {
                                     },
                                   );
                                 },
-                                itemCount: state.recommendedCategories.length > 2
-                                    ? 2
-                                    : state.recommendedCategories.length,
+                                itemCount:
+                                    state.recommendedCategories.length > 2
+                                        ? 2
+                                        : state.recommendedCategories.length,
                               ),
                               20.h.verticalSpace,
                               SlideInAnimation(
@@ -239,7 +244,8 @@ class _HomePageState extends State<HomePage> {
                                     imageUrl: category.imageUrl ?? '',
                                     categoryName: category.name,
                                     onTap: () {
-                                      getIt<NavigationService>().navigateToNamed(
+                                      getIt<NavigationService>()
+                                          .navigateToNamed(
                                         context: context,
                                         uri: NavigationService
                                             .categoryDetailRouteUri,
@@ -265,9 +271,9 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               )
                             : const SizedBox.shrink();
-            });
-          }),
-              ),
+              });
+            }),
+          ),
         ),
       ),
     );

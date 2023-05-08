@@ -6,11 +6,7 @@ abstract class UserEvent extends Equatable {
 }
 
 class FetchUser extends UserEvent {
-  FetchUser({
-    required this.userId,
-  });
-
-  final String? userId;
+  FetchUser();
 }
 
 class FetchUserSetting extends UserEvent {
