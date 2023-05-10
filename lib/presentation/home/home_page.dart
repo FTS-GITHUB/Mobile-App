@@ -143,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                                                   context: context,
                                                   uri: NavigationService
                                                       .categoryDetailRouteUri,
-                                                  data: state.randomCategory.name,
+                                                  data: state.randomCategory.id,
                                                 );
                                               },
                                             ),
@@ -183,7 +183,7 @@ class _HomePageState extends State<HomePage> {
                                           context: context,
                                           uri: NavigationService
                                               .categoryDetailRouteUri,
-                                          data: category.name,
+                                          data: category.id,
                                         );
                                       },
                                     );
@@ -227,7 +227,7 @@ class _HomePageState extends State<HomePage> {
                                           context: context,
                                           uri: NavigationService
                                               .categoryDetailRouteUri,
-                                          data: category.name,
+                                          data: category.id,
                                         );
                                       },
                                     );
@@ -272,7 +272,7 @@ class _HomePageState extends State<HomePage> {
                                           context: context,
                                           uri: NavigationService
                                               .categoryDetailRouteUri,
-                                          data: category.name,
+                                          data: category.id,
                                         );
                                       },
                                     );

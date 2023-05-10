@@ -5,7 +5,6 @@ import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/search/search_not_found.dart';
 import 'package:dropandgouser/presentation/search/widgets/search_item.dart';
-import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/widgets/button_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

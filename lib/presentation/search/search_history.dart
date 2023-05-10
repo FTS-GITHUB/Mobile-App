@@ -3,8 +3,6 @@ import 'package:dropandgouser/application/search/search_found_bloc/search_found_
 import 'package:dropandgouser/application/search/search_history_bloc/search_bloc.dart';
 import 'package:dropandgouser/domain/home/category.dart';
 import 'package:dropandgouser/domain/search/previous_searches.dart';
-import 'package:dropandgouser/infrastructure/di/injectable.dart';
-import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';

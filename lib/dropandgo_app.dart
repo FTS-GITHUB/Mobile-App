@@ -2,6 +2,7 @@
 
 import 'dart:ui' as ui;
 
+import 'package:dropandgouser/application/audio_bloc/audio_bloc.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/dob_date_cubit.dart';
@@ -249,7 +250,12 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
             homeRepository: _homeRepository
           ),
         ),
-      ], //SearchBloc
+        BlocProvider<AudioBloc>(
+          create: (context) => AudioBloc(
+              homeRepository: _homeRepository
+          ),
+        ),
+      ], //AudioBloc
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,

@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropandgouser/domain/home/category.dart';
 import 'package:dropandgouser/domain/home/i_home_repository.dart';
+import 'package:dropandgouser/domain/player_audio/audio.dart';
 import 'package:dropandgouser/domain/search/previous_searches.dart';
 import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
 import 'package:dropandgouser/shared/constants/firestore_collections.dart';
@@ -89,16 +90,61 @@ class HomeRepository implements IHomeRepository {
   Future<Either<ApiError, Unit>> deleteSearch({
     required String userId,
     required String docId,
-  }) async{
-    final response = await cloudFirestoreRepository.deleteSpecificNestedDocument(
+  }) async {
+    final response =
+        await cloudFirestoreRepository.deleteSpecificNestedDocument(
       firstCollectionName: FirestoreCollections.users,
       secondCollectionName: FirestoreCollections.search,
       firstDocId: userId,
       secondDocId: docId,
     );
     return response.fold(
-          (l) => left(l.toApiError()),
-          (r) => right(r),
+      (l) => left(l.toApiError()),
+      (r) => right(r),
+    );
+  }
+
+  @override
+  Future<Either<ApiError, List<Audio>>> getAudios({
+    required String categoryId,
+  }) async {
+    final response = await cloudFirestoreRepository.getCollection(
+      collectionName: FirestoreCollections.audios,
+      whereKey: 'category.id',
+      whereValue: categoryId,
+    );
+    return response.fold(
+      (l) => left(l.toApiError()),
+      (r) {
+        List<Audio> audios = <Audio>[];
+        for (var docSnapshot in r.docs) {
+          Audio audio = Audio.fromJson(
+            docSnapshot.id,
+            docSnapshot.data(),
+          );
+          audios.add(audio);
+        }
+        return right(audios);
+      },
+    );
+  }
+
+  @override
+  Future<Either<ApiError, Category>> getCategory(
+      {required String categoryId}) async {
+    final response = await cloudFirestoreRepository.getDocument(
+      collectionName: FirestoreCollections.categories,
+      docId: categoryId,
+    );
+    return response.fold(
+      (l) => left(l.toApiError()),
+      (r) {
+        Category category = Category.fromJson(
+          r.id,
+          r.data() ?? {},
+        );
+        return right(category);
+      },
     );
   }
 }

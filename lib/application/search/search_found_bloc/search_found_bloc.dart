@@ -4,7 +4,6 @@ import 'package:dropandgouser/domain/home/category.dart';
 import 'package:dropandgouser/domain/home/i_home_repository.dart';
 import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
-import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,7 +32,7 @@ class SearchFoundBloc extends Bloc<SearchEvent, SearchFoundState> {
       emit(SearchFoundStateLoading());
       List<Category> tempCategories = [];
       // print(event.searchText);
-      event.categories.forEach((category) {
+      for (var category in event.categories) {
         // print(category.name);
         if (category.name != null &&
             category.name!.toLowerCase().contains(
@@ -41,7 +40,7 @@ class SearchFoundBloc extends Bloc<SearchEvent, SearchFoundState> {
                 )) {
           tempCategories.add(category);
         }
-      });
+      }
       add(
         AddSearchToPrevious(
           categories: tempCategories,
