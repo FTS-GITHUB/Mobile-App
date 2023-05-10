@@ -12,4 +12,9 @@ abstract class IHomeRepository{
     required String userId,
     required String searchText,
   });
+
+  Future<Either<ApiError, Unit>> deleteSearch({
+    required String userId,
+    required String docId,
+  });
 }

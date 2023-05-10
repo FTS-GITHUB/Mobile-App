@@ -84,4 +84,21 @@ class HomeRepository implements IHomeRepository {
       (r) => right(r),
     );
   }
+
+  @override
+  Future<Either<ApiError, Unit>> deleteSearch({
+    required String userId,
+    required String docId,
+  }) async{
+    final response = await cloudFirestoreRepository.deleteSpecificNestedDocument(
+      firstCollectionName: FirestoreCollections.users,
+      secondCollectionName: FirestoreCollections.search,
+      firstDocId: userId,
+      secondDocId: docId,
+    );
+    return response.fold(
+          (l) => left(l.toApiError()),
+          (r) => right(r),
+    );
+  }
 }

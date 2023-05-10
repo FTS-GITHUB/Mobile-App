@@ -241,7 +241,6 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
         ),
         BlocProvider<SearchBloc>(
           create: (context) => SearchBloc(
-            authRepository: _authRepository,
             homeRepository: _homeRepository,
           ),
         ),
