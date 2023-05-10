@@ -146,7 +146,9 @@ class GoRouterDelegate {
                 path: NavigationService.searchRouteUri,
                 name: NavigationService.searchRouteUri,
                 builder: (context, routerState) {
-                  return const SearchPage();
+                  return SearchPage(
+                    categories: routerState.extra as List<Category>,
+                  );
                 },
               ),
               GoRoute(

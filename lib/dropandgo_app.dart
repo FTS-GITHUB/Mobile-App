@@ -17,6 +17,7 @@ import 'package:dropandgouser/application/onboarding/cubit/age_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/gender_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/user_level_cubit.dart';
 import 'package:dropandgouser/application/search/cubit/is_seearch_active.dart';
+import 'package:dropandgouser/application/search/search_found_bloc/search_found_bloc.dart';
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/application/signup/signup_bloc.dart';
 import 'package:dropandgouser/application/splash/splash_bloc/splash_bloc.dart';
@@ -41,7 +42,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'application/main/cubit/main_navbar_cubit.dart';
-import 'application/search/search_bloc/search_bloc.dart';
+import 'application/search/search_history_bloc/search_bloc.dart';
 import 'presentation/delegates/gorouter_delegate.dart';
 
 class DropAndGoApp extends StatefulWidget {
@@ -242,6 +243,11 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
           create: (context) => SearchBloc(
             authRepository: _authRepository,
             homeRepository: _homeRepository,
+          ),
+        ),
+        BlocProvider<SearchFoundBloc>(
+          create: (context) => SearchFoundBloc(
+            homeRepository: _homeRepository
           ),
         ),
       ], //SearchBloc

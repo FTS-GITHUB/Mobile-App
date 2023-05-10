@@ -9,6 +9,7 @@ import 'package:dropandgouser/shared/constants/firestore_collections.dart';
 import 'package:dropandgouser/shared/extensions/firebase_exception.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
 import 'package:fpdart/src/either.dart';
+import 'package:fpdart/src/unit.dart';
 
 class HomeRepository implements IHomeRepository {
   HomeRepository({
@@ -43,7 +44,7 @@ class HomeRepository implements IHomeRepository {
   @override
   Future<Either<ApiError, List<PreviousSearches>>> getPreviousSearches({
     required String userId,
-}) async{
+  }) async {
     List<PreviousSearches> searches = [];
     final response = await cloudFirestoreRepository.getNestedCollection(
       firstCollectionName: FirestoreCollections.users,
@@ -51,11 +52,11 @@ class HomeRepository implements IHomeRepository {
       docId: userId,
     );
     return response.fold(
-            (l) => left(
-          l.toApiError(),
-        ), (
-        QuerySnapshot<Map<String, dynamic>> querySnapshot,
-        ) {
+        (l) => left(
+              l.toApiError(),
+            ), (
+      QuerySnapshot<Map<String, dynamic>> querySnapshot,
+    ) {
       for (var documentSnapshot in querySnapshot.docs) {
         PreviousSearches search = PreviousSearches.fromJson(
           documentSnapshot.id,
@@ -65,5 +66,22 @@ class HomeRepository implements IHomeRepository {
       }
       return right(searches);
     });
+  }
+
+  @override
+  Future<Either<ApiError, Unit>> uploadNewSearch({
+    required String userId,
+    required String searchText,
+  }) async {
+    final response = await cloudFirestoreRepository.uploadNestedCollection(
+      firstCollectionName: FirestoreCollections.users,
+      secondCollectionName: FirestoreCollections.search,
+      firstDocId: userId,
+      object: searchText,
+    );
+    return response.fold(
+      (l) => left(l.toApiError()),
+      (r) => right(r),
+    );
   }
 }

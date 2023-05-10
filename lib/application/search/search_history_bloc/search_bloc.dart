@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dropandgouser/domain/home/i_home_repository.dart';
+import 'package:dropandgouser/domain/search/previous_searches.dart';
 import 'package:dropandgouser/domain/services/i_auth_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,10 +39,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           message: l.message?? 'Failed to connect.',
         ),
       ), (r) {
-        List<String> searches=[];
+        List<PreviousSearches> searches=[];
         if(r.isNotEmpty){
           for(var search in r){
-            searches.add(search.name!);
+            searches.add(search);
           }
         }
         emit(SearchStateLoaded(previousSearches: searches,),);

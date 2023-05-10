@@ -8,4 +8,8 @@ abstract class IHomeRepository{
   Future<Either<ApiError, List<PreviousSearches>>> getPreviousSearches({
     required String userId,
   });
+  Future<Either<ApiError, Unit>> uploadNewSearch({
+    required String userId,
+    required String searchText,
+  });
 }

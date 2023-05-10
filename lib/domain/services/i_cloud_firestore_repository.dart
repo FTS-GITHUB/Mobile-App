@@ -35,7 +35,7 @@ abstract class ICloudFirestoreRepository{
     required String firstCollectionName,
     required String secondCollectionName,
     required String firstDocId,
-    required String secondDocId,
+    String? secondDocId,
     required dynamic object,
   });
 

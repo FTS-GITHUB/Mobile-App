@@ -5,13 +5,13 @@ class Search {
   final String? title;
   final String? artistName;
   final bool? isFavorite;
-  final VoidCallback? onFavoritePressed;
+  final VoidCallback? onItemTapped;
 
   Search({
     this.imageUrl,
     this.title,
     this.artistName,
     this.isFavorite=false,
-    this.onFavoritePressed,
+    this.onItemTapped,
 });
 }

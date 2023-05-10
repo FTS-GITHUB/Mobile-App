@@ -110,16 +110,30 @@ class FirestoreService implements ICloudFirestoreRepository {
     required String firstCollectionName,
     required String secondCollectionName,
     required String firstDocId,
-    required String secondDocId,
+    String? secondDocId,
     required object,
   }) async {
     try {
-      await _firestore
-          .collection(firstCollectionName)
-          .doc(firstDocId)
-          .collection(secondCollectionName)
-          .doc(secondDocId)
-          .set(object);
+      if(secondDocId !=null){
+        await _firestore
+            .collection(firstCollectionName)
+            .doc(firstDocId)
+            .collection(secondCollectionName)
+            .doc(secondDocId)
+            .set(object);
+      }else{
+        final docRef =  _firestore
+            .collection(firstCollectionName)
+            .doc(firstDocId)
+            .collection(secondCollectionName).doc();
+        await _firestore
+            .collection(firstCollectionName)
+            .doc(firstDocId)
+            .collection(secondCollectionName).doc(docRef.id).set({
+          'id': docRef.id,
+          'name': object,
+        });
+      }
       return right(unit);
     } on FirebaseException catch (e) {
       return left(e);
