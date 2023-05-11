@@ -4,6 +4,7 @@ import 'package:dropandgouser/application/audio_bloc/audio_bloc.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_cubit.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_state.dart';
 import 'package:dropandgouser/domain/player_audio/position_data.dart';
+import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/home/widgets/home_rect_category.dart';
@@ -217,6 +218,7 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                                               child: BlocBuilder<LikesCubit,
                                                       LikesState>(
                                                   builder: (context, likeState) {
+                                                    final user =getIt<UserService>().userData;
                                                 return (likeState
                                                         is LikesStateLoading)
                                                     ? const SizedBox.shrink()
@@ -235,7 +237,17 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                                                         : SvgPicture.asset(
                                                             DropAndGoIcons
                                                                 .favoriteOutlined,
-                                                          ):SvgPicture.asset(
+                                                          ):user!
+                                                    .likedCategories !=
+                                                    null &&
+                                                    user
+                                                        .likedCategories!
+                                                        .contains(state.category.id)
+                                                    ? SvgPicture.asset(
+                                                  DropAndGoIcons
+                                                      .favoriteFilled,
+                                                )
+                                                    : SvgPicture.asset(
                                                   DropAndGoIcons
                                                       .favoriteOutlined,
                                                 );

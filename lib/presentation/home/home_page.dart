@@ -1,5 +1,6 @@
 import 'package:dropandgouser/application/home/home_bloc/home_bloc.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_cubit.dart';
+import 'package:dropandgouser/application/likes_bloc/likes_state.dart';
 import 'package:dropandgouser/domain/home/category.dart';
 import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
@@ -110,6 +111,7 @@ class _HomePageState extends State<HomePage> {
                   builder: (context, userState) {
                 return BlocBuilder<HomeBloc, HomeState>(
                     builder: (context, state) {
+                      final user = getIt<UserService>();
                   return (state is HomeStateLoading)
                       ? const DropAndGoButtonLoading()
                       : (state is HomeStateLoaded)
@@ -123,42 +125,85 @@ class _HomePageState extends State<HomePage> {
                                             visible:
                                                 state.randomCategory.name !=
                                                     null,
-                                            child: HomeRectCategory(
-                                              categoryName:
+                                            child: BlocBuilder<LikesCubit, LikesState>(
+                                              builder: (context, likeState) {
+                                                return (likeState is LikesStateLoading)?
+                                                const SizedBox.shrink():
+                                                (likeState is LikesStateLoaded)?
+                                                HomeRectCategory(
+                                                  categoryName:
+                                                      state.randomCategory.name,
+                                                  imageUrl:
+                                                      state.randomCategory.imageUrl,
+                                                  isLiked: likeState.userData
+                                                                  .likedCategories !=
+                                                              null &&
+                                                      likeState.userData
+                                                              .likedCategories!
+                                                              .contains(state
+                                                                  .randomCategory
+                                                                  .id!)
+                                                      ? true
+                                                      : false,
+                                                  onLike: () {
+                                                    if (state.randomCategory.id !=
+                                                        null) {
+                                                      context
+                                                          .read<LikesCubit>()
+                                                          .likeCategory(
+                                                            categoryId: state
+                                                                .randomCategory.id!,
+                                                          );
+                                                    }
+                                                  },
+                                                  onShare: () {},
+                                                  onTap: () {
+                                                    getIt<NavigationService>()
+                                                        .navigateToNamed(
+                                                      context: context,
+                                                      uri: NavigationService
+                                                          .categoryDetailRouteUri,
+                                                      data: state.randomCategory.id,
+                                                    );
+                                                  },
+                                                ):HomeRectCategory(
+                                                  categoryName:
                                                   state.randomCategory.name,
-                                              imageUrl:
+                                                  imageUrl:
                                                   state.randomCategory.imageUrl,
-                                              isLiked: userState.userData
-                                                              .likedCategories !=
-                                                          null &&
-                                                      userState.userData
+                                                  isLiked: user.userData!
+                                                      .likedCategories !=
+                                                      null &&
+                                                      user.userData!
                                                           .likedCategories!
                                                           .contains(state
-                                                              .randomCategory
-                                                              .id!)
-                                                  ? true
-                                                  : false,
-                                              onLike: () {
-                                                if (state.randomCategory.id !=
-                                                    null) {
-                                                  context
-                                                      .read<LikesCubit>()
-                                                      .likeCategory(
-                                                        categoryId: state
-                                                            .randomCategory.id!,
-                                                      );
-                                                }
-                                              },
-                                              onShare: () {},
-                                              onTap: () {
-                                                getIt<NavigationService>()
-                                                    .navigateToNamed(
-                                                  context: context,
-                                                  uri: NavigationService
-                                                      .categoryDetailRouteUri,
-                                                  data: state.randomCategory.id,
+                                                          .randomCategory
+                                                          .id!)
+                                                      ? true
+                                                      : false,
+                                                  onLike: () {
+                                                    // if (state.randomCategory.id !=
+                                                    //     null) {
+                                                    //   context
+                                                    //       .read<LikesCubit>()
+                                                    //       .likeCategory(
+                                                    //     categoryId: state
+                                                    //         .randomCategory.id!,
+                                                    //   );
+                                                    // }
+                                                  },
+                                                  onShare: () {},
+                                                  onTap: () {
+                                                    getIt<NavigationService>()
+                                                        .navigateToNamed(
+                                                      context: context,
+                                                      uri: NavigationService
+                                                          .categoryDetailRouteUri,
+                                                      data: state.randomCategory.id,
+                                                    );
+                                                  },
                                                 );
-                                              },
+                                              }
                                             ),
                                           )
                                         : const SizedBox.shrink(),
