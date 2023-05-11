@@ -1,3 +1,5 @@
+import 'package:country/country.dart';
+import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
 import 'package:dropandgouser/application/splash/splash_bloc/splash_bloc.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
@@ -20,6 +22,19 @@ class InitialSplashPage extends StatefulWidget {
 
 class _InitialSplashPageState extends State<InitialSplashPage> {
   final Toasts _toasts = Toasts();
+
+  @override
+  void initState() {
+    getCountries();
+    super.initState();
+  }
+
+  getCountries(){
+    for(var country in Countries.values){
+      CountriesCubit.countries.add(country.isoShortName);
+    }
+    context.read<CountriesCubit>().onCountriesAdded();
+  }
 
   // late Timer _timer;
   @override

@@ -62,198 +62,203 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     phoneTextEditingController.dispose();
     dobTextEditingController.dispose();
     emailTextEditingController.dispose();
-    context.read<ProfileFileCubit>().dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(70),
-        child: AccountAppBar(title: 'Personal Info',),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 35.w),
-        child: Form(
-          // key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              30.verticalSpace,
-              BlocBuilder<ProfileFileCubit, File?>(builder: (context, file) {
-                return (file ==null)?
-                EditUserAvatar(
-                  imageUrl: user?.profilePicUrl,
-                ):
-                EditUserAvatar(
-                  file: file,
-                );
-              }),
-              23.h.verticalGap,
-              StandardText.headline6(
-                context,
-                'onboarding.name'.tr(),
-                fontSize: 12,
-              ),
-              StandardTextField(
-                controller: nameTextEditingController,
-                validator: (val) {
-                  if (val!.isEmpty) {
-                    return 'Please write your name';
-                  } else {
-                    return null;
-                  }
-                },
-              ),
-              23.h.verticalGap,
-              StandardText.headline6(
-                context,
-                'create_account.email'.tr(),
-                fontSize: 12,
-              ),
-              StandardTextField(
-                controller: emailTextEditingController,
-                isEnabled: false,
-              ),
-              25.h.verticalGap,
-              StandardText.headline6(
-                context,
-                'onboarding.phone'.tr(),
-                fontSize: 12,
-              ),
-              StandardTextField(
-                controller: phoneTextEditingController,
-                validator: validateMobile,
-                prefixText: '+',
-                keyboardType: TextInputType.phone,
-                inputFormatter: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-              ),
-              25.h.verticalGap,
-              StandardText.headline6(
-                context,
-                'onboarding.dob'.tr(),
-                fontSize: 12,
-              ),
-              ValueListenableBuilder(
-                valueListenable: dobTextEditingController,
-                builder: (context, dob, child) {
-                  return child!;
-                },
-                child: StandardTextField(
-                  readOnly: true,
-                  controller: dobTextEditingController,
+    return WillPopScope(
+      onWillPop: ()async{
+        context.read<ProfileFileCubit>().dispose();
+        return true;
+      },
+      child: Scaffold(
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(70),
+          child: AccountAppBar(title: 'Personal Info',),
+        ),
+        body: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 35.w),
+          child: Form(
+            // key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                30.verticalSpace,
+                BlocBuilder<ProfileFileCubit, File?>(builder: (context, file) {
+                  return (file ==null)?
+                  EditUserAvatar(
+                    imageUrl: user?.profilePicUrl,
+                  ):
+                  EditUserAvatar(
+                    file: file,
+                  );
+                }),
+                23.h.verticalGap,
+                StandardText.headline6(
+                  context,
+                  'onboarding.name'.tr(),
+                  fontSize: 12,
+                ),
+                StandardTextField(
+                  controller: nameTextEditingController,
                   validator: (val) {
                     if (val!.isEmpty) {
-                      return 'Please select date of birth';
+                      return 'Please write your name';
                     } else {
                       return null;
                     }
                   },
-                  onTap: () async {
-                    final ThemeData theme = Theme.of(context);
-                    switch (theme.platform) {
-                      case TargetPlatform.android:
-                      case TargetPlatform.fuchsia:
-                      case TargetPlatform.linux:
-                      case TargetPlatform.windows:
-                        return DropAndGoDatePicker.showMaterialDatePicker(
-                            context,
-                            initialDate: DateTime.now(),
-                            dobTextEditingController: dobTextEditingController);
-                      case TargetPlatform.iOS:
-                      case TargetPlatform.macOS:
-                        return DropAndGoDatePicker.showCupertinoDatePicker(
-                          context,
-                          initialDate: DateTime.now(),
-                          dobTextEditingController: dobTextEditingController,
-                        );
-                    }
-                  },
-                  suffixWidget: Transform.scale(
-                    scale: .6,
-                    child: SvgPicture.asset(
-                      DropAndGoIcons.calender,
-                    ),
-                  ),
                 ),
-              ),
-              25.h.verticalGap,
-              StandardText.headline6(
-                context,
-                'onboarding.country'.tr(),
-                fontSize: 12,
-              ),
-              // Drop
-              BlocBuilder<CountryCubit, String?>(
-                builder: (context, countryName) {
-                  return DropAndGoDropdown<String>(
-                    data: CountriesCubit.countries
-                        .map<DropdownMenuItem<String>>(
-                          (String val) => DropdownMenuItem(
-                            value: val,
-                            child: Container(
-                              margin: const EdgeInsets.only(left: 8),
-                              width: context.width - 120,
-                              child: StandardText.body2(
-                                context,
-                                val,
-                                color: DropAndGoColors.primary,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                    hintText: '',
-                    value: countryName,
-                    onChanged: context.read<CountryCubit>().onValueSelected,
+                23.h.verticalGap,
+                StandardText.headline6(
+                  context,
+                  'create_account.email'.tr(),
+                  fontSize: 12,
+                ),
+                StandardTextField(
+                  controller: emailTextEditingController,
+                  isEnabled: false,
+                ),
+                25.h.verticalGap,
+                StandardText.headline6(
+                  context,
+                  'onboarding.phone'.tr(),
+                  fontSize: 12,
+                ),
+                StandardTextField(
+                  controller: phoneTextEditingController,
+                  validator: validateMobile,
+                  prefixText: '+',
+                  keyboardType: TextInputType.phone,
+                  inputFormatter: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                ),
+                25.h.verticalGap,
+                StandardText.headline6(
+                  context,
+                  'onboarding.dob'.tr(),
+                  fontSize: 12,
+                ),
+                ValueListenableBuilder(
+                  valueListenable: dobTextEditingController,
+                  builder: (context, dob, child) {
+                    return child!;
+                  },
+                  child: StandardTextField(
+                    readOnly: true,
+                    controller: dobTextEditingController,
                     validator: (val) {
-                      if (val == null || val.isEmpty) {
-                        return 'Please select country';
+                      if (val!.isEmpty) {
+                        return 'Please select date of birth';
                       } else {
                         return null;
                       }
                     },
-                  );
-                }
-              ),
-              Container(
-                margin: const EdgeInsets.only(
-                  top: 28,
-                  bottom: 43,
+                    onTap: () async {
+                      final ThemeData theme = Theme.of(context);
+                      switch (theme.platform) {
+                        case TargetPlatform.android:
+                        case TargetPlatform.fuchsia:
+                        case TargetPlatform.linux:
+                        case TargetPlatform.windows:
+                          return DropAndGoDatePicker.showMaterialDatePicker(
+                              context,
+                              initialDate: DateTime.now(),
+                              dobTextEditingController: dobTextEditingController);
+                        case TargetPlatform.iOS:
+                        case TargetPlatform.macOS:
+                          return DropAndGoDatePicker.showCupertinoDatePicker(
+                            context,
+                            initialDate: DateTime.now(),
+                            dobTextEditingController: dobTextEditingController,
+                          );
+                      }
+                    },
+                    suffixWidget: Transform.scale(
+                      scale: .6,
+                      child: SvgPicture.asset(
+                        DropAndGoIcons.calender,
+                      ),
+                    ),
+                  ),
                 ),
-                alignment: Alignment.bottomCenter,
-                child: AppButton(
-                  width: context.width,
-                  text: 'login.confirm'.tr(),
-                  onPressed: () {
-                    // if (context.read<ProfileFileCubit>().state == null) {
-                    //   getIt<Toasts>().showToast(
-                    //     context,
-                    //     type: AlertType.Error,
-                    //     title: 'Error',
-                    //     description: 'Please select profile picture',
-                    //   );
-                    // } else if (formKey.currentState != null &&
-                    //     formKey.currentState!.validate()) {
-                    //   getIt<NavigationService>().pushNamed(
-                    //     context: context,
-                    //     uri: NavigationService.createAccountRouteUri,
-                    //     data: UserData(
-                    //       fullName: nameTextEditingController.text,
-                    //       phoneNo: phoneTextEditingController.text,
-                    //       dateOfBirth: context.read<DobDateCubit>().state,
-                    //       file: context.read<ProfileFileCubit>().state,
-                    //     ),
-                    //   );
-                    // }
-                  },
+                25.h.verticalGap,
+                StandardText.headline6(
+                  context,
+                  'onboarding.country'.tr(),
+                  fontSize: 12,
                 ),
-              )
-            ],
+                // Drop
+                BlocBuilder<CountryCubit, String?>(
+                  builder: (context, countryName) {
+                    return DropAndGoDropdown<String>(
+                      data: CountriesCubit.countries
+                          .map<DropdownMenuItem<String>>(
+                            (String val) => DropdownMenuItem(
+                              value: val,
+                              child: Container(
+                                margin: const EdgeInsets.only(left: 8),
+                                width: context.width - 120,
+                                child: StandardText.body2(
+                                  context,
+                                  val,
+                                  color: DropAndGoColors.primary,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                      hintText: '',
+                      value: countryName,
+                      onChanged: context.read<CountryCubit>().onValueSelected,
+                      validator: (val) {
+                        if (val == null || val.isEmpty) {
+                          return 'Please select country';
+                        } else {
+                          return null;
+                        }
+                      },
+                    );
+                  }
+                ),
+                Container(
+                  margin: const EdgeInsets.only(
+                    top: 28,
+                    bottom: 43,
+                  ),
+                  alignment: Alignment.bottomCenter,
+                  child: AppButton(
+                    width: context.width,
+                    text: 'login.confirm'.tr(),
+                    onPressed: () {
+                      // if (context.read<ProfileFileCubit>().state == null) {
+                      //   getIt<Toasts>().showToast(
+                      //     context,
+                      //     type: AlertType.Error,
+                      //     title: 'Error',
+                      //     description: 'Please select profile picture',
+                      //   );
+                      // } else if (formKey.currentState != null &&
+                      //     formKey.currentState!.validate()) {
+                      //   getIt<NavigationService>().pushNamed(
+                      //     context: context,
+                      //     uri: NavigationService.createAccountRouteUri,
+                      //     data: UserData(
+                      //       fullName: nameTextEditingController.text,
+                      //       phoneNo: phoneTextEditingController.text,
+                      //       dateOfBirth: context.read<DobDateCubit>().state,
+                      //       file: context.read<ProfileFileCubit>().state,
+                      //     ),
+                      //   );
+                      // }
+                    },
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

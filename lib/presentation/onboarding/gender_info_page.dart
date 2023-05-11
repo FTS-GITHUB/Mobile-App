@@ -27,18 +27,7 @@ class GenderInfoPage extends StatefulWidget {
 }
 
 class _GenderInfoPageState extends State<GenderInfoPage> {
-  @override
-  void initState() {
-    getCountries();
-    super.initState();
-  }
-  
-  getCountries(){
-    for(var country in Countries.values){
-      CountriesCubit.countries.add(country.isoShortName);
-    }
-    context.read<CountriesCubit>().onCountriesAdded();
-  }
+
   
   @override
   Widget build(BuildContext context) {
