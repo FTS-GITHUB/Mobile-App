@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:dropandgouser/application/audio_bloc/audio_bloc.dart';
+import 'package:dropandgouser/application/likes_bloc/likes_cubit.dart';
+import 'package:dropandgouser/application/likes_bloc/likes_state.dart';
 import 'package:dropandgouser/domain/player_audio/position_data.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
@@ -79,18 +81,17 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AudioBloc, AudioState>(
-      listener: (context, state){
-        if(state is AudioStateLoaded){
+      listener: (context, state) {
+        if (state is AudioStateLoaded) {
           final List<AudioSource> audioSources = <AudioSource>[];
-          for(var data in state.audios){
-            if(data.audioUrl!=null){
+          for (var data in state.audios) {
+            if (data.audioUrl != null) {
               var audioSource = AudioSource.uri(
-                Uri.parse(
-                    data.audioUrl!),
+                Uri.parse(data.audioUrl!),
                 tag: MediaItem(
-                  id: data.id??Random().nextInt(100).toString(),
-                  title: data.title??'N/A',
-                  artist: data.artist??'N/A',
+                  id: data.id ?? Random().nextInt(100).toString(),
+                  title: data.title ?? 'N/A',
+                  artist: data.artist ?? 'N/A',
                 ),
               );
               audioSources.add(audioSource);
@@ -110,15 +111,17 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                     appBar: PreferredSize(
                       preferredSize: const Size.fromHeight(70),
                       child: AppBar(
-                        title: state.category.name!=null?StandardText.headline4(
-                          context,
-                          state.category.name!.toUpperCase(),
-                          color: DropAndGoColors.black,
-                        ):StandardText.headline4(
-                          context,
-                          "Category",
-                          color: DropAndGoColors.black,
-                        ),
+                        title: state.category.name != null
+                            ? StandardText.headline4(
+                                context,
+                                state.category.name!.toUpperCase(),
+                                color: DropAndGoColors.black,
+                              )
+                            : StandardText.headline4(
+                                context,
+                                "Category",
+                                color: DropAndGoColors.black,
+                              ),
                         leading: IconButton(
                           icon: SvgPicture.asset(
                             DropAndGoIcons.arrowLeft,
@@ -143,107 +146,168 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                             imageUrl: state.category.imageUrl,
                           ),
                           34.verticalSpace,
-                          StreamBuilder<SequenceState?>(
-                              stream: _audioPlayer.sequenceStateStream,
-                              builder: (context,
-                                  AsyncSnapshot<SequenceState?> snapshot) {
-                                final state = snapshot.data;
-                                if (state?.sequence.isEmpty ?? true) {
-                                  return const SizedBox.shrink();
-                                }
-                                final metadata =
-                                    state!.currentSource!.tag as MediaItem;
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 10,
-                                          child: StandardText.headline4(
-                                            context,
-                                            metadata.title,
-                                            color: DropAndGoColors.primary,
-                                            align: TextAlign.start,
-                                            fontSize: 30,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                        // Expanded(
-                                        //   flex: 1,
-                                        //   child: IconButton(
-                                        //     icon: SvgPicture.asset(
-                                        //       DropAndGoIcons.shareFill,
-                                        //       color: DropAndGoColors.primary,
-                                        //       width: 30,
-                                        //         height: 30,
-                                        //     ),
-                                        //       iconSize: 30,
-                                        //     onPressed: (){
-                                        //       showModalBottomSheet(context: context, builder: (ctx)=>
-                                        //       Container(
-                                        //         height: context.height*.3,
-                                        //         color: DropAndGoColors.yellow,
-                                        //       )
-                                        //       );
-                                        //     },
-                                        //   ),
-                                        // ),
-                                        // 8.horizontalSpace,
-                                        Expanded(
-                                          flex: 1,
-                                          child: InkWell(
-                                            onTap: () {
-                                              showDialog(
-                                                context: context,
-                                                builder: (ctx) =>
-                                                    const SessionCompletePage(),
-                                              );
-                                            },
-                                            child: SvgPicture.asset(
-                                              DropAndGoIcons.favoriteOutlined,
+                          Visibility(
+                            visible: state.audios.isNotEmpty,
+                            child: StreamBuilder<SequenceState?>(
+                                stream: _audioPlayer.sequenceStateStream,
+                                builder: (context,
+                                    AsyncSnapshot<SequenceState?> snapshot) {
+                                  final sequenceState = snapshot.data;
+                                  if (sequenceState?.sequence.isEmpty ?? true) {
+                                    return const SizedBox.shrink();
+                                  }
+                                  final metadata = sequenceState!
+                                      .currentSource!.tag as MediaItem;
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 10,
+                                            child: StandardText.headline4(
+                                              context,
+                                              metadata.title,
+                                              color: DropAndGoColors.primary,
+                                              align: TextAlign.start,
+                                              fontSize: 30,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    StandardText.body2(
-                                      context,
-                                      metadata.artist ?? 'N/A',
-                                    ),
-                                  ],
-                                );
-                              }),
-                          100.verticalSpace,
-                          StreamBuilder<PositionData>(
-                            stream: _positionDataStream,
-                            builder: (context, snapshot) {
-                              final positionState = snapshot.data;
-                              final progress =
-                                  positionState?.position ?? Duration.zero;
-                              final buffered = positionState?.bufferedPosition ??
-                                  Duration.zero;
-                              final total =
-                                  positionState?.duration ?? Duration.zero;
-                              return ProgressBar(
-                                progressBarColor: DropAndGoColors.primary,
-                                thumbColor: DropAndGoColors.primary,
-                                baseBarColor:
-                                    DropAndGoColors.primary.withOpacity(.02),
-                                bufferedBarColor:
-                                    DropAndGoColors.primary.withOpacity(.05),
-                                progress: progress,
-                                buffered: buffered,
-                                total: total,
-                                onSeek: (duration) {
-                                  _audioPlayer.seek(duration);
-                                },
-                              );
-                            },
+                                          // Expanded(
+                                          //   flex: 1,
+                                          //   child: IconButton(
+                                          //     icon: SvgPicture.asset(
+                                          //       DropAndGoIcons.shareFill,
+                                          //       color: DropAndGoColors.primary,
+                                          //       width: 30,
+                                          //         height: 30,
+                                          //     ),
+                                          //       iconSize: 30,
+                                          //     onPressed: (){
+                                          //       showModalBottomSheet(context: context, builder: (ctx)=>
+                                          //       Container(
+                                          //         height: context.height*.3,
+                                          //         color: DropAndGoColors.yellow,
+                                          //       )
+                                          //       );
+                                          //     },
+                                          //   ),
+                                          // ),
+                                          // 8.horizontalSpace,
+                                          Expanded(
+                                            flex: 1,
+                                            child: InkWell(
+                                              onTap: () {
+                                                if (state.category.id != null) {
+                                                  context
+                                                      .read<LikesCubit>()
+                                                      .likeCategory(
+                                                        categoryId:
+                                                            state.category.id!,
+                                                      );
+                                                }
+                                                // showDialog(
+                                                //   context: context,
+                                                //   builder: (ctx) =>
+                                                //       const SessionCompletePage(),
+                                                // );
+                                              },
+                                              child: BlocBuilder<LikesCubit,
+                                                      LikesState>(
+                                                  builder: (context, likeState) {
+                                                return (likeState
+                                                        is LikesStateLoading)
+                                                    ? const SizedBox.shrink()
+                                                    : (likeState
+                                                            is LikesStateLoaded)
+                                                        ? likeState.userData
+                                                    .likedCategories !=
+                                                    null &&
+                                                    likeState.userData
+                                                        .likedCategories!
+                                                        .contains(state.category.id)
+                                                    ? SvgPicture.asset(
+                                                  DropAndGoIcons
+                                                      .favoriteFilled,
+                                                )
+                                                        : SvgPicture.asset(
+                                                            DropAndGoIcons
+                                                                .favoriteOutlined,
+                                                          ):SvgPicture.asset(
+                                                  DropAndGoIcons
+                                                      .favoriteOutlined,
+                                                );
+                                              }),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      StandardText.body2(
+                                        context,
+                                        metadata.artist ?? 'N/A',
+                                      ),
+                                    ],
+                                  );
+                                }),
                           ),
-                          26.verticalSpace,
-                          Controls(
-                            audioPlayer: _audioPlayer,
+                          Visibility(
+                            visible: state.audios.isNotEmpty,
+                            child: 100.verticalSpace,
+                          ),
+                          Visibility(
+                            visible: state.audios.isNotEmpty,
+                            child: StreamBuilder<PositionData>(
+                              stream: _positionDataStream,
+                              builder: (context, snapshot) {
+                                final positionState = snapshot.data;
+                                final progress =
+                                    positionState?.position ?? Duration.zero;
+                                final buffered =
+                                    positionState?.bufferedPosition ??
+                                        Duration.zero;
+                                final total =
+                                    positionState?.duration ?? Duration.zero;
+                                return ProgressBar(
+                                  progressBarColor: DropAndGoColors.primary,
+                                  thumbColor: DropAndGoColors.primary,
+                                  baseBarColor:
+                                      DropAndGoColors.primary.withOpacity(.02),
+                                  bufferedBarColor:
+                                      DropAndGoColors.primary.withOpacity(.05),
+                                  progress: progress,
+                                  buffered: buffered,
+                                  total: total,
+                                  onSeek: (duration) {
+                                    _audioPlayer.seek(duration);
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                          Visibility(
+                              visible: state.audios.isNotEmpty,
+                              child: 26.verticalSpace),
+                          Visibility(
+                            visible: state.audios.isNotEmpty,
+                            child: Controls(
+                              audioPlayer: _audioPlayer,
+                            ),
+                          ),
+                          Visibility(
+                            visible: state.audios.isEmpty,
+                            child: Column(
+                              children: [
+                                100.verticalSpace,
+                                StandardText.headline5(
+                                  context,
+                                  "No playlist added yet,\n Please try again later",
+                                  maxLines: 2,
+                                  align: TextAlign.center,
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

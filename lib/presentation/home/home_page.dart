@@ -1,4 +1,5 @@
 import 'package:dropandgouser/application/home/home_bloc/home_bloc.dart';
+import 'package:dropandgouser/application/likes_bloc/likes_cubit.dart';
 import 'package:dropandgouser/domain/home/category.dart';
 import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
@@ -28,7 +29,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-  GlobalKey<RefreshIndicatorState>();
+      GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -36,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  refreshPage(){
+  refreshPage() {
     context.read<UserBloc>().add(FetchUser());
     context.read<HomeBloc>().add(FetchCategories());
   }
@@ -55,22 +56,22 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           actions: [
-            BlocBuilder<HomeBloc, HomeState>(
-              builder: (context,state) {
-                return (state is HomeStateLoaded)?IconButton(
-                  onPressed: () {
-                    getIt<NavigationService>().pushNamed(
-                      context: context,
-                      uri: NavigationService.searchRouteUri,
-                      data: state.allCategories,
-                    );
-                  },
-                  icon: SvgPicture.asset(
-                    DropAndGoIcons.search,
-                  ),
-                ):const SizedBox.shrink();
-              }
-            ),
+            BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+              return (state is HomeStateLoaded)
+                  ? IconButton(
+                      onPressed: () {
+                        getIt<NavigationService>().pushNamed(
+                          context: context,
+                          uri: NavigationService.searchRouteUri,
+                          data: state.allCategories,
+                        );
+                      },
+                      icon: SvgPicture.asset(
+                        DropAndGoIcons.search,
+                      ),
+                    )
+                  : const SizedBox.shrink();
+            }),
             // IconButton(
             //   onPressed: () {},
             //   icon: SvgPicture.asset(
@@ -84,7 +85,7 @@ class _HomePageState extends State<HomePage> {
         key: _refreshIndicatorKey,
         color: DropAndGoColors.primary,
         backgroundColor: DropAndGoColors.white,
-        onRefresh: ()async => refreshPage(),
+        onRefresh: () async => refreshPage(),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Container(
@@ -105,8 +106,8 @@ class _HomePageState extends State<HomePage> {
                       "Liked Categories: ${state.userData.likedCategories}");
                 }
               },
-              child:
-                  BlocBuilder<UserBloc, UserState>(builder: (context, userState) {
+              child: BlocBuilder<UserBloc, UserState>(
+                  builder: (context, userState) {
                 return BlocBuilder<HomeBloc, HomeState>(
                     builder: (context, state) {
                   return (state is HomeStateLoading)
@@ -120,7 +121,8 @@ class _HomePageState extends State<HomePage> {
                                     : userState is UserStateLoaded
                                         ? Visibility(
                                             visible:
-                                                state.randomCategory.name != null,
+                                                state.randomCategory.name !=
+                                                    null,
                                             child: HomeRectCategory(
                                               categoryName:
                                                   state.randomCategory.name,
@@ -132,10 +134,21 @@ class _HomePageState extends State<HomePage> {
                                                       userState.userData
                                                           .likedCategories!
                                                           .contains(state
-                                                              .randomCategory.id!)
+                                                              .randomCategory
+                                                              .id!)
                                                   ? true
                                                   : false,
-                                              onLike: () {},
+                                              onLike: () {
+                                                if (state.randomCategory.id !=
+                                                    null) {
+                                                  context
+                                                      .read<LikesCubit>()
+                                                      .likeCategory(
+                                                        categoryId: state
+                                                            .randomCategory.id!,
+                                                      );
+                                                }
+                                              },
                                               onShare: () {},
                                               onTap: () {
                                                 getIt<NavigationService>()
@@ -153,9 +166,11 @@ class _HomePageState extends State<HomePage> {
                                 SlideInAnimation(
                                   child: CategoryViewMoreHeader(
                                     onViewMore: () {
-                                      getIt<NavigationService>().navigateToNamed(
+                                      getIt<NavigationService>()
+                                          .navigateToNamed(
                                         context: context,
-                                        uri: NavigationService.categoriesRouteUri,
+                                        uri: NavigationService
+                                            .categoriesRouteUri,
                                         data: state.allCategories,
                                       );
                                     },
@@ -197,9 +212,11 @@ class _HomePageState extends State<HomePage> {
                                   child: CategoryViewMoreHeader(
                                     categoryName: 'Recommended For You',
                                     onViewMore: () {
-                                      getIt<NavigationService>().navigateToNamed(
+                                      getIt<NavigationService>()
+                                          .navigateToNamed(
                                         context: context,
-                                        uri: NavigationService.categoriesRouteUri,
+                                        uri: NavigationService
+                                            .categoriesRouteUri,
                                         data: state.recommendedCategories,
                                       );
                                     },
@@ -242,9 +259,11 @@ class _HomePageState extends State<HomePage> {
                                   child: CategoryViewMoreHeader(
                                     categoryName: 'For Better Sleep',
                                     onViewMore: () {
-                                      getIt<NavigationService>().navigateToNamed(
+                                      getIt<NavigationService>()
+                                          .navigateToNamed(
                                         context: context,
-                                        uri: NavigationService.categoriesRouteUri,
+                                        uri: NavigationService
+                                            .categoriesRouteUri,
                                         data: state.forBetterSleepCategories,
                                       );
                                     },
@@ -280,7 +299,8 @@ class _HomePageState extends State<HomePage> {
                                   itemCount:
                                       state.forBetterSleepCategories.length > 4
                                           ? 4
-                                          : state.forBetterSleepCategories.length,
+                                          : state
+                                              .forBetterSleepCategories.length,
                                 ),
                                 15.verticalSpace,
                               ],
