@@ -1,6 +1,7 @@
 import 'package:dropandgouser/domain/home/category.dart';
 import 'package:dropandgouser/domain/player_audio/audio.dart';
 import 'package:dropandgouser/domain/search/previous_searches.dart';
+import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -26,6 +27,11 @@ abstract class IHomeRepository {
   });
 
   Future<Either<ApiError, List<Audio>>> getAudios({
+    required String categoryId,
+  });
+
+  Future<Either<ApiError, UserData>> likeCategory({
+    required String userId,
     required String categoryId,
   });
 }

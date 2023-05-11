@@ -10,6 +10,7 @@ import 'package:dropandgouser/application/complete_profile/cubit/profile_file_cu
 import 'package:dropandgouser/application/complete_profile/cubit/rememberme_cubit.dart';
 import 'package:dropandgouser/application/home/home_bloc/home_bloc.dart';
 import 'package:dropandgouser/application/home/user_bloc/user_bloc.dart';
+import 'package:dropandgouser/application/likes_bloc/likes_cubit.dart';
 import 'package:dropandgouser/application/login/cubit/login_obscurepassword_cubit.dart';
 import 'package:dropandgouser/application/login/cubit/login_remember_cubit.dart';
 import 'package:dropandgouser/application/login/login_bloc/login_bloc.dart';
@@ -255,7 +256,12 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
               homeRepository: _homeRepository
           ),
         ),
-      ], //AudioBloc
+        BlocProvider<LikesCubit>(
+          create: (context) => LikesCubit(
+              homeRepository: _homeRepository
+          ),
+        ),
+      ], //LikesCubit
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,
