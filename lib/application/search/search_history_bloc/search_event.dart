@@ -8,3 +8,11 @@ abstract class SearchEvent extends Equatable {
 class FetchPreviousSearches extends SearchEvent {
   FetchPreviousSearches();
 }
+
+class DeleteSearch extends SearchEvent {
+  DeleteSearch({
+    required this.docId,
+});
+
+  final String docId;
+}

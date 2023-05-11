@@ -79,7 +79,7 @@ class DownloadsPage extends StatelessWidget {
                     artistName: "Artist Name",
                     imageUrl: DropAndGoImages.addictions,
                     isFavorite: true,
-                    onFavoritePressed: () {},
+                    onItemTapped: () {},
                   ),
                 );
               },

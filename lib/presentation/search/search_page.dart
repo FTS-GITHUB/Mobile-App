@@ -1,5 +1,7 @@
 import 'package:dropandgouser/application/search/cubit/is_seearch_active.dart';
-import 'package:dropandgouser/application/search/search_bloc/search_bloc.dart';
+import 'package:dropandgouser/application/search/search_found_bloc/search_found_bloc.dart';
+import 'package:dropandgouser/application/search/search_history_bloc/search_bloc.dart';
+import 'package:dropandgouser/domain/home/category.dart';
 import 'package:dropandgouser/presentation/search/search_found.dart';
 import 'package:dropandgouser/presentation/search/search_history.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
@@ -11,15 +13,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../shared/widgets/button_loading.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+  const SearchPage({
+    Key? key,
+    required this.categories,
+  }) : super(key: key);
+  final List<Category> categories;
 
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final FocusNode _focus = FocusNode();
-
   final searchTextEditingController = TextEditingController();
 
   @override
@@ -42,7 +46,6 @@ class _SearchPageState extends State<SearchPage> {
         child: AppBar(
           leadingWidth: 36.w,
           title: StandardTextField(
-            focusNode: _focus,
             controller: searchTextEditingController,
             textInputAction: TextInputAction.search,
             labelStyle:
@@ -51,6 +54,12 @@ class _SearchPageState extends State<SearchPage> {
               context.read<IsSearchActive>().activeSearch();
             },
             onFieldSubmitted: (_) {
+              context.read<SearchFoundBloc>().add(
+                    FetchSearch(
+                      searchText: searchTextEditingController.text,
+                      categories: widget.categories,
+                    ),
+                  );
               context.read<IsSearchActive>().unActiveSearch();
             },
             cursorColor: DropAndGoColors.white,
@@ -67,28 +76,36 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: 16.h,
-            ),
-            child: BlocBuilder<IsSearchActive, bool>(
-                builder: (context, isSearchActive) {
-              return isSearchActive
-                  ? BlocBuilder<SearchBloc, SearchState>(
-                      builder: (context, state) {
-                      return (state is SearchStateLoading)
-                          ? const DropAndGoButtonLoading()
-                          : (state is SearchStateLoaded)
-                              ? SearchHistory(
-                        searches: state.previousSearches,
-                      )
-                              : const SizedBox.shrink();
-                    })
-                  : const SearchFound();
-              // : const SearchNotFound();
-            })),
+      body: BlocListener<SearchFoundBloc, SearchFoundState>(
+        listener: (context, searchFoundState){
+          if(searchFoundState is SearchFoundStateLoaded){
+            context.read<SearchBloc>().add(FetchPreviousSearches());
+          }
+        },
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: 16.h,
+              ),
+              child: BlocBuilder<IsSearchActive, bool>(
+                  builder: (context, isSearchActive) {
+                return isSearchActive
+                    ? BlocBuilder<SearchBloc, SearchState>(
+                        builder: (context, state) {
+                        return (state is SearchStateLoading)
+                            ? const DropAndGoButtonLoading()
+                            : (state is SearchStateLoaded)
+                                ? SearchHistory(
+                                    searches: state.previousSearches,
+                                    categories: widget.categories,
+                                  )
+                                : const SizedBox.shrink();
+                      })
+                    : const SearchFound();
+                // : const SearchNotFound();
+              })),
+        ),
       ),
     );
   }

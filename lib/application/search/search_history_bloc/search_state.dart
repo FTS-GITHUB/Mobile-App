@@ -14,7 +14,7 @@ class SearchStateLoaded extends SearchState {
     required this.previousSearches,
   });
 
-  final List<String> previousSearches;
+  final List<PreviousSearches> previousSearches;
 }
 
 class SearchStateError extends SearchState {

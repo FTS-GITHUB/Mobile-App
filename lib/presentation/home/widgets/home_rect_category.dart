@@ -80,7 +80,7 @@ class HomeRectCategory extends StatelessWidget {
                           child: isLiked
                               ? SvgPicture.asset(
                                   DropAndGoIcons.likeFilled,
-                            color: DropAndGoColors.blue,
+                            color: DropAndGoColors.red,
                                 )
                               : SvgPicture.asset(
                                   DropAndGoIcons.like,

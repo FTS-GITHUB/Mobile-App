@@ -110,16 +110,33 @@ class FirestoreService implements ICloudFirestoreRepository {
     required String firstCollectionName,
     required String secondCollectionName,
     required String firstDocId,
-    required String secondDocId,
+    String? secondDocId,
     required object,
   }) async {
     try {
-      await _firestore
-          .collection(firstCollectionName)
-          .doc(firstDocId)
-          .collection(secondCollectionName)
-          .doc(secondDocId)
-          .set(object);
+      if (secondDocId != null) {
+        await _firestore
+            .collection(firstCollectionName)
+            .doc(firstDocId)
+            .collection(secondCollectionName)
+            .doc(secondDocId)
+            .set(object);
+      } else {
+        final docRef = _firestore
+            .collection(firstCollectionName)
+            .doc(firstDocId)
+            .collection(secondCollectionName)
+            .doc();
+        await _firestore
+            .collection(firstCollectionName)
+            .doc(firstDocId)
+            .collection(secondCollectionName)
+            .doc(docRef.id)
+            .set({
+          'id': docRef.id,
+          'name': object,
+        });
+      }
       return right(unit);
     } on FirebaseException catch (e) {
       return left(e);
@@ -151,16 +168,36 @@ class FirestoreService implements ICloudFirestoreRepository {
     required String firstCollectionName,
     required String secondCollectionName,
     required String docId,
-  })async {
-    try{
-    final response = await _firestore
-        .collection(firstCollectionName)
-        .doc(docId)
-        .collection(secondCollectionName)
-        .get();
-    return right(response);
-  } on FirebaseException catch (e) {
-  return left(e);
+  }) async {
+    try {
+      final response = await _firestore
+          .collection(firstCollectionName)
+          .doc(docId)
+          .collection(secondCollectionName)
+          .get();
+      return right(response);
+    } on FirebaseException catch (e) {
+      return left(e);
+    }
   }
+
+  @override
+  Future<Either<FirebaseException, Unit>> deleteSpecificNestedDocument({
+    required String firstCollectionName,
+    required String secondCollectionName,
+    required String firstDocId,
+    required String secondDocId,
+  }) async {
+    try {
+      await _firestore
+          .collection(firstCollectionName)
+          .doc(firstDocId)
+          .collection(secondCollectionName)
+          .doc(secondDocId)
+          .delete();
+      return right(unit);
+    } on FirebaseException catch (e) {
+      return left(e);
+    }
   }
 }

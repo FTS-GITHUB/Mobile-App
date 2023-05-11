@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'previous_searches.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(
+  includeIfNull: false
+)
 class PreviousSearches{
   String? id;
   final String? name;

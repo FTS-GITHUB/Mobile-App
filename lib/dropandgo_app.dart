@@ -2,6 +2,7 @@
 
 import 'dart:ui' as ui;
 
+import 'package:dropandgouser/application/audio_bloc/audio_bloc.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/dob_date_cubit.dart';
@@ -9,6 +10,7 @@ import 'package:dropandgouser/application/complete_profile/cubit/profile_file_cu
 import 'package:dropandgouser/application/complete_profile/cubit/rememberme_cubit.dart';
 import 'package:dropandgouser/application/home/home_bloc/home_bloc.dart';
 import 'package:dropandgouser/application/home/user_bloc/user_bloc.dart';
+import 'package:dropandgouser/application/likes_bloc/likes_cubit.dart';
 import 'package:dropandgouser/application/login/cubit/login_obscurepassword_cubit.dart';
 import 'package:dropandgouser/application/login/cubit/login_remember_cubit.dart';
 import 'package:dropandgouser/application/login/login_bloc/login_bloc.dart';
@@ -17,6 +19,7 @@ import 'package:dropandgouser/application/onboarding/cubit/age_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/gender_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/user_level_cubit.dart';
 import 'package:dropandgouser/application/search/cubit/is_seearch_active.dart';
+import 'package:dropandgouser/application/search/search_found_bloc/search_found_bloc.dart';
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/application/signup/signup_bloc.dart';
 import 'package:dropandgouser/application/splash/splash_bloc/splash_bloc.dart';
@@ -41,7 +44,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'application/main/cubit/main_navbar_cubit.dart';
-import 'application/search/search_bloc/search_bloc.dart';
+import 'application/search/search_history_bloc/search_bloc.dart';
 import 'presentation/delegates/gorouter_delegate.dart';
 
 class DropAndGoApp extends StatefulWidget {
@@ -240,11 +243,25 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
         ),
         BlocProvider<SearchBloc>(
           create: (context) => SearchBloc(
-            authRepository: _authRepository,
             homeRepository: _homeRepository,
           ),
         ),
-      ], //SearchBloc
+        BlocProvider<SearchFoundBloc>(
+          create: (context) => SearchFoundBloc(
+            homeRepository: _homeRepository
+          ),
+        ),
+        BlocProvider<AudioBloc>(
+          create: (context) => AudioBloc(
+              homeRepository: _homeRepository
+          ),
+        ),
+        BlocProvider<LikesCubit>(
+          create: (context) => LikesCubit(
+              homeRepository: _homeRepository
+          ),
+        ),
+      ], //LikesCubit
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,

@@ -35,7 +35,7 @@ abstract class ICloudFirestoreRepository{
     required String firstCollectionName,
     required String secondCollectionName,
     required String firstDocId,
-    required String secondDocId,
+    String? secondDocId,
     required dynamic object,
   });
 
@@ -50,4 +50,12 @@ abstract class ICloudFirestoreRepository{
     required String secondCollectionName,
     required String docId,
   });
+
+  Future<Either<FirebaseException, Unit>> deleteSpecificNestedDocument({
+    required String firstCollectionName,
+    required String secondCollectionName,
+    required String firstDocId,
+    required String secondDocId,
+  });
+
 }
