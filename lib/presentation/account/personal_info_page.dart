@@ -47,12 +47,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
   @override
   void initState() {
-    user = getIt<UserService>().userData;
-    nameTextEditingController.text = user?.fullName??'';
-    phoneTextEditingController.text = user?.phoneNo??'';
-    dobTextEditingController.text = user?.dateOfBirth.toDateMonthYear()??'';
-    emailTextEditingController.text = user?.email??'';
-    context.read<CountryCubit>().onValueSelected(user?.country);
+    assignInitialValues();
     super.initState();
   }
 
@@ -63,6 +58,17 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     dobTextEditingController.dispose();
     emailTextEditingController.dispose();
     super.dispose();
+  }
+
+  assignInitialValues(){
+    user = getIt<UserService>().userData;
+    nameTextEditingController.text = user?.fullName??'';
+    phoneTextEditingController.text = user?.phoneNo??'';
+    dobTextEditingController.text = user?.dateOfBirth.toDateMonthYear()??'';
+    emailTextEditingController.text = user?.email??'';
+    if(user?.country!=null){
+      context.read<CountryCubit>().onValueSelected(user?.country);
+    }
   }
 
   @override
