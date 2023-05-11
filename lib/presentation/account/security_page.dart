@@ -5,6 +5,7 @@ import 'package:dropandgouser/presentation/account/widgets/app_switch.dart';
 import 'package:dropandgouser/shared/extensions/extensions.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/app_button_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -51,6 +52,8 @@ class SecurityPage extends StatelessWidget {
             AppButton(
               text: 'Change Password',
               width: context.width,
+              color: DropAndGoColors.white,
+              enableColor: DropAndGoColors.primary,
               onPressed: (){
                 getIt<NavigationService>().pushNamed(
                   context: context,
@@ -58,6 +61,39 @@ class SecurityPage extends StatelessWidget {
                 );
               },
             ),
+            Container(
+              margin: const EdgeInsets.only(
+                top: 45,
+                bottom: 43,
+              ),
+              alignment: Alignment.bottomCenter,
+              child: AppButton(
+                width: context.width,
+                text: 'login.confirm'.tr(),
+                onPressed: () {
+                  // if (context.read<ProfileFileCubit>().state == null) {
+                  //   getIt<Toasts>().showToast(
+                  //     context,
+                  //     type: AlertType.Error,
+                  //     title: 'Error',
+                  //     description: 'Please select profile picture',
+                  //   );
+                  // } else if (formKey.currentState != null &&
+                  //     formKey.currentState!.validate()) {
+                  //   getIt<NavigationService>().pushNamed(
+                  //     context: context,
+                  //     uri: NavigationService.createAccountRouteUri,
+                  //     data: UserData(
+                  //       fullName: nameTextEditingController.text,
+                  //       phoneNo: phoneTextEditingController.text,
+                  //       dateOfBirth: context.read<DobDateCubit>().state,
+                  //       file: context.read<ProfileFileCubit>().state,
+                  //     ),
+                  //   );
+                  // }
+                },
+              ),
+            )
           ],
         ),
       ),

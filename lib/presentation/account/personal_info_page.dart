@@ -3,11 +3,15 @@ import 'dart:io';
 import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/profile_file_cubit.dart';
+import 'package:dropandgouser/domain/services/user_service.dart';
+import 'package:dropandgouser/domain/signup/userdata.dart';
+import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/presentation/account/widgets/account_appbar.dart';
 import 'package:dropandgouser/presentation/signup/widgets/drop&go_date_picker.dart';
 import 'package:dropandgouser/presentation/signup/widgets/user_avatar.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/constants/global.dart';
+import 'package:dropandgouser/shared/extensions/datetime_extensions.dart';
 import 'package:dropandgouser/shared/extensions/extensions.dart';
 import 'package:dropandgouser/shared/extensions/number_extensions.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
@@ -39,6 +43,28 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   final TextEditingController emailTextEditingController =
   TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late UserData? user;
+
+  @override
+  void initState() {
+    user = getIt<UserService>().userData;
+    nameTextEditingController.text = user?.fullName??'';
+    phoneTextEditingController.text = user?.phoneNo??'';
+    dobTextEditingController.text = user?.dateOfBirth.toDateMonthYear()??'';
+    emailTextEditingController.text = user?.email??'';
+    context.read<CountryCubit>().onValueSelected(user?.country);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    nameTextEditingController.dispose();
+    phoneTextEditingController.dispose();
+    dobTextEditingController.dispose();
+    emailTextEditingController.dispose();
+    context.read<ProfileFileCubit>().dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +82,11 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
             children: [
               30.verticalSpace,
               BlocBuilder<ProfileFileCubit, File?>(builder: (context, file) {
-                return EditUserAvatar(
+                return (file ==null)?
+                EditUserAvatar(
+                  imageUrl: user?.profilePicUrl,
+                ):
+                EditUserAvatar(
                   file: file,
                 );
               }),
@@ -157,33 +187,38 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                 fontSize: 12,
               ),
               // Drop
-              DropAndGoDropdown<String>(
-                data: CountriesCubit.countries
-                    .map<DropdownMenuItem<String>>(
-                      (String val) => DropdownMenuItem(
-                        value: val,
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 8),
-                          width: context.width - 120,
-                          child: StandardText.body2(
-                            context,
-                            val,
-                            color: DropAndGoColors.primary,
-                            overflow: TextOverflow.ellipsis,
+              BlocBuilder<CountryCubit, String?>(
+                builder: (context, countryName) {
+                  return DropAndGoDropdown<String>(
+                    data: CountriesCubit.countries
+                        .map<DropdownMenuItem<String>>(
+                          (String val) => DropdownMenuItem(
+                            value: val,
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 8),
+                              width: context.width - 120,
+                              child: StandardText.body2(
+                                context,
+                                val,
+                                color: DropAndGoColors.primary,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    )
-                    .toList(),
-                hintText: '',
-                onChanged: context.read<CountryCubit>().onValueSelected,
-                validator: (val) {
-                  if (val == null || val.isEmpty) {
-                    return 'Please select country';
-                  } else {
-                    return null;
-                  }
-                },
+                        )
+                        .toList(),
+                    hintText: '',
+                    value: countryName,
+                    onChanged: context.read<CountryCubit>().onValueSelected,
+                    validator: (val) {
+                      if (val == null || val.isEmpty) {
+                        return 'Please select country';
+                      } else {
+                        return null;
+                      }
+                    },
+                  );
+                }
               ),
               Container(
                 margin: const EdgeInsets.only(

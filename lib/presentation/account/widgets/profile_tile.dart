@@ -1,6 +1,9 @@
+import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
+import 'package:dropandgouser/presentation/signup/widgets/success_placeholder.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
+import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/helpers/typography/font_weights.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +15,34 @@ class ProfileTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = getIt<UserService>().userData;
     return Row(
       children: [
-        CircleAvatar(
-          minRadius: 35.h,
-          backgroundColor: Colors.red,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(35),
+          child: user?.profilePicUrl == null
+              ? CircleAvatar(
+            minRadius: 35.h,
+                  backgroundColor: DropAndGoColors.primary,
+                  child: SvgPicture.asset(
+                    DropAndGoIcons.userBold,
+                  ),
+                )
+              : Image.network(
+                  user!.profilePicUrl!,
+                  width: 70.h,
+                  height: 70.h,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, _, __) {
+                    return CircleAvatar(
+                      minRadius: 35.h,
+                      backgroundColor: DropAndGoColors.primary,
+                      child: SvgPicture.asset(
+                        DropAndGoIcons.userBold,
+                      ),
+                    );
+                  },
+                ),
         ),
         8.horizontalSpace,
         Column(
@@ -25,13 +51,13 @@ class ProfileTile extends StatelessWidget {
           children: [
             StandardText.headline6(
               context,
-              'Mark Smith',
+              user?.fullName ?? 'N/A',
               fontWeight: DropAndGoFontWeight.bold,
             ),
             4.verticalSpace,
             StandardText.headline6(
               context,
-              'marksmith765400@gmail.com',
+              user?.email ?? 'N/A',
               fontSize: 10,
               fontWeight: DropAndGoFontWeight.medium,
             ),
@@ -41,7 +67,7 @@ class ProfileTile extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerRight,
             child: InkWell(
-              onTap: (){
+              onTap: () {
                 getIt<NavigationService>().pushNamed(
                   context: context,
                   uri: NavigationService.personalInfoRouteUri,

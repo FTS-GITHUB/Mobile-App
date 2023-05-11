@@ -8,9 +8,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class EditUserAvatar extends StatelessWidget {
-  const EditUserAvatar({Key? key, this.file,}) : super(key: key);
+  const EditUserAvatar({Key? key, this.file,
+  this.imageUrl,
+  }) : super(key: key);
 
   final File? file;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +24,14 @@ class EditUserAvatar extends StatelessWidget {
       child: Center(
         child: Stack(
           children: [
-            CircleAvatar(
+            file!=null?CircleAvatar(
               maxRadius: 60,
               backgroundColor: DropAndGoColors.primary.withOpacity(.1),
-              backgroundImage: file!=null?FileImage(file!):null,
+              backgroundImage: FileImage(file!),
+            ):CircleAvatar(
+              maxRadius: 60,
+              backgroundColor: DropAndGoColors.primary.withOpacity(.1),
+              backgroundImage: NetworkImage(imageUrl!),
             ),
             Positioned(
               bottom: 5,

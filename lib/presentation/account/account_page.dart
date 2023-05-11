@@ -1,4 +1,5 @@
 import 'package:dropandgouser/application/main/cubit/main_navbar_cubit.dart';
+import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/account/logout_bottom_sheet.dart';
@@ -18,6 +19,7 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final setting = getIt<UserService>().userSetting;
     FocusScope.of(context).unfocus();
     return Scaffold(
       appBar: PreferredSize(
