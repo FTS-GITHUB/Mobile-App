@@ -20,7 +20,6 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final setting = getIt<UserService>().userSetting;
     FocusScope.of(context).unfocus();
     return Scaffold(
       appBar: PreferredSize(

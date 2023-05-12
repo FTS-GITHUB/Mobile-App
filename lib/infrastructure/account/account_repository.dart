@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropandgouser/domain/account/i_account_repository.dart';
 import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
 import 'package:dropandgouser/domain/services/user_service.dart';
+import 'package:dropandgouser/domain/signup/user_setting.dart';
 import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/shared/constants/firestore_collections.dart';
@@ -45,5 +46,31 @@ class AccountRepository implements IAccountRepository {
         },
       );
     }
+  }
+
+  @override
+  Future<Either<ApiError, Unit>> updateUserSetting({
+    required String userId,
+    required UserSetting userSetting,
+  }) async {
+    final response = await firestoreRepository.updateNestedDocument(
+      firstCollectionName: FirestoreCollections.users,
+      firstDocId: userId,
+      secondCollectionName: FirestoreCollections.settings,
+      secondDocId: userId,
+      object: userSetting.toJson(),
+    );
+    return response.fold(
+      (l) => left(
+        l.toApiError(),
+      ),
+      (DocumentSnapshot<Map<String, dynamic>> r) {
+        UserSetting updatedUserSetting = UserSetting.fromJson(
+          r.data() ?? {},
+        );
+        getIt<UserService>().userSetting = updatedUserSetting;
+        return right(unit);
+      },
+    );
   }
 }

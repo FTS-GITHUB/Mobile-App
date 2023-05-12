@@ -2,6 +2,9 @@
 
 import 'dart:ui' as ui;
 
+import 'package:dropandgouser/application/account/account_cubit/remind_bedtime_cubit.dart';
+import 'package:dropandgouser/application/account/account_cubit/set_reminder_cubit.dart';
+import 'package:dropandgouser/application/account/account_setting_bloc/account_setting_bloc.dart';
 import 'package:dropandgouser/application/account/personal_info_bloc/personal_info_bloc.dart';
 import 'package:dropandgouser/application/audio_bloc/audio_bloc.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
@@ -268,7 +271,18 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
             signupRepository: _signupRepository,
           ),
         ),
-      ], //PersonalInfoBloc
+        BlocProvider<RemindBedTimeCubit>(
+          create: (context) => RemindBedTimeCubit(),
+        ),
+        BlocProvider<SetReminderCubit>(
+          create: (context) => SetReminderCubit(),
+        ),
+        BlocProvider<AccountSettingBloc>(
+          create: (context) => AccountSettingBloc(
+            accountRepository: _accountRepository,
+          ),
+        ),
+      ], //AccountSettingBloc
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,

@@ -58,4 +58,11 @@ abstract class ICloudFirestoreRepository{
     required String secondDocId,
   });
 
+  Future<Either<FirebaseException, DocumentSnapshot<Map<String, dynamic>>>> updateNestedDocument({
+    required String firstCollectionName,
+    required String secondCollectionName,
+    required String firstDocId,
+    required String secondDocId,
+    required dynamic object,
+  });
 }

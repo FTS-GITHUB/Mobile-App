@@ -200,4 +200,37 @@ class FirestoreService implements ICloudFirestoreRepository {
       return left(e);
     }
   }
+
+  @override
+  Future<Either<FirebaseException, DocumentSnapshot<Map<String, dynamic>>>>
+      updateNestedDocument({
+    required String firstCollectionName,
+    required String secondCollectionName,
+    required String firstDocId,
+    required String secondDocId,
+    required object,
+  }) async {
+    try {
+      await _firestore
+          .collection(firstCollectionName)
+          .doc(firstDocId)
+          .collection(secondCollectionName)
+          .doc(secondDocId)
+          .set(
+            object,
+            SetOptions(
+              merge: true,
+            ),
+          );
+      final response = await _firestore
+          .collection(firstCollectionName)
+          .doc(firstDocId)
+          .collection(secondCollectionName)
+          .doc(secondDocId)
+          .get();
+      return right(response);
+    } on FirebaseException catch (e) {
+      return left(e);
+    }
+  }
 }
