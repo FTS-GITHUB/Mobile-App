@@ -9,7 +9,6 @@ import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/home/widgets/home_rect_category.dart';
 import 'package:dropandgouser/presentation/player_audio/widgets/controls.dart';
-import 'package:dropandgouser/presentation/session_complete/session_complete_page.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/packages/audio_progress_bar.dart';

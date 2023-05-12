@@ -23,13 +23,13 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.1.1
   flutter_dotenv: ^5.0.2
-  flutter_form_builder: ^7.6.0
+  flutter_form_builder: ^9.0.0
   flutter_gen: ^5.1.0+1
   flutter_screenutil: ^5.4.0+1
   flutter_spinkit: ^5.1.0
   flutter_svg: ^1.1.6
   fluttertoast: ^8.1.2
-  form_builder_validators: ^8.3.0
+  form_builder_validators: ^9.0.0
   formz: ^0.4.1
   fpdart: ^0.3.0
   get_it: ^7.2.0
@@ -39,7 +39,7 @@ dependencies:
   google_sign_in: ^5.4.2
   hydrated_bloc: ^8.1.0
   image_picker: ^0.8.6
-  intl: ^0.17.0
+  intl: ^0.18.0
   injectable: ^2.1.0
   json_annotation: ^4.7.0
   just_audio: ^0.9.32

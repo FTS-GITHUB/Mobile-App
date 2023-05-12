@@ -2,6 +2,7 @@
 
 import 'dart:ui' as ui;
 
+import 'package:dropandgouser/application/account/personal_info_bloc/personal_info_bloc.dart';
 import 'package:dropandgouser/application/audio_bloc/audio_bloc.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.dart';
@@ -23,6 +24,7 @@ import 'package:dropandgouser/application/search/search_found_bloc/search_found_
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/application/signup/signup_bloc.dart';
 import 'package:dropandgouser/application/splash/splash_bloc/splash_bloc.dart';
+import 'package:dropandgouser/domain/account/i_account_repository.dart';
 import 'package:dropandgouser/domain/home/i_home_repository.dart';
 import 'package:dropandgouser/domain/i_setting_repository.dart';
 import 'package:dropandgouser/domain/login/i_login_repository.dart';
@@ -30,6 +32,7 @@ import 'package:dropandgouser/domain/services/i_auth_repository.dart';
 import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
 import 'package:dropandgouser/domain/services/i_storage_repository.dart';
 import 'package:dropandgouser/domain/signup/i_signup_repository.dart';
+import 'package:dropandgouser/infrastructure/account/account_repository.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/home/home_repository.dart';
 import 'package:dropandgouser/infrastructure/login/login_repository.dart';
@@ -65,6 +68,7 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
   late ILoginRepository _loginRepository;
   late SplashRepository _splashRepository;
   late IHomeRepository _homeRepository;
+  late IAccountRepository _accountRepository;
 
   // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   // final _networkNotifier = ValueNotifier(false);
@@ -120,6 +124,9 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
     _splashRepository = SplashRepository(_cloudFirestoreRepository);
     _homeRepository = HomeRepository(
       cloudFirestoreRepository: _cloudFirestoreRepository,
+    );
+    _accountRepository = AccountRepository(
+      firestoreRepository: _cloudFirestoreRepository,
     );
   }
 
@@ -247,21 +254,21 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
           ),
         ),
         BlocProvider<SearchFoundBloc>(
-          create: (context) => SearchFoundBloc(
-            homeRepository: _homeRepository
-          ),
+          create: (context) => SearchFoundBloc(homeRepository: _homeRepository),
         ),
         BlocProvider<AudioBloc>(
-          create: (context) => AudioBloc(
-              homeRepository: _homeRepository
-          ),
+          create: (context) => AudioBloc(homeRepository: _homeRepository),
         ),
         BlocProvider<LikesCubit>(
-          create: (context) => LikesCubit(
-              homeRepository: _homeRepository
+          create: (context) => LikesCubit(homeRepository: _homeRepository),
+        ),
+        BlocProvider<PersonalInfoBloc>(
+          create: (context) => PersonalInfoBloc(
+            accountRepository: _accountRepository,
+            signupRepository: _signupRepository,
           ),
         ),
-      ], //LikesCubit
+      ], //PersonalInfoBloc
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,
