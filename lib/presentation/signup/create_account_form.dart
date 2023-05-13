@@ -112,7 +112,7 @@ class CreateAccountForm extends StatelessWidget {
                   checkColor: DropAndGoColors.white,
                   value: isTrue,
                   onChanged: (val) {
-                    context.read<RememberMeCubit>().onTapped();
+                    context.read<RememberMeCubit>().initialize(val!);
                   },
                 );
               }),

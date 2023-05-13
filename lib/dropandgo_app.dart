@@ -2,9 +2,12 @@
 
 import 'dart:ui' as ui;
 
+import 'package:dropandgouser/application/account/account_cubit/biometric_id_cubit.dart';
+import 'package:dropandgouser/application/account/account_cubit/face_id_cubit.dart';
 import 'package:dropandgouser/application/account/account_cubit/remind_bedtime_cubit.dart';
 import 'package:dropandgouser/application/account/account_cubit/set_reminder_cubit.dart';
 import 'package:dropandgouser/application/account/account_setting_bloc/account_setting_bloc.dart';
+import 'package:dropandgouser/application/account/change_password_bloc/change_password_bloc.dart';
 import 'package:dropandgouser/application/account/personal_info_bloc/personal_info_bloc.dart';
 import 'package:dropandgouser/application/audio_bloc/audio_bloc.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
@@ -282,7 +285,21 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
             accountRepository: _accountRepository,
           ),
         ),
-      ], //AccountSettingBloc
+        BlocProvider<BiometricCubit>(
+          create: (context) => BiometricCubit(),
+        ),
+        BlocProvider<FaceIdCubit>(
+          create: (context) => FaceIdCubit(),
+        ),
+        BlocProvider<RememberMeCubit>(
+          create: (context) => RememberMeCubit(),
+        ),
+        BlocProvider<ChangePasswordBloc>(
+          create: (context) => ChangePasswordBloc(
+            authRepository: _authRepository
+          ),
+        ),
+      ], //ChangePasswordBloc
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,

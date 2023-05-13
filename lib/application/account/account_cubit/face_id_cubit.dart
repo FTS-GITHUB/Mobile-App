@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RememberMeCubit extends Cubit<bool>{
-  RememberMeCubit():super(false);
+class FaceIdCubit extends Cubit<bool>{
+  FaceIdCubit():super(true);
 
   initialize(bool value){
     emit(value);
