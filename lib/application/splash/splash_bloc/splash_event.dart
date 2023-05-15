@@ -5,18 +5,12 @@ class SplashEvent extends Equatable{
   List<Object?> get props => [];
 }
 
-class CheckAuthState extends SplashEvent{}
+class CheckAuthState extends SplashEvent{
+  CheckAuthState({
+    required this.isAuthenticated,
+});
+  final bool isAuthenticated;
 
-// class GetUser extends SplashEvent{
-//   GetUser({
-//     required this.userId,
-//   });
-//   final String userId;
-// }
-//
-// class GetUserSettings extends SplashEvent{
-//   GetUserSettings({
-//     required this.userId,
-// });
-//   final String userId;
-// }
+}
+
+class AuthenticateBiometric extends SplashEvent{}

@@ -42,6 +42,7 @@ import 'package:dropandgouser/infrastructure/account/account_repository.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/home/home_repository.dart';
 import 'package:dropandgouser/infrastructure/login/login_repository.dart';
+import 'package:dropandgouser/infrastructure/services/local_auth_service.dart';
 import 'package:dropandgouser/infrastructure/setting/setting_repository.dart';
 import 'package:dropandgouser/infrastructure/signup/signup_repository.dart';
 import 'package:dropandgouser/infrastructure/splash/splash_repository.dart';
@@ -90,7 +91,6 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
   void initState() {
     SharedPreferenceHelper.instance.init();
     super.initState();
-
     initRepositories();
   }
 
@@ -243,7 +243,9 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
           create: (context) => SplashBloc(
             _authRepository,
             _splashRepository,
-          )..add(CheckAuthState()),
+          )..add(CheckAuthState(
+              isAuthenticated: false,
+            )),
         ),
         BlocProvider<HomeBloc>(
           create: (context) => HomeBloc(homeRepository: _homeRepository),
@@ -295,11 +297,10 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
           create: (context) => RememberMeCubit(),
         ),
         BlocProvider<ChangePasswordBloc>(
-          create: (context) => ChangePasswordBloc(
-            authRepository: _authRepository
-          ),
+          create: (context) =>
+              ChangePasswordBloc(authRepository: _authRepository),
         ),
-      ], //ChangePasswordBloc
+      ], // ChangePasswordBloc
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,

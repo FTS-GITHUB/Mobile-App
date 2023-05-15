@@ -29,6 +29,16 @@ class SharedPreferenceHelper {
     _sharedPrefInstance.setBool(PreferencesKey.hasAppRanKey, hasAppRan!);
   }
 
+  static bool get isBiometricEnabled =>
+      _sharedPrefInstance.getBool(PreferencesKey.biometricEnabled) ?? false;
+
+  static set isBiometricEnabled(bool? isBiometricEnabled) {
+    _sharedPrefInstance.setBool(
+      PreferencesKey.biometricEnabled,
+      isBiometricEnabled!,
+    );
+  }
+
   /// Save User login data for feature use
   // static Future<bool> saveUser(UserData? data) async {
   //   if (data != null) {
@@ -69,7 +79,7 @@ class SharedPreferenceHelper {
   }
 
   static Future<UserSetting?> getUserSetting() async {
-    UserSetting user= UserSetting();
+    UserSetting user = UserSetting();
     if (_sharedPrefInstance.getString(PreferencesKey.userSettingKey) != null) {
       user = UserSetting.fromJson(
         json.decode(
@@ -93,4 +103,5 @@ class PreferencesKey {
 
   ///a key to check if it's app has ran before. Will be true if app has ran before.
   static String hasAppRanKey = 'hasAppRan';
+  static String biometricEnabled = 'isBiometricEnabled';
 }

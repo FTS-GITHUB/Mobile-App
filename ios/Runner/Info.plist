@@ -48,9 +48,9 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-    </dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <true/>
+    <key>NSFaceIDUsageDescription</key>
+    <string>Authorization required to keep user data safely.</string>
 </dict>
 </plist>

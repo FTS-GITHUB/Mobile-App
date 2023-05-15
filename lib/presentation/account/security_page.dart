@@ -25,7 +25,7 @@ class SecurityPage extends StatelessWidget {
     UserSetting? setting,
   ) {
     context.read<RememberMeCubit>().initialize(setting?.isRemember ?? true);
-    context.read<BiometricCubit>().initialize(setting?.isBiometric ?? true);
+    context.read<BiometricCubit>().initialize(setting?.isBiometric ?? false);
     context.read<FaceIdCubit>().initialize(setting?.isFaceId ?? true);
   }
 
@@ -47,7 +47,7 @@ class SecurityPage extends StatelessWidget {
           ),
         ),
         body: Container(
-          margin: EdgeInsets.symmetric(horizontal: 40.w, vertical: 10.h),
+          margin: EdgeInsets.symmetric(horizontal: 30.w, vertical: 10.h),
           child: Column(
             children: [
               BlocBuilder<RememberMeCubit, bool>(
@@ -64,7 +64,7 @@ class SecurityPage extends StatelessWidget {
               BlocBuilder<BiometricCubit, bool>(
                   builder: (context, isBiometricId) {
                 return AppSwitch(
-                  title: "Biometric ID",
+                  title: "Biometric e.g Face ID, Fingerprint",
                   isUpperCase: false,
                   switchValue: isBiometricId,
                   onChangedSwitch: context.read<BiometricCubit>().initialize,
@@ -72,15 +72,15 @@ class SecurityPage extends StatelessWidget {
                 );
               }),
               30.verticalSpace,
-              BlocBuilder<FaceIdCubit, bool>(builder: (context, isFaceId) {
-                return AppSwitch(
-                  title: "Face ID",
-                  isUpperCase: false,
-                  switchValue: isFaceId,
-                  onChangedSwitch: context.read<FaceIdCubit>().initialize,
-                  switchColor: DropAndGoColors.yellow,
-                );
-              }),
+              // BlocBuilder<FaceIdCubit, bool>(builder: (context, isFaceId) {
+              //   return AppSwitch(
+              //     title: "Face ID",
+              //     isUpperCase: false,
+              //     switchValue: isFaceId,
+              //     onChangedSwitch: context.read<FaceIdCubit>().initialize,
+              //     switchColor: DropAndGoColors.yellow,
+              //   );
+              // }),
               50.verticalSpace,
               AppButton(
                 text: 'Change Password',
