@@ -228,32 +228,38 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                     fontSize: 12,
                   ),
                   // Drop
-                  BlocBuilder<CountryCubit, String?>(
-                      builder: (context, countryName) {
-                    return DropdownSearch<String>(
-                      popupProps: PopupProps.dialog(
-                        showSearchBox: true,
-                        showSelectedItems: true,
-                      ),
-                      dropdownDecoratorProps: DropDownDecoratorProps(
-                        baseStyle: TextStyle(
-                          fontSize: 12,
-                          color: DropAndGoColors.primary,
-                          overflow: TextOverflow.ellipsis,
-                        )
-                      ),
-                      validator: (val) {
-                        if (val == null || val.isEmpty) {
-                          return 'Please select country';
-                        } else {
-                          return null;
-                        }
-                      },
-                      items: CountriesCubit.countries,
-                      onChanged: (value) {},
-                      selectedItem: "Brazil",
-                    );
-                  }),
+                  // BlocBuilder<CountryCubit, String?>(
+                  //     builder: (context, countryName) {
+                  //   return DropdownSearch<String>(
+                  //     popupProps: PopupProps.dialog(
+                  //       showSearchBox: true,
+                  //       showSelectedItems: true,
+                  //       itemBuilder: (context, item){
+                  //         return Container(
+                  //           color: Drop,
+                  //         )
+                  //       }
+                  //     ),
+                  //
+                  //     dropdownDecoratorProps: DropDownDecoratorProps(
+                  //       baseStyle: TextStyle(
+                  //         fontSize: 12,
+                  //         color: DropAndGoColors.primary,
+                  //         overflow: TextOverflow.ellipsis,
+                  //       )
+                  //     ),
+                  //     validator: (val) {
+                  //       if (val == null || val.isEmpty) {
+                  //         return 'Please select country';
+                  //       } else {
+                  //         return null;
+                  //       }
+                  //     },
+                  //     items: CountriesCubit.countries,
+                  //     onChanged: (value) {},
+                  //     selectedItem: "Brazil",
+                  //   );
+                  // }),
                   BlocBuilder<CountryCubit, String?>(
                       builder: (context, countryName) {
                     return DropAndGoDropdown<String>(
