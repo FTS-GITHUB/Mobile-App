@@ -1,4 +1,11 @@
+import 'package:dropandgouser/application/account/account_cubit/preference_cubit.dart';
+import 'package:dropandgouser/domain/account/preference.dart';
+import 'package:dropandgouser/domain/services/user_service.dart';
+import 'package:dropandgouser/domain/signup/user_setting.dart';
+import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/presentation/account/widgets/account_appbar.dart';
+import 'package:dropandgouser/presentation/account/widgets/audio_quality_dialog.dart';
+import 'package:dropandgouser/presentation/account/widgets/clear_cache_dialog.dart';
 import 'package:dropandgouser/presentation/account/widgets/icon_forward.dart';
 import 'package:dropandgouser/shared/extensions/media_query.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
@@ -7,6 +14,7 @@ import 'package:dropandgouser/shared/widgets/app_button_widget.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'widgets/app_switch.dart';
@@ -14,8 +22,20 @@ import 'widgets/app_switch.dart';
 class PreferencePage extends StatelessWidget {
   const PreferencePage({Key? key}) : super(key: key);
 
+  initializePreferences(
+    BuildContext context,
+    UserSetting? setting,
+  ) {
+    context.read<PreferenceCubit>().initialize(Preference(
+          audioQuality: setting?.audioQuality ?? "Standard",
+          downloadWifi: setting?.isDownloadWifi ?? true,
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
+    var settings = getIt<UserService>().userSetting;
+    initializePreferences(context, settings);
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(70),
@@ -24,7 +44,7 @@ class PreferencePage extends StatelessWidget {
         ),
       ),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 40.w,vertical: 10.h),
+        margin: EdgeInsets.symmetric(horizontal: 40.w, vertical: 10.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -35,88 +55,106 @@ class PreferencePage extends StatelessWidget {
               fontWeight: DropAndGoFontWeight.semiBold,
             ),
             30.verticalSpace,
-            AppSwitch(
-              title: "Download over WIFI only",
-              isUpperCase: false,
-              switchValue: true,
-              onChangedSwitch: (val){},
-              switchColor: DropAndGoColors.lightGreen,
-            ),
-            25.verticalSpace,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                StandardText.headline6(
-                  context,
-                  'Clear Cache',
+            BlocBuilder<PreferenceCubit, Preference>(builder: (context, state) {
+              return AppSwitch(
+                title: "Download over WIFI only",
+                isUpperCase: false,
+                switchValue: state.downloadWifi!,
+                onChangedSwitch:
+                    context.read<PreferenceCubit>().changeDownloadOverWifi,
+                switchColor: DropAndGoColors.lightGreen,
+              );
+            }),
+            InkWell(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (dialogContext) => const ClearCacheDialog(),
+                );
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 25.h,
                 ),
-                const IconForward(),
-              ],
-            ),
-            30.verticalSpace,
-            StandardText.headline5(
-              context,
-              'Audio',
-            ),
-            30.verticalSpace,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                StandardText.headline6(
-                  context,
-                  'Audio Quality',
-                ),
-                Row(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     StandardText.headline6(
                       context,
-                      'Standard',
+                      'Clear Cache',
                     ),
                     const IconForward(),
                   ],
                 ),
-              ],
-            ),
-            30.verticalSpace,
-            AppSwitch(
-              title: "Automatically Download Audio",
-              isUpperCase: false,
-              switchValue: false,
-              onChangedSwitch: (val){},
-              switchColor: DropAndGoColors.lightGreen,
-            ),
-            Container(
-              margin: const EdgeInsets.only(
-                top: 28,
-                bottom: 43,
               ),
-              alignment: Alignment.bottomCenter,
-              child: AppButton(
-                width: context.width,
-                text: 'login.confirm'.tr(),
-                onPressed: () {
-                  // if (context.read<ProfileFileCubit>().state == null) {
-                  //   getIt<Toasts>().showToast(
-                  //     context,
-                  //     type: AlertType.Error,
-                  //     title: 'Error',
-                  //     description: 'Please select profile picture',
-                  //   );
-                  // } else if (formKey.currentState != null &&
-                  //     formKey.currentState!.validate()) {
-                  //   getIt<NavigationService>().pushNamed(
-                  //     context: context,
-                  //     uri: NavigationService.createAccountRouteUri,
-                  //     data: UserData(
-                  //       fullName: nameTextEditingController.text,
-                  //       phoneNo: phoneTextEditingController.text,
-                  //       dateOfBirth: context.read<DobDateCubit>().state,
-                  //       file: context.read<ProfileFileCubit>().state,
-                  //     ),
-                  //   );
-                  // }
-                },
+            ),
+            5.verticalSpace,
+            StandardText.headline5(
+              context,
+              'Audio',
+            ),
+            InkWell(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (dialogContext) => AudioQualityDialog(),
+                );
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 30.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    StandardText.headline6(
+                      context,
+                      'Audio Quality',
+                    ),
+                    Row(
+                      children: [
+                        StandardText.headline6(
+                          context,
+                          'Standard',
+                        ),
+                        const IconForward(),
+                      ],
+                    ),
+                  ],
+                ),
               ),
+            ),
+            // 30.verticalSpace,
+            // AppSwitch(
+            //   title: "Automatically Download Audio",
+            //   isUpperCase: false,
+            //   switchValue: false,
+            //   onChangedSwitch: (val) {},
+            //   switchColor: DropAndGoColors.lightGreen,
+            // ),
+            AppButton(
+              width: context.width,
+              text: 'login.confirm'.tr(),
+              onPressed: () {
+                // if (context.read<ProfileFileCubit>().state == null) {
+                //   getIt<Toasts>().showToast(
+                //     context,
+                //     type: AlertType.Error,
+                //     title: 'Error',
+                //     description: 'Please select profile picture',
+                //   );
+                // } else if (formKey.currentState != null &&
+                //     formKey.currentState!.validate()) {
+                //   getIt<NavigationService>().pushNamed(
+                //     context: context,
+                //     uri: NavigationService.createAccountRouteUri,
+                //     data: UserData(
+                //       fullName: nameTextEditingController.text,
+                //       phoneNo: phoneTextEditingController.text,
+                //       dateOfBirth: context.read<DobDateCubit>().state,
+                //       file: context.read<ProfileFileCubit>().state,
+                //     ),
+                //   );
+                // }
+              },
             )
           ],
         ),

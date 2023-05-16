@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 
 import 'package:dropandgouser/application/account/account_cubit/biometric_id_cubit.dart';
 import 'package:dropandgouser/application/account/account_cubit/face_id_cubit.dart';
+import 'package:dropandgouser/application/account/account_cubit/preference_cubit.dart';
 import 'package:dropandgouser/application/account/account_cubit/remind_bedtime_cubit.dart';
 import 'package:dropandgouser/application/account/account_cubit/set_reminder_cubit.dart';
 import 'package:dropandgouser/application/account/account_setting_bloc/account_setting_bloc.dart';
@@ -301,7 +302,10 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
           create: (context) =>
               ChangePasswordBloc(authRepository: _authRepository),
         ),
-      ], // ChangePasswordBloc
+        BlocProvider<PreferenceCubit>(
+          create: (context) => PreferenceCubit(),
+        ),
+      ], // PreferenceCubit
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,
@@ -337,18 +341,18 @@ class _DropAndGoApp extends StatelessWidget {
           builder: (BuildContext context, Widget? child) {
             ScreenUtilSetup.initialize(context);
             return AnnotatedRegion<SystemUiOverlayStyle>(
-            value: SystemUiOverlayStyle.dark.copyWith(
-              systemNavigationBarIconBrightness: Brightness.dark,
-            ),
-            child: Directionality(
-              textDirection: ui.TextDirection.ltr,
-              child: MediaQuery(
-                  data: MediaQuery.of(context).copyWith(
-                    textScaleFactor: 1,
-                  ),
-                  child: child ?? Container()),
-            ),
-          );
+              value: SystemUiOverlayStyle.dark.copyWith(
+                systemNavigationBarIconBrightness: Brightness.dark,
+              ),
+              child: Directionality(
+                textDirection: ui.TextDirection.ltr,
+                child: MediaQuery(
+                    data: MediaQuery.of(context).copyWith(
+                      textScaleFactor: 1,
+                    ),
+                    child: child ?? Container()),
+              ),
+            );
           },
           locale: context.locale,
           localizationsDelegates: context.localizationDelegates,
