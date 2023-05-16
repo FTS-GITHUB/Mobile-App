@@ -1,8 +1,6 @@
-import 'dart:async';
 
 import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
-import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/shared/constants/global.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +29,7 @@ class _LifeCycleManagerState extends State<LifeCycleManager>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if(state == AppLifecycleState.paused || state == AppLifecycleState.paused){
-      stopWatch.stop();
+      stopWatch.reset();
       final user = getIt<UserService>().userData;
       if(user?.id != null){
         print("User id: ${user?.id}");

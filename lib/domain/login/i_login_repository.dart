@@ -1,4 +1,5 @@
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract class ILoginRepository {
@@ -12,4 +13,6 @@ abstract class ILoginRepository {
   });
 
   Future<Either<ApiError, Unit>> logout();
+
+  Future<Either<ApiError, UserCredential>> loginWithGmail();
 }

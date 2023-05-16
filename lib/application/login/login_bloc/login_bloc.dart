@@ -17,6 +17,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with ForgetPasswordBloc {
     on<LoginUser>(_onLoginUser);
     on<SendResetEmail>(_onSendResetEmail);
     on<LogoutUser>(_onLogoutUser);
+    on<LoginUserWithGmail>(_onLoginUserWithGmail);
   }
 
   final ILoginRepository loginRepository;
@@ -60,6 +61,28 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with ForgetPasswordBloc {
       (r) => emit(
         LogoutSuccess(),
       ),
+    );
+  }
+
+  Future<void> _onLoginUserWithGmail(
+      LoginUserWithGmail event, Emitter<LoginState> emit) async {
+    emit(LoginStateLoading());
+    final response = await loginRepository.loginWithGmail();
+    response.fold(
+      (l) => emit(
+        LoginStateError(
+          message: l.message ?? "Failed to connect",
+        ),
+      ),
+      (r) {
+        print("From Google");
+        print(r.user?.uid);
+        print(r.user?.photoURL);
+        print("============");
+        emit(
+        LogoutSuccess(),
+      );
+      },
     );
   }
 }

@@ -15,6 +15,10 @@ class LoginUser extends LoginEvent {
   final String password;
 }
 
+class LoginUserWithGmail extends LoginEvent {
+  LoginUserWithGmail();
+}
+
 class SendResetEmail extends LoginEvent {
   SendResetEmail({
     required this.email,
