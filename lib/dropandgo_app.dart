@@ -47,6 +47,7 @@ import 'package:dropandgouser/infrastructure/services/local_auth_service.dart';
 import 'package:dropandgouser/infrastructure/setting/setting_repository.dart';
 import 'package:dropandgouser/infrastructure/signup/signup_repository.dart';
 import 'package:dropandgouser/infrastructure/splash/splash_repository.dart';
+import 'package:dropandgouser/shared/app_lifecycle/life_cycle_manager.dart';
 import 'package:dropandgouser/shared/helpers/shared_preferences_helper.dart';
 import 'package:dropandgouser/shared/helpers/theme.dart';
 import 'package:dropandgouser/shared/screen_util/screen_util.dart';
@@ -335,29 +336,31 @@ class _DropAndGoApp extends StatelessWidget {
       path: 'assets/translations',
       useOnlyLangCode: true,
       child: Builder(builder: (context) {
-        return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          routerConfig: GoRouterDelegate.routerConfig,
-          builder: (BuildContext context, Widget? child) {
-            ScreenUtilSetup.initialize(context);
-            return AnnotatedRegion<SystemUiOverlayStyle>(
-              value: SystemUiOverlayStyle.dark.copyWith(
-                systemNavigationBarIconBrightness: Brightness.dark,
-              ),
-              child: Directionality(
-                textDirection: ui.TextDirection.ltr,
-                child: MediaQuery(
-                    data: MediaQuery.of(context).copyWith(
-                      textScaleFactor: 1,
-                    ),
-                    child: child ?? Container()),
-              ),
-            );
-          },
-          locale: context.locale,
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          theme: theme,
+        return LifeCycleManager(
+          child: MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            routerConfig: GoRouterDelegate.routerConfig,
+            builder: (BuildContext context, Widget? child) {
+              ScreenUtilSetup.initialize(context);
+              return AnnotatedRegion<SystemUiOverlayStyle>(
+                value: SystemUiOverlayStyle.dark.copyWith(
+                  systemNavigationBarIconBrightness: Brightness.dark,
+                ),
+                child: Directionality(
+                  textDirection: ui.TextDirection.ltr,
+                  child: MediaQuery(
+                      data: MediaQuery.of(context).copyWith(
+                        textScaleFactor: 1,
+                      ),
+                      child: child ?? Container()),
+                ),
+              );
+            },
+            locale: context.locale,
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            theme: theme,
+          ),
         );
       }),
     );
