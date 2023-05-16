@@ -135,6 +135,7 @@ class FirestoreService implements ICloudFirestoreRepository {
             .set({
           'id': docRef.id,
           'name': object,
+          'created_at': DateTime.now(),
         });
       }
       return right(unit);

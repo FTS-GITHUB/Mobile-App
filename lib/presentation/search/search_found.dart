@@ -49,7 +49,7 @@ class SearchFound extends StatelessWidget {
                               getIt<NavigationService>().pushNamed(
                                 context: context,
                                 uri: NavigationService.categoryDetailRouteUri,
-                                data: 'id',
+                                data: state.categories[index].id,
                               );
                             },
                           ),

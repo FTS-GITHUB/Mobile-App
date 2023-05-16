@@ -66,7 +66,7 @@ class HomeRepository implements IHomeRepository {
         );
         searches.add(search);
       }
-      // searches.sort((a,b)=> b.createdAt.compareTo(a.createdAt));
+      searches.sort((a,b)=> a.createdAt!.compareTo(b.createdAt!));
       return right(searches);
     });
   }

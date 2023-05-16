@@ -48,6 +48,7 @@ import 'package:dropandgouser/infrastructure/signup/signup_repository.dart';
 import 'package:dropandgouser/infrastructure/splash/splash_repository.dart';
 import 'package:dropandgouser/shared/helpers/shared_preferences_helper.dart';
 import 'package:dropandgouser/shared/helpers/theme.dart';
+import 'package:dropandgouser/shared/screen_util/screen_util.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -333,10 +334,10 @@ class _DropAndGoApp extends StatelessWidget {
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
           routerConfig: GoRouterDelegate.routerConfig,
-          builder: (BuildContext context, Widget? child) =>
-              AnnotatedRegion<SystemUiOverlayStyle>(
+          builder: (BuildContext context, Widget? child) {
+            ScreenUtilSetup.initialize(context);
+            return AnnotatedRegion<SystemUiOverlayStyle>(
             value: SystemUiOverlayStyle.dark.copyWith(
-              // systemNavigationBarColor: LocalWalkersColors.primary,
               systemNavigationBarIconBrightness: Brightness.dark,
             ),
             child: Directionality(
@@ -347,7 +348,8 @@ class _DropAndGoApp extends StatelessWidget {
                   ),
                   child: child ?? Container()),
             ),
-          ),
+          );
+          },
           locale: context.locale,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,

@@ -10,7 +10,7 @@ PreviousSearches _$PreviousSearchesFromJson(Map<String, dynamic> json) =>
     PreviousSearches(
       id: json['id'] as String?,
       name: json['name'] as String?,
-      createdAt: dateFromJson(json['createdAt'] as Timestamp?),
+      createdAt: dateFromJson(json['created_at'] as Timestamp?),
     );
 
 Map<String, dynamic> _$PreviousSearchesToJson(PreviousSearches instance) {
@@ -24,6 +24,6 @@ Map<String, dynamic> _$PreviousSearchesToJson(PreviousSearches instance) {
 
   writeNotNull('id', instance.id);
   writeNotNull('name', instance.name);
-  writeNotNull('createdAt', dateToJson(instance.createdAt));
+  writeNotNull('created_at', dateToJson(instance.createdAt));
   return val;
 }

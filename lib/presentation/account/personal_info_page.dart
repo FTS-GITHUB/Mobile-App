@@ -31,6 +31,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 
 class PersonalInfoPage extends StatefulWidget {
   const PersonalInfoPage({Key? key}) : super(key: key);
@@ -227,6 +228,32 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                     fontSize: 12,
                   ),
                   // Drop
+                  BlocBuilder<CountryCubit, String?>(
+                      builder: (context, countryName) {
+                    return DropdownSearch<String>(
+                      popupProps: PopupProps.dialog(
+                        showSearchBox: true,
+                        showSelectedItems: true,
+                      ),
+                      dropdownDecoratorProps: DropDownDecoratorProps(
+                        baseStyle: TextStyle(
+                          fontSize: 12,
+                          color: DropAndGoColors.primary,
+                          overflow: TextOverflow.ellipsis,
+                        )
+                      ),
+                      validator: (val) {
+                        if (val == null || val.isEmpty) {
+                          return 'Please select country';
+                        } else {
+                          return null;
+                        }
+                      },
+                      items: CountriesCubit.countries,
+                      onChanged: (value) {},
+                      selectedItem: "Brazil",
+                    );
+                  }),
                   BlocBuilder<CountryCubit, String?>(
                       builder: (context, countryName) {
                     return DropAndGoDropdown<String>(

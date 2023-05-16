@@ -9,6 +9,7 @@ class PreviousSearches {
   String? id;
   final String? name;
   @JsonKey(
+    name: 'create_at',
     toJson: dateToJson,
     fromJson: dateFromJson,
   )

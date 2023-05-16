@@ -18,8 +18,6 @@ void main() async {
   );
   registerServices();
   runApp(
-    const ScreenUtilSetup(
-      child: DropAndGoApp(),
-    ),
+    const DropAndGoApp(),
   );
 }
