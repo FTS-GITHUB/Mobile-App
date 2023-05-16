@@ -69,7 +69,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
       ),
       (r) => add(
         CheckAuthState(
-          isAuthenticated: true,
+          isAuthenticated: r,
         ),
       ),
     );

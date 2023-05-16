@@ -11,19 +11,23 @@ class LocalAuthService {
   static Future<Either<ApiError, bool>> initialize() async {
     try {
       final bool didAuthenticate = await auth.authenticate(
-          authMessages: const <AuthMessages>[
-            AndroidAuthMessages(
-              cancelButton: 'No thanks',
-            ),
-            IOSAuthMessages(
-              cancelButton: 'No thanks',
-            ),
-          ],
+          // authMessages: const <AuthMessages>[
+          //   AndroidAuthMessages(
+          //     biometricHint: '',
+          //     cancelButton: 'No thanks',
+          //   ),
+          //   IOSAuthMessages(
+          //     cancelButton: 'No thanks',
+          //   ),
+          // ],
           localizedReason: 'Please authenticate to enable access to app',
           options: const AuthenticationOptions(
             useErrorDialogs: true,
             stickyAuth: true,
-          ));
+            biometricOnly: true,
+          )).catchError((err){
+            throw PlatformException(code: 404.toString(),message: err.toString(),);
+      });
       final List<BiometricType> availableBiometrics =
       await auth.getAvailableBiometrics();
       print('List of Available biometrics: $availableBiometrics');
