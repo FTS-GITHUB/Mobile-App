@@ -98,32 +98,45 @@ class SearchHistory extends StatelessWidget {
           return AlertDialog(
             title: StandardText.headline5(
               dialogContext,
-              'Are you sure you want to delete this search?',
+              'Delete search',
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
             ),
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                TextButton(
-                  onPressed: (){
-                    Navigator.pop(dialogContext);
-                    onConfirm();
-                  },
-                  child: StandardText.headline6(
-                    dialogContext,
-                    'Yes',
-                    color: DropAndGoColors.red,
-                  ),
+                StandardText.headline5(
+                  dialogContext,
+                  'Are you sure you want to delete this search?',
+                  maxLines: 2,
                 ),
-                6.horizontalSpace,
-                TextButton(
-                  onPressed: (){
-                    Navigator.pop(dialogContext);
-                  },
-                  child: StandardText.headline6(
-                    dialogContext,
-                    'No',
-                    color: DropAndGoColors.primary,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: (){
+                        Navigator.pop(dialogContext);
+                        onConfirm();
+                      },
+                      child: StandardText.headline6(
+                        dialogContext,
+                        'Yes',
+                        color: DropAndGoColors.red,
+                      ),
+                    ),
+                    6.horizontalSpace,
+                    TextButton(
+                      onPressed: (){
+                        Navigator.pop(dialogContext);
+                      },
+                      child: StandardText.headline6(
+                        dialogContext,
+                        'No',
+                        color: DropAndGoColors.primary,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
