@@ -22,3 +22,7 @@ class SendResetEmail extends LoginEvent {
 
   final String email;
 }
+
+class LogoutUser extends LoginEvent {
+  LogoutUser();
+}

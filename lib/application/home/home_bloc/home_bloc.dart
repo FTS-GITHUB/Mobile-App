@@ -3,10 +3,16 @@ import 'dart:math';
 
 import 'package:dropandgouser/domain/home/category.dart';
 import 'package:dropandgouser/domain/home/i_home_repository.dart';
+import 'package:dropandgouser/domain/services/user_service.dart';
+import 'package:dropandgouser/infrastructure/di/injectable.dart';
+import 'package:dropandgouser/shared/constants/global.dart';
+import 'package:dropandgouser/shared/helpers/shared_preferences_helper.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'home_event.dart';
+
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
@@ -34,9 +40,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       recommendedCategories =
           categories.where((category) => category.isRecommended!).toList();
       forBetterSleepCategories = (categories.toList()..shuffle()).toList();
-      if(categories.isNotEmpty){
-        randomCategory =  (categories[Random().nextInt(categories.length)]);
-      }else{
+      if (categories.isNotEmpty) {
+        randomCategory = (categories[Random().nextInt(categories.length)]);
+      } else {
         randomCategory = Category();
       }
       emit(

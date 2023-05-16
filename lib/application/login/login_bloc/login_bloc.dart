@@ -5,16 +5,18 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'login_event.dart';
+
 part 'login_state.dart';
 
-mixin ForgetPasswordBloc on Bloc<LoginEvent, LoginState>{}
+mixin ForgetPasswordBloc on Bloc<LoginEvent, LoginState> {}
 
-class LoginBloc extends Bloc<LoginEvent, LoginState> with ForgetPasswordBloc{
+class LoginBloc extends Bloc<LoginEvent, LoginState> with ForgetPasswordBloc {
   LoginBloc({
     required this.loginRepository,
   }) : super(LoginStateInitial()) {
     on<LoginUser>(_onLoginUser);
     on<SendResetEmail>(_onSendResetEmail);
+    on<LogoutUser>(_onLogoutUser);
   }
 
   final ILoginRepository loginRepository;
@@ -34,14 +36,30 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with ForgetPasswordBloc{
     );
   }
 
-  Future<void> _onSendResetEmail(SendResetEmail event, Emitter<LoginState> emit) async{
-   emit(ForgetPasswordSendingEmail());
-   final response = await loginRepository.resetPassword(email: event.email);
-   response.fold(
-         (l) => emit(LoginStateError(message: l.message ?? "Error from server")),
-         (r) => emit(
-       ForgetPasswordSentEmail(),
-     ),
-   );
+  Future<void> _onSendResetEmail(
+      SendResetEmail event, Emitter<LoginState> emit) async {
+    emit(ForgetPasswordSendingEmail());
+    final response = await loginRepository.resetPassword(email: event.email);
+    response.fold(
+      (l) => emit(LoginStateError(message: l.message ?? "Error from server")),
+      (r) => emit(
+        ForgetPasswordSentEmail(),
+      ),
+    );
+  }
+
+  Future<void> _onLogoutUser(LogoutUser event, Emitter<LoginState> emit) async {
+    emit(LoginStateLoading());
+    final response = await loginRepository.logout();
+    response.fold(
+      (l) => emit(
+        LoginStateError(
+          message: l.message ?? "Failed to connect",
+        ),
+      ),
+      (r) => emit(
+        LogoutSuccess(),
+      ),
+    );
   }
 }

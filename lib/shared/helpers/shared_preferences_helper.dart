@@ -39,6 +39,16 @@ class SharedPreferenceHelper {
     );
   }
 
+  static bool get isRemindAtBedtime =>
+      _sharedPrefInstance.getBool(PreferencesKey.remindBedtime) ?? false;
+
+  static set isRemindAtBedtime(bool? isRemindAtBedtime) {
+    _sharedPrefInstance.setBool(
+      PreferencesKey.remindBedtime,
+      isRemindAtBedtime!,
+    );
+  }
+
   /// Save User login data for feature use
   // static Future<bool> saveUser(UserData? data) async {
   //   if (data != null) {
@@ -104,4 +114,5 @@ class PreferencesKey {
   ///a key to check if it's app has ran before. Will be true if app has ran before.
   static String hasAppRanKey = 'hasAppRan';
   static String biometricEnabled = 'isBiometricEnabled';
+  static String remindBedtime = 'remindBedtime';
 }

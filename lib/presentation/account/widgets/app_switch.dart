@@ -25,9 +25,11 @@ class AppSwitch extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        StandardText.headline6(
-          context,
-          isUpperCase?title.toUpperCase():title,
+        Flexible(
+          child: StandardText.headline6(
+            context,
+            isUpperCase?title.toUpperCase():title,
+          ),
         ),
         Transform.scale(
           scale: .5,
