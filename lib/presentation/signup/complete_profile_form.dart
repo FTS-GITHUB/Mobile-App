@@ -200,14 +200,15 @@ class CompleteProfileForm extends StatelessWidget {
                   DropAndGoIcons.arrowForward,
                 ),
                 onPressed: () {
-                  if (context.read<ProfileFileCubit>().state == null) {
-                    getIt<Toasts>().showToast(
-                      context,
-                      type: AlertType.Error,
-                      title: 'Error',
-                      description: 'Please select profile picture',
-                    );
-                  } else if (formKey.currentState != null &&
+                  // if (context.read<ProfileFileCubit>().state == null) {
+                  //   getIt<Toasts>().showToast(
+                  //     context,
+                  //     type: AlertType.Error,
+                  //     title: 'Error',
+                  //     description: 'Please select profile picture',
+                  //   );
+                  // } else
+                    if (formKey.currentState != null &&
                       formKey.currentState!.validate()) {
                     getIt<NavigationService>().pushNamed(
                       context: context,

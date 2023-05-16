@@ -1,28 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropandgouser/shared/constants/global.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 part 'previous_searches.g.dart';
 
-@JsonSerializable(
-  includeIfNull: false
-)
-class PreviousSearches{
+@JsonSerializable(includeIfNull: false)
+class PreviousSearches {
   String? id;
   final String? name;
+  @JsonKey(
+    name: 'create_at',
+    toJson: dateToJson,
+    fromJson: dateFromJson,
+  )
+  final DateTime? createdAt;
 
-  PreviousSearches({
-    this.id,
-    this.name
-});
-
+  PreviousSearches({this.id, this.name, this.createdAt});
 
   PreviousSearches copyWith({
     String? id,
     String? name,
-})=>PreviousSearches(
-    id: id?? this.id,
-    name: name ?? this.name,
-);
-
+    DateTime? createdAt,
+  }) =>
+      PreviousSearches(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        createdAt: createdAt ?? this.createdAt,
+      );
 
   factory PreviousSearches.fromSnapshot(DocumentSnapshot snapshot) {
     final Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;

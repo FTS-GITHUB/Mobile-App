@@ -31,7 +31,8 @@ class UploadProfilePicture extends SignupEvent {
   UploadProfilePicture({
     required this.file,
     required this.userId,
-});
+  });
+
   final File file;
   final String userId;
 }
@@ -44,4 +45,12 @@ class UploadUserSetting extends SignupEvent {
 
   final UserSetting userSetting;
   final String userId;
+}
+
+class SaveSettingsLocally extends SignupEvent {
+  SaveSettingsLocally({
+    required this.userSetting,
+  });
+
+  final UserSetting userSetting;
 }

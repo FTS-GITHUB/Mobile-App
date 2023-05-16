@@ -5,7 +5,9 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   audio_progress_bars
   connectivity_plus
+  firebase_core
   geolocator_windows
+  local_auth_windows
   permission_handler_windows
   url_launcher_windows
 )

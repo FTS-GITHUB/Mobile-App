@@ -1,5 +1,3 @@
-import 'package:country/country.dart';
-import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/gender_cubit.dart';
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
@@ -27,18 +25,7 @@ class GenderInfoPage extends StatefulWidget {
 }
 
 class _GenderInfoPageState extends State<GenderInfoPage> {
-  @override
-  void initState() {
-    getCountries();
-    super.initState();
-  }
-  
-  getCountries(){
-    for(var country in Countries.values){
-      CountriesCubit.countries.add(country.isoShortName);
-    }
-    context.read<CountriesCubit>().onCountriesAdded();
-  }
+
   
   @override
   Widget build(BuildContext context) {

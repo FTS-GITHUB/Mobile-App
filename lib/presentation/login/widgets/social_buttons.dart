@@ -8,6 +8,7 @@ class SocialButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Flexible(
           flex: 5,
@@ -15,13 +16,13 @@ class SocialButtons extends StatelessWidget {
             DropAndGoIcons.google,
           ),
         ),
-        const Spacer(),
-        Flexible(
-          flex: 5,
-          child: SvgPicture.asset(
-            DropAndGoIcons.apple,
-          ),
-        ),
+        // const Spacer(),
+        // Flexible(
+        //   flex: 5,
+        //   child: SvgPicture.asset(
+        //     DropAndGoIcons.apple,
+        //   ),
+        // ),
         const Spacer(),
         Flexible(
           flex: 5,

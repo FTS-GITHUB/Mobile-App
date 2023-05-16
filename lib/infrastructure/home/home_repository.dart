@@ -66,6 +66,7 @@ class HomeRepository implements IHomeRepository {
         );
         searches.add(search);
       }
+      searches.sort((a,b)=> a.createdAt!.compareTo(b.createdAt!));
       return right(searches);
     });
   }
@@ -164,7 +165,7 @@ class HomeRepository implements IHomeRepository {
       if (userData.likedCategories == null ||
           userData.likedCategories!.isEmpty ||
           !(userData.likedCategories!.contains(categoryId))) {
-        userData.likedCategories!.add(categoryId);
+        userData.likedCategories?.add(categoryId);
         final response = await cloudFirestoreRepository.updateDocument(
           collectionName: FirestoreCollections.users,
           docId: userId,

@@ -17,6 +17,7 @@ Audio _$AudioFromJson(Map<String, dynamic> json) => Audio(
           : Creator.fromJson(json['creator'] as Map<String, dynamic>),
       id: json['id'] as String?,
       title: json['title'] as String?,
+      createdAt: dateFromJson(json['created_at'] as Timestamp?),
     );
 
 Map<String, dynamic> _$AudioToJson(Audio instance) => <String, dynamic>{
@@ -26,6 +27,7 @@ Map<String, dynamic> _$AudioToJson(Audio instance) => <String, dynamic>{
       'creator': instance.creator?.toJson(),
       'id': instance.id,
       'title': instance.title,
+      'created_at': dateToJson(instance.createdAt),
     };
 
 AudioCategory _$AudioCategoryFromJson(Map<String, dynamic> json) =>

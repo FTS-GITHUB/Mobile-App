@@ -2,6 +2,14 @@
 
 import 'dart:ui' as ui;
 
+import 'package:dropandgouser/application/account/account_cubit/biometric_id_cubit.dart';
+import 'package:dropandgouser/application/account/account_cubit/face_id_cubit.dart';
+import 'package:dropandgouser/application/account/account_cubit/preference_cubit.dart';
+import 'package:dropandgouser/application/account/account_cubit/remind_bedtime_cubit.dart';
+import 'package:dropandgouser/application/account/account_cubit/set_reminder_cubit.dart';
+import 'package:dropandgouser/application/account/account_setting_bloc/account_setting_bloc.dart';
+import 'package:dropandgouser/application/account/change_password_bloc/change_password_bloc.dart';
+import 'package:dropandgouser/application/account/personal_info_bloc/personal_info_bloc.dart';
 import 'package:dropandgouser/application/audio_bloc/audio_bloc.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.dart';
@@ -23,6 +31,7 @@ import 'package:dropandgouser/application/search/search_found_bloc/search_found_
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/application/signup/signup_bloc.dart';
 import 'package:dropandgouser/application/splash/splash_bloc/splash_bloc.dart';
+import 'package:dropandgouser/domain/account/i_account_repository.dart';
 import 'package:dropandgouser/domain/home/i_home_repository.dart';
 import 'package:dropandgouser/domain/i_setting_repository.dart';
 import 'package:dropandgouser/domain/login/i_login_repository.dart';
@@ -30,14 +39,17 @@ import 'package:dropandgouser/domain/services/i_auth_repository.dart';
 import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
 import 'package:dropandgouser/domain/services/i_storage_repository.dart';
 import 'package:dropandgouser/domain/signup/i_signup_repository.dart';
+import 'package:dropandgouser/infrastructure/account/account_repository.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/home/home_repository.dart';
 import 'package:dropandgouser/infrastructure/login/login_repository.dart';
+import 'package:dropandgouser/infrastructure/services/local_auth_service.dart';
 import 'package:dropandgouser/infrastructure/setting/setting_repository.dart';
 import 'package:dropandgouser/infrastructure/signup/signup_repository.dart';
 import 'package:dropandgouser/infrastructure/splash/splash_repository.dart';
 import 'package:dropandgouser/shared/helpers/shared_preferences_helper.dart';
 import 'package:dropandgouser/shared/helpers/theme.dart';
+import 'package:dropandgouser/shared/screen_util/screen_util.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -65,6 +77,7 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
   late ILoginRepository _loginRepository;
   late SplashRepository _splashRepository;
   late IHomeRepository _homeRepository;
+  late IAccountRepository _accountRepository;
 
   // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   // final _networkNotifier = ValueNotifier(false);
@@ -80,7 +93,6 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
   void initState() {
     SharedPreferenceHelper.instance.init();
     super.initState();
-
     initRepositories();
   }
 
@@ -120,6 +132,9 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
     _splashRepository = SplashRepository(_cloudFirestoreRepository);
     _homeRepository = HomeRepository(
       cloudFirestoreRepository: _cloudFirestoreRepository,
+    );
+    _accountRepository = AccountRepository(
+      firestoreRepository: _cloudFirestoreRepository,
     );
   }
 
@@ -230,7 +245,9 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
           create: (context) => SplashBloc(
             _authRepository,
             _splashRepository,
-          )..add(CheckAuthState()),
+          )..add(CheckAuthState(
+              isAuthenticated: false,
+            )),
         ),
         BlocProvider<HomeBloc>(
           create: (context) => HomeBloc(homeRepository: _homeRepository),
@@ -247,21 +264,48 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
           ),
         ),
         BlocProvider<SearchFoundBloc>(
-          create: (context) => SearchFoundBloc(
-            homeRepository: _homeRepository
-          ),
+          create: (context) => SearchFoundBloc(homeRepository: _homeRepository),
         ),
         BlocProvider<AudioBloc>(
-          create: (context) => AudioBloc(
-              homeRepository: _homeRepository
-          ),
+          create: (context) => AudioBloc(homeRepository: _homeRepository),
         ),
         BlocProvider<LikesCubit>(
-          create: (context) => LikesCubit(
-              homeRepository: _homeRepository
+          create: (context) => LikesCubit(homeRepository: _homeRepository),
+        ),
+        BlocProvider<PersonalInfoBloc>(
+          create: (context) => PersonalInfoBloc(
+            accountRepository: _accountRepository,
+            signupRepository: _signupRepository,
           ),
         ),
-      ], //LikesCubit
+        BlocProvider<RemindBedTimeCubit>(
+          create: (context) => RemindBedTimeCubit(),
+        ),
+        BlocProvider<SetReminderCubit>(
+          create: (context) => SetReminderCubit(),
+        ),
+        BlocProvider<AccountSettingBloc>(
+          create: (context) => AccountSettingBloc(
+            accountRepository: _accountRepository,
+          ),
+        ),
+        BlocProvider<BiometricCubit>(
+          create: (context) => BiometricCubit(),
+        ),
+        BlocProvider<FaceIdCubit>(
+          create: (context) => FaceIdCubit(),
+        ),
+        BlocProvider<RememberMeCubit>(
+          create: (context) => RememberMeCubit(),
+        ),
+        BlocProvider<ChangePasswordBloc>(
+          create: (context) =>
+              ChangePasswordBloc(authRepository: _authRepository),
+        ),
+        BlocProvider<PreferenceCubit>(
+          create: (context) => PreferenceCubit(),
+        ),
+      ], // PreferenceCubit
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,
@@ -294,21 +338,22 @@ class _DropAndGoApp extends StatelessWidget {
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
           routerConfig: GoRouterDelegate.routerConfig,
-          builder: (BuildContext context, Widget? child) =>
-              AnnotatedRegion<SystemUiOverlayStyle>(
-            value: SystemUiOverlayStyle.dark.copyWith(
-              // systemNavigationBarColor: LocalWalkersColors.primary,
-              systemNavigationBarIconBrightness: Brightness.dark,
-            ),
-            child: Directionality(
-              textDirection: ui.TextDirection.ltr,
-              child: MediaQuery(
-                  data: MediaQuery.of(context).copyWith(
-                    textScaleFactor: 1,
-                  ),
-                  child: child ?? Container()),
-            ),
-          ),
+          builder: (BuildContext context, Widget? child) {
+            ScreenUtilSetup.initialize(context);
+            return AnnotatedRegion<SystemUiOverlayStyle>(
+              value: SystemUiOverlayStyle.dark.copyWith(
+                systemNavigationBarIconBrightness: Brightness.dark,
+              ),
+              child: Directionality(
+                textDirection: ui.TextDirection.ltr,
+                child: MediaQuery(
+                    data: MediaQuery.of(context).copyWith(
+                      textScaleFactor: 1,
+                    ),
+                    child: child ?? Container()),
+              ),
+            );
+          },
           locale: context.locale,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,

@@ -7,4 +7,8 @@ class CountryCubit extends Cubit<String?>{
     emit(val);
   }
 
+  dispose(){
+    emit(null);
+  }
+
 }

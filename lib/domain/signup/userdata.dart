@@ -80,6 +80,7 @@ class UserData {
     DateTime? createdAt,
     bool? isDeleted,
     List<String>? likedCategories,
+    File? file,
   }) =>
       UserData(
         id: id ?? this.id,
@@ -96,6 +97,7 @@ class UserData {
         createdAt: createdAt ?? this.createdAt,
         isDeleted: isDeleted?? this.isDeleted,
         likedCategories: likedCategories?? this.likedCategories,
+        file: file?? this.file,
       );
 
   factory UserData.fromSnapshot(DocumentSnapshot snapshot) {

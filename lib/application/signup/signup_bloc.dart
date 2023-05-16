@@ -13,6 +13,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'signup_event.dart';
+
 part 'signup_state.dart';
 
 mixin PostSignupBloc on Bloc<SignupEvent, SignupState> {}
@@ -29,6 +30,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState>
     on<UploadUserData>(_onUploadUserData);
     on<UploadProfilePicture>(_onUploadProfilePicture);
     on<UploadUserSetting>(_onUploadUserSetting);
+    on<SaveSettingsLocally>(_onSaveSettingsLocally);
   }
 
   final ISignupRepository _signupRepository;
@@ -51,10 +53,10 @@ class SignupBloc extends Bloc<SignupEvent, SignupState>
       },
       (String r) {
         emit(
-        SignupStateCreatedAccount(
-          userId: r,
-        ),
-      );
+          SignupStateCreatedAccount(
+            userId: r,
+          ),
+        );
       },
     );
   }
@@ -69,12 +71,12 @@ class SignupBloc extends Bloc<SignupEvent, SignupState>
     );
     response.fold(
       (l) => emit(SignupStateError(message: l.message ?? 'Error1')),
-      (r) async{
+      (r) async {
         // await SharedPreferenceHelper.saveUser(r);
         add(UploadUserSetting(
-        userSetting: event.userSetting,
-        userId: event.userId,
-      ));
+          userSetting: event.userSetting,
+          userId: event.userId,
+        ));
       },
     );
   }
@@ -104,12 +106,18 @@ class SignupBloc extends Bloc<SignupEvent, SignupState>
     );
     response.fold(
       (l) => emit(SignupStateError(message: l.message ?? 'Error1')),
-      (r) async{
-        await SharedPreferenceHelper.saveUserSetting(event.userSetting);
-        emit(
-        SignupStateUploadedData(),
-      );
+      (r) {
+        add(SaveSettingsLocally(
+          userSetting: r,
+        ));
       },
+    );
+  }
+
+  Future<void> _onSaveSettingsLocally(SaveSettingsLocally event, Emitter<SignupState> emit) async{
+    await SharedPreferenceHelper.saveUserSetting(event.userSetting);
+    emit(
+      SignupStateUploadedData(),
     );
   }
 }

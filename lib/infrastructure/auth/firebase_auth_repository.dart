@@ -12,6 +12,7 @@ class FirebaseAuthRepository implements IAuthRepository {
   );
 
   final FirebaseAuth _firebaseAuth;
+
   // final GoogleSignIn
 
   @override
@@ -29,10 +30,10 @@ class FirebaseAuthRepository implements IAuthRepository {
         email: email,
         password: password,
       );
-      if(response.user?.uid!=null){
+      if (response.user?.uid != null) {
         return right(response.user!.uid);
-      }else{
-        throw FirebaseAuthException(code: '404',message: 'Failed to register');
+      } else {
+        throw FirebaseAuthException(code: '404', message: 'Failed to register');
       }
     } on FirebaseAuthException catch (e) {
       return left(e.toApiAuthError());
@@ -82,8 +83,29 @@ class FirebaseAuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<User?> getSignedInUser() async{
+  Future<User?> getSignedInUser() async {
     return _firebaseAuth.currentUser;
+  }
+
+  @override
+  Future<Either<ApiError, Unit>> updatePassword({
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    try{
+      final AuthCredential credentials = EmailAuthProvider.credential(
+        email: _firebaseAuth.currentUser!.email!,
+        password: oldPassword,
+      );
+      await _firebaseAuth.currentUser!
+          .reauthenticateWithCredential(credentials)
+          .then(
+            (_) => _firebaseAuth.currentUser!.updatePassword(newPassword),
+          );
+      return right(unit);
+    }on FirebaseAuthException catch(e){
+      return left(e.toApiError());
+    }
   }
 
 // @override

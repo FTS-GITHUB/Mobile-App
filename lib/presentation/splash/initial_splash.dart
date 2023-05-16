@@ -1,3 +1,5 @@
+import 'package:country/country.dart';
+import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
 import 'package:dropandgouser/application/splash/splash_bloc/splash_bloc.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
@@ -11,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../infrastructure/services/local_auth_service.dart';
+
 class InitialSplashPage extends StatefulWidget {
   const InitialSplashPage({Key? key}) : super(key: key);
 
@@ -20,6 +24,20 @@ class InitialSplashPage extends StatefulWidget {
 
 class _InitialSplashPageState extends State<InitialSplashPage> {
   final Toasts _toasts = Toasts();
+
+  @override
+  void initState() {
+    getCountries();
+    super.initState();
+  }
+
+  getCountries(){
+    for(var country in Countries.values){
+      CountriesCubit.countries.add(country.isoShortName);
+    }
+    context.read<CountriesCubit>().onCountriesAdded();
+    // checkAuth();
+  }
 
   // late Timer _timer;
   @override

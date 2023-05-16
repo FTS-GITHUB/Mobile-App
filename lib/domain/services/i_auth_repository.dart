@@ -23,5 +23,10 @@ abstract class IAuthRepository {
     required String email,
   });
 
+  Future<Either<ApiError, Unit>> updatePassword({
+    required String oldPassword,
+    required String newPassword,
+});
+
 // Future<Either<ApiError, Unit>> signInWithGoogle();
 }
