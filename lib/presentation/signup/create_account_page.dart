@@ -78,6 +78,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   level: context.read<UserLevelCubit>().state.title,
                   achievement: context.read<AchievementCubit>().state.title,
                   createdAt: DateTime.now(),
+                  likedCategories: [],
                 );
                 UserSetting userSetting = UserSetting();
                 context.read<PostSignupBloc>().add(
@@ -112,6 +113,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 achievement: context.read<AchievementCubit>().state.title,
                 profilePicUrl: state.profilePicUrl,
                 createdAt: DateTime.now(),
+                likedCategories: [],
               );
               UserSetting userSetting = UserSetting();
               context.read<PostSignupBloc>().add(
