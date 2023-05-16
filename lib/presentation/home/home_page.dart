@@ -13,6 +13,7 @@ import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/constants/global.dart';
 import 'package:dropandgouser/shared/extensions/extensions.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
+import 'package:dropandgouser/shared/helpers/shared_preferences_helper.dart';
 import 'package:dropandgouser/shared/widgets/button_loading.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
@@ -124,6 +125,7 @@ class _HomePageState extends State<HomePage> {
                   if (state is UserStateLoaded) {
                     getIt<UserService>().userData = state.userData;
                     getIt<UserService>().userSetting = state.userSetting;
+                    SharedPreferenceHelper.isBiometricEnabled = state.userSetting.isBiometric;
                     debugPrint("User Name: ${state.userData.fullName}");
                     debugPrint(
                         "Liked Categories: ${state.userData.likedCategories}");

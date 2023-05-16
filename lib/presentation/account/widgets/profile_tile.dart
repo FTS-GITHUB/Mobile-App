@@ -6,6 +6,7 @@ import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/helpers/typography/font_weights.dart';
 import 'package:dropandgouser/shared/widgets/button_loading.dart';
+import 'package:dropandgouser/shared/widgets/shimmer_widget.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,76 +21,126 @@ class ProfileTile extends StatelessWidget {
     final user = getIt<UserService>().userData;
     return Row(
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(35),
-          child: user?.profilePicUrl == null
-              ? CircleAvatar(
-            minRadius: 35.h,
-                  backgroundColor: DropAndGoColors.primary,
-                  child: SvgPicture.asset(
-                    DropAndGoIcons.userBold,
-                  ),
+        BlocBuilder<PersonalInfoBloc, PersonalInfoState>(
+            builder: (context, state) {
+          return (state is PersonalInfoStateLoading)
+              ? const ShimmerContainer(
+                  type: ShimmerType.circle,
+                  width: 70,
+                  height: 70,
                 )
-              : Image.network(
-                  user!.profilePicUrl!,
-                  width: 70.h,
-                  height: 70.h,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, _, __) {
-                    return CircleAvatar(
-                      minRadius: 35.h,
-                      backgroundColor: DropAndGoColors.primary,
-                      child: SvgPicture.asset(
-                        DropAndGoIcons.userBold,
-                      ),
+              : (state is PersonalInfoStateLoaded)
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(35),
+                      child: state.userData.profilePicUrl == null
+                          ? CircleAvatar(
+                              minRadius: 35.h,
+                              backgroundColor: DropAndGoColors.primary,
+                              child: SvgPicture.asset(
+                                DropAndGoIcons.userBold,
+                              ),
+                            )
+                          : Image.network(
+                              state.userData.profilePicUrl!,
+                              width: 70.h,
+                              height: 70.h,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, _, __) {
+                                return CircleAvatar(
+                                  minRadius: 35.h,
+                                  backgroundColor: DropAndGoColors.primary,
+                                  child: SvgPicture.asset(
+                                    DropAndGoIcons.userBold,
+                                  ),
+                                );
+                              },
+                            ),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(35),
+                      child: user?.profilePicUrl == null
+                          ? CircleAvatar(
+                              minRadius: 35.h,
+                              backgroundColor: DropAndGoColors.primary,
+                              child: SvgPicture.asset(
+                                DropAndGoIcons.userBold,
+                              ),
+                            )
+                          : Image.network(
+                              user!.profilePicUrl!,
+                              width: 70.h,
+                              height: 70.h,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, _, __) {
+                                return CircleAvatar(
+                                  minRadius: 35.h,
+                                  backgroundColor: DropAndGoColors.primary,
+                                  child: SvgPicture.asset(
+                                    DropAndGoIcons.userBold,
+                                  ),
+                                );
+                              },
+                            ),
                     );
-                  },
-                ),
-        ),
+        }),
         8.horizontalSpace,
         BlocBuilder<PersonalInfoBloc, PersonalInfoState>(
-          builder: (context, state) {
-            return (state is PersonalInfoStateLoading)?
-            const DropAndGoButtonLoading():
-            (state is PersonalInfoStateLoaded)?
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                StandardText.headline6(
-                  context,
-                  state.userData.fullName ?? 'N/A',
-                  fontWeight: DropAndGoFontWeight.bold,
-                ),
-                4.verticalSpace,
-                StandardText.headline6(
-                  context,
-                  user?.email ?? 'N/A',
-                  fontSize: 10,
-                  fontWeight: DropAndGoFontWeight.medium,
-                ),
-              ],
-            ):
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                StandardText.headline6(
-                  context,
-                  user?.fullName ?? 'N/A',
-                  fontWeight: DropAndGoFontWeight.bold,
-                ),
-                4.verticalSpace,
-                StandardText.headline6(
-                  context,
-                  user?.email ?? 'N/A',
-                  fontSize: 10,
-                  fontWeight: DropAndGoFontWeight.medium,
-                ),
-              ],
-            );
-          }
-        ),
+            builder: (context, state) {
+          return (state is PersonalInfoStateLoading)
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const ShimmerContainer(
+                      type: ShimmerType.square,
+                      height: 15,
+                      width: 100,
+                    ),
+                    4.verticalSpace,
+                    const ShimmerContainer(
+                      type: ShimmerType.square,
+                      height: 12,
+                      width: 150,
+                    ),
+                  ],
+                )
+              : (state is PersonalInfoStateLoaded)
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        StandardText.headline6(
+                          context,
+                          state.userData.fullName ?? 'N/A',
+                          fontWeight: DropAndGoFontWeight.bold,
+                        ),
+                        4.verticalSpace,
+                        StandardText.headline6(
+                          context,
+                          user?.email ?? 'N/A',
+                          fontSize: 10,
+                          fontWeight: DropAndGoFontWeight.medium,
+                        ),
+                      ],
+                    )
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        StandardText.headline6(
+                          context,
+                          user?.fullName ?? 'N/A',
+                          fontWeight: DropAndGoFontWeight.bold,
+                        ),
+                        4.verticalSpace,
+                        StandardText.headline6(
+                          context,
+                          user?.email ?? 'N/A',
+                          fontSize: 10,
+                          fontWeight: DropAndGoFontWeight.medium,
+                        ),
+                      ],
+                    );
+        }),
         Expanded(
           child: Container(
             alignment: Alignment.centerRight,

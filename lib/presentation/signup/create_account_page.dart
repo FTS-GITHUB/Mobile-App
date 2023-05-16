@@ -58,12 +58,36 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   title: 'Error',
                   description: state.message);
             } else if (state is SignupStateCreatedAccount) {
-              context.read<UploadPictureSignupBloc>().add(
-                    UploadProfilePicture(
-                      file: widget.userData!.file!,
-                      userId: state.userId,
-                    ),
-                  );
+              if(widget.userData!.file !=null){
+                context.read<UploadPictureSignupBloc>().add(
+                  UploadProfilePicture(
+                    file: widget.userData!.file!,
+                    userId: state.userId,
+                  ),
+                );
+              }else{
+                UserData userData = UserData(
+                  id: state.userId,
+                  email: emailTextEditingController.text,
+                  phoneNo: widget.userData?.phoneNo,
+                  fullName: widget.userData?.fullName,
+                  dateOfBirth: widget.userData?.dateOfBirth,
+                  gender: context.read<GenderCubit>().state.value,
+                  ageGroup: context.read<AgeCubit>().state.value,
+                  country: context.read<CountryCubit>().state,
+                  level: context.read<UserLevelCubit>().state.title,
+                  achievement: context.read<AchievementCubit>().state.title,
+                  createdAt: DateTime.now(),
+                );
+                UserSetting userSetting = UserSetting();
+                context.read<PostSignupBloc>().add(
+                  UploadUserData(
+                    userData: userData,
+                    userSetting: userSetting,
+                    userId: state.userId,
+                  ),
+                );
+              }
             }
           },
         ),

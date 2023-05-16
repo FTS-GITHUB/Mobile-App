@@ -8,8 +8,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class EditUserAvatar extends StatelessWidget {
-  const EditUserAvatar({Key? key, this.file,
-  this.imageUrl,
+  const EditUserAvatar({
+    Key? key,
+    this.file,
+    this.imageUrl,
   }) : super(key: key);
 
   final File? file;
@@ -17,21 +19,37 @@ class EditUserAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(imageUrl);
+    print(file);
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         context.read<ProfileFileCubit>().getImage(context);
       },
       child: Center(
         child: Stack(
           children: [
-            file!=null?CircleAvatar(
-              maxRadius: 60,
-              backgroundColor: DropAndGoColors.primary.withOpacity(.1),
-              backgroundImage: FileImage(file!),
-            ):CircleAvatar(
-              maxRadius: 60,
-              backgroundColor: DropAndGoColors.primary.withOpacity(.1),
-              backgroundImage: NetworkImage(imageUrl!),
+            Visibility(
+              visible: file!=null,
+              child: CircleAvatar(
+                maxRadius: 60,
+                backgroundColor: DropAndGoColors.primary.withOpacity(.1),
+                backgroundImage: file==null?null:FileImage(file!),
+              ),
+            ),
+            Visibility(
+              visible: imageUrl!=null,
+              child: CircleAvatar(
+                maxRadius: 60,
+                backgroundColor: DropAndGoColors.primary.withOpacity(.1),
+                backgroundImage: imageUrl==null?null: NetworkImage(imageUrl!),
+              ),
+            ),
+            Visibility(
+              visible: imageUrl==null && file==null,
+              child: CircleAvatar(
+                maxRadius: 60,
+                backgroundColor: DropAndGoColors.primary.withOpacity(.1),
+              ),
             ),
             Positioned(
               bottom: 5,

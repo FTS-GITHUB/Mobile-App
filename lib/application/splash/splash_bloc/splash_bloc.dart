@@ -33,6 +33,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
       CheckAuthState event, Emitter<SplashState> emit) async {
     emit(SplashStateLoading());
     bool isBiometricEnabled = SharedPreferenceHelper.isBiometricEnabled;
+    print(isBiometricEnabled);
     if (isBiometricEnabled && !(event.isAuthenticated)) {
       add(AuthenticateBiometric());
     } else {

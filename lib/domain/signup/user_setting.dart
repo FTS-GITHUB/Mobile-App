@@ -10,12 +10,12 @@ class UserSetting {
   UserSetting({
     this.audioQuality = 'Standard',
     this.isAutoDownload = false,
-    this.isBiometric = true,
+    this.isBiometric = false,
     this.isDownloadWifi = true,
-    this.isFaceId = true,
+    this.isFaceId = false,
     this.isRemember = true,
-    this.isRemindBedtime = true,
-    this.isSetReminder = true,
+    this.isRemindBedtime = false,
+    this.isSetReminder = false,
   });
 
   @JsonKey(name: 'audio_quality')

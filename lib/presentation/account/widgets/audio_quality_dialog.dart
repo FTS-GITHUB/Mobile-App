@@ -13,40 +13,43 @@ class AudioQualityDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          StandardText.headline5(context, 'Change audio quality'),
-          10.verticalSpace,
-          ListView(
-            shrinkWrap: true,
-            children: AudioQuality.values.map((e) =>  TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                context.read<PreferenceCubit>().changeAudioQuality(
+    return Dialog(
+      child: Container(
+        padding: const EdgeInsets.all(30),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            StandardText.headline5(context, 'Change audio quality'),
+            10.verticalSpace,
+            ListView(
+              shrinkWrap: true,
+              children: AudioQuality.values.map((e) =>  TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  context.read<PreferenceCubit>().changeAudioQuality(
+                    e.name,
+                  );
+                },
+                child: StandardText.headline6(
+                  context,
                   e.name,
-                );
-              },
-              child: StandardText.headline6(
-                context,
-                e.name,
-              ),
-            )).toList(),
-          ),
+                ),
+              )).toList(),
+            ),
 
-          // TextButton(
-          //   onPressed: () {
-          //     Navigator.pop(context);
-          //     onSelect();
-          //   },
-          //   child: StandardText.headline6(
-          //     context,
-          //     'HD',
-          //     color: DropAndGoColors.primary,
-          //   ),
-          // ),
-        ],
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.pop(context);
+            //     onSelect();
+            //   },
+            //   child: StandardText.headline6(
+            //     context,
+            //     'HD',
+            //     color: DropAndGoColors.primary,
+            //   ),
+            // ),
+          ],
+        ),
       ),
     );
   }
