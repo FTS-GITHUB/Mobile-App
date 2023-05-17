@@ -63,6 +63,7 @@ class DropAndGoDatePicker {
               context
                   .read<DobDateCubit>()
                   .onDateSelected(pickedDate);
+                dobTextEditingController.text = pickedDate.toDateMonthYear();
             },
             initialDateTime: initialDate,
             minimumYear: 1900,
