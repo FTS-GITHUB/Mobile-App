@@ -65,4 +65,12 @@ abstract class ICloudFirestoreRepository{
     required String secondDocId,
     required dynamic object,
   });
+
+  Future<Either<FirebaseException, Unit>> uploadSessionDocument({
+    required String firstCollectionName,
+    required String secondCollectionName,
+    required String firstDocId,
+    String? secondDocId,
+    required object,
+  });
 }

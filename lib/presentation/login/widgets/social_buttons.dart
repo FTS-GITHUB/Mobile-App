@@ -1,5 +1,7 @@
+import 'package:dropandgouser/application/login/login_bloc/login_bloc.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SocialButtons extends StatelessWidget {
@@ -12,24 +14,22 @@ class SocialButtons extends StatelessWidget {
       children: [
         Flexible(
           flex: 5,
-          child: SvgPicture.asset(
-            DropAndGoIcons.google,
+          child: InkWell(
+            onTap: (){
+              context.read<LoginBloc>().add(LoginUserWithGmail());
+            },
+            child: SvgPicture.asset(
+              DropAndGoIcons.google,
+            ),
           ),
         ),
         // const Spacer(),
         // Flexible(
         //   flex: 5,
         //   child: SvgPicture.asset(
-        //     DropAndGoIcons.apple,
+        //     DropAndGoIcons.facebook,
         //   ),
         // ),
-        const Spacer(),
-        Flexible(
-          flex: 5,
-          child: SvgPicture.asset(
-            DropAndGoIcons.facebook,
-          ),
-        ),
       ],
     );
   }

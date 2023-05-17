@@ -20,6 +20,7 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
       dateOfBirth: dateFromJson(json['date_of_birth'] as Timestamp?),
       createdAt: dateFromJson(json['created_at'] as Timestamp?),
       isDeleted: json['is_deleted'] as bool? ?? false,
+      signInMethod: json['sign_in_method'] as String?,
       likedCategories: (json['liked_categories'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -48,5 +49,6 @@ Map<String, dynamic> _$UserDataToJson(UserData instance) {
   writeNotNull('created_at', dateToJson(instance.createdAt));
   val['is_deleted'] = instance.isDeleted;
   writeNotNull('liked_categories', instance.likedCategories);
+  writeNotNull('sign_in_method', instance.signInMethod);
   return val;
 }

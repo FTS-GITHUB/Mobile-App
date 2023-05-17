@@ -42,4 +42,9 @@ class LoginRepository extends ILoginRepository {
       );
     }
   }
+
+  @override
+  Future<Either<ApiError, UserCredential>> loginWithGmail() async {
+    return await authRepository.signInWithGoogle();
+  }
 }

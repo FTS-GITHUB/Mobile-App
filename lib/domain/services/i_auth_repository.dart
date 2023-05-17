@@ -28,5 +28,5 @@ abstract class IAuthRepository {
     required String newPassword,
 });
 
-// Future<Either<ApiError, Unit>> signInWithGoogle();
+  Future<Either<ApiError, UserCredential>> signInWithGoogle();
 }

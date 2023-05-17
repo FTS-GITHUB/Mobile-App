@@ -9,12 +9,12 @@ part of 'user_setting.dart';
 UserSetting _$UserSettingFromJson(Map<String, dynamic> json) => UserSetting(
       audioQuality: json['audio_quality'] as String? ?? 'Standard',
       isAutoDownload: json['is_auto_download'] as bool? ?? false,
-      isBiometric: json['is_biometric'] as bool? ?? true,
+      isBiometric: json['is_biometric'] as bool? ?? false,
       isDownloadWifi: json['is_download_wifi'] as bool? ?? true,
-      isFaceId: json['is_faceid'] as bool? ?? true,
+      isFaceId: json['is_faceid'] as bool? ?? false,
       isRemember: json['is_remember'] as bool? ?? true,
-      isRemindBedtime: json['is_remind_bedtime'] as bool? ?? true,
-      isSetReminder: json['is_set_reminder'] as bool? ?? true,
+      isRemindBedtime: json['is_remind_bedtime'] as bool? ?? false,
+      isSetReminder: json['is_set_reminder'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$UserSettingToJson(UserSetting instance) =>
