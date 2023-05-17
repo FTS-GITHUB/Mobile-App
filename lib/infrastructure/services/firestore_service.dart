@@ -234,4 +234,29 @@ class FirestoreService implements ICloudFirestoreRepository {
       return left(e);
     }
   }
+
+  @override
+  Future<Either<FirebaseException, Unit>> uploadSessionDocument({
+    required String firstCollectionName,
+    required String secondCollectionName,
+    required String firstDocId,
+    String? secondDocId,
+    required object,
+  }) async {
+    try {
+        final docRef = _firestore
+            .collection(firstCollectionName)
+            .doc(firstDocId)
+            .collection(secondCollectionName)
+            .doc();
+        await _firestore
+            .collection(firstCollectionName)
+            .doc(firstDocId)
+            .collection(secondCollectionName)
+            .add(object);
+      return right(unit);
+    } on FirebaseException catch (e) {
+      return left(e);
+    }
+  }
 }

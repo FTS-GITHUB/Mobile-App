@@ -28,6 +28,7 @@ import 'package:dropandgouser/application/onboarding/cubit/gender_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/user_level_cubit.dart';
 import 'package:dropandgouser/application/search/cubit/is_seearch_active.dart';
 import 'package:dropandgouser/application/search/search_found_bloc/search_found_bloc.dart';
+import 'package:dropandgouser/application/session/session_bloc/session_bloc.dart';
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/application/signup/signup_bloc.dart';
 import 'package:dropandgouser/application/splash/splash_bloc/splash_bloc.dart';
@@ -38,12 +39,15 @@ import 'package:dropandgouser/domain/login/i_login_repository.dart';
 import 'package:dropandgouser/domain/services/i_auth_repository.dart';
 import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
 import 'package:dropandgouser/domain/services/i_storage_repository.dart';
+import 'package:dropandgouser/domain/session/i_session_repository.dart';
+import 'package:dropandgouser/domain/session/session.dart';
 import 'package:dropandgouser/domain/signup/i_signup_repository.dart';
 import 'package:dropandgouser/infrastructure/account/account_repository.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/home/home_repository.dart';
 import 'package:dropandgouser/infrastructure/login/login_repository.dart';
 import 'package:dropandgouser/infrastructure/services/local_auth_service.dart';
+import 'package:dropandgouser/infrastructure/session/session_repository.dart';
 import 'package:dropandgouser/infrastructure/setting/setting_repository.dart';
 import 'package:dropandgouser/infrastructure/signup/signup_repository.dart';
 import 'package:dropandgouser/infrastructure/splash/splash_repository.dart';
@@ -79,6 +83,7 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
   late SplashRepository _splashRepository;
   late IHomeRepository _homeRepository;
   late IAccountRepository _accountRepository;
+  late ISessionRepository _sessionRepository;
 
   // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   // final _networkNotifier = ValueNotifier(false);
@@ -135,6 +140,9 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
       cloudFirestoreRepository: _cloudFirestoreRepository,
     );
     _accountRepository = AccountRepository(
+      firestoreRepository: _cloudFirestoreRepository,
+    );
+    _sessionRepository = SessionRepository(
       firestoreRepository: _cloudFirestoreRepository,
     );
   }
@@ -307,6 +315,11 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
         ),
         BlocProvider<PreferenceCubit>(
           create: (context) => PreferenceCubit(),
+        ),
+        BlocProvider<SessionBloc>(
+          create: (context) => SessionBloc(
+            sessionRepository: _sessionRepository,
+          ),
         ),
       ], // PreferenceCubit
       child: _DropAndGoApp(

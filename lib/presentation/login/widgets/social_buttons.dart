@@ -23,13 +23,13 @@ class SocialButtons extends StatelessWidget {
             ),
           ),
         ),
-        const Spacer(),
-        Flexible(
-          flex: 5,
-          child: SvgPicture.asset(
-            DropAndGoIcons.facebook,
-          ),
-        ),
+        // const Spacer(),
+        // Flexible(
+        //   flex: 5,
+        //   child: SvgPicture.asset(
+        //     DropAndGoIcons.facebook,
+        //   ),
+        // ),
       ],
     );
   }
