@@ -46,6 +46,11 @@ class UserData {
     name: 'liked_categories',
   )
   final List<String>? likedCategories;
+  @JsonKey(
+    name: 'sign_in_method',
+    includeIfNull: false,
+  )
+  final String? signInMethod;
 
   UserData({
     this.id,
@@ -62,6 +67,7 @@ class UserData {
     this.file,
     this.createdAt,
     this.isDeleted=false,
+    this.signInMethod,
     this.likedCategories,
   });
 

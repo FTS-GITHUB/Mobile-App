@@ -12,12 +12,12 @@ class SocialButtons extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        InkWell(
-          onTap: (){
-            context.read<LoginBloc>().add(LoginUserWithGmail());
-          },
-          child: Flexible(
-            flex: 5,
+        Flexible(
+          flex: 5,
+          child: InkWell(
+            onTap: (){
+              context.read<LoginBloc>().add(LoginUserWithGmail());
+            },
             child: SvgPicture.asset(
               DropAndGoIcons.google,
             ),

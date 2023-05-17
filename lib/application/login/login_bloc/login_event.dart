@@ -30,3 +30,19 @@ class SendResetEmail extends LoginEvent {
 class LogoutUser extends LoginEvent {
   LogoutUser();
 }
+
+class UpdateSocialLoginUser extends LoginEvent {
+  UpdateSocialLoginUser({
+    required this.userCredential,
+  });
+
+  final UserCredential userCredential;
+}
+
+class UpdateSocialLoginSetting extends LoginEvent {
+  UpdateSocialLoginSetting({
+    required this.userId,
+});
+
+  final String userId;
+}

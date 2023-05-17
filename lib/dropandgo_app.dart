@@ -229,11 +229,13 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
         BlocProvider<LoginBloc>(
           create: (context) => LoginBloc(
             loginRepository: _loginRepository,
+            signupRepository: _signupRepository,
           ),
         ),
         BlocProvider<ForgetPasswordBloc>(
           create: (context) => LoginBloc(
             loginRepository: _loginRepository,
+            signupRepository: _signupRepository,
           ),
         ),
         BlocProvider<MainNavBarCubit>(

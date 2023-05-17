@@ -44,13 +44,6 @@ class SignupRepository extends ISignupRepository {
     required String docId,
     required UserData userData,
   }) async {
-    if (firebaseAuth.currentUser == null) {
-      return left(
-        ApiError(
-          message: 'Not Authorized',
-        ),
-      );
-    }
     final response = await firestoreRepository.uploadData(
       collectionName: FirestoreCollections.users,
       docId: docId,

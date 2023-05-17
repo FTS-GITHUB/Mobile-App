@@ -49,12 +49,11 @@ class LoginForm extends StatelessWidget {
             context: context,
             uri: NavigationService.homeRouteUri,
           );
-          // getIt<Toasts>().showToast(
-          //   context,
-          //   type: AlertType.Info,
-          //   title: 'Login Successful',
-          //   description: 'Welcome to the application ',
-          // );
+        } else if (state is LoggedInWithSocial){
+          getIt<NavigationService>().replaceWithNamed(
+            context: context,
+            uri: NavigationService.homeRouteUri,
+          );
         }
       },
       child: Form(

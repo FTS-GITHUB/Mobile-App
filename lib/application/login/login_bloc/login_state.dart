@@ -13,6 +13,8 @@ class LoginStateLoaded extends LoginState {}
 
 class LogoutSuccess extends LoginState {}
 
+class LoggedInWithSocial extends LoginState {}
+
 class ForgetPasswordSendingEmail extends LoginState{}
 
 class ForgetPasswordSentEmail extends LoginState{}
