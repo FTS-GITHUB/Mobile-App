@@ -46,10 +46,12 @@ class _LifeCycleManagerState extends State<LifeCycleManager>
           ),
         ));
       }
-      Duration duration = stopWatch.elapsedDuration as Duration;
-      print('Duration in minutes ${duration.inMinutes}');
-      print('Duration in seconds ${duration.inSeconds}');
-      print(stopWatch.elapsedDuration);
+      // Duration duration1 = Duration(seconds: 1800);
+      // Duration duration = stopWatch.elapsedDuration as Duration;
+      // Duration addedDuration = duration + duration1;
+      // print('Duration in minutes ${duration.inMinutes}');
+      // print('Duration in HH MM SS: ${formatDurationInHhMmSs(addedDuration)}');
+      // print(stopWatch.elapsedDuration);
     } else if (state == AppLifecycleState.resumed) {
       stopWatch.reset();
       stopWatch.start();
