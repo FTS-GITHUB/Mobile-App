@@ -31,9 +31,9 @@ class SessionRepository implements ISessionRepository {
   }
 
   @override
-  Future<Either<ApiError, Unit>> getSessions({
+  Future<Either<ApiError, List<Session>>> getSessions({
     required String userId,
-    required List<Session>? sessions,
+    required List<Session> sessions,
   }) async {
     final response = await firestoreRepository.getNestedCollection(
       firstCollectionName: FirestoreCollections.users,
@@ -43,7 +43,9 @@ class SessionRepository implements ISessionRepository {
     return response.fold(
           (l) => left(l.toApiError()),
           (QuerySnapshot<Map<String, dynamic>> r){
+            List<Session> sessions = [];
 
+            return right(sessions);
           },
     );
   }

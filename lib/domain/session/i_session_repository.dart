@@ -8,8 +8,8 @@ abstract class ISessionRepository {
     required Session session,
   });
 
-  Future<Either<ApiError, Unit>> getSessions({
+  Future<Either<ApiError, List<Session>>> getSessions({
     required String userId,
-    required List<Session>? sessions,
+    required List<Session> sessions,
   });
 }
