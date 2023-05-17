@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
 import 'package:dropandgouser/domain/session/i_session_repository.dart';
 import 'package:dropandgouser/domain/session/session.dart';
@@ -26,6 +27,24 @@ class SessionRepository implements ISessionRepository {
     return response.fold(
       (l) => left(l.toApiError()),
       (r) => right(unit),
+    );
+  }
+
+  @override
+  Future<Either<ApiError, Unit>> getSessions({
+    required String userId,
+    required List<Session>? sessions,
+  }) async {
+    final response = await firestoreRepository.getNestedCollection(
+      firstCollectionName: FirestoreCollections.users,
+      secondCollectionName: FirestoreCollections.sessions,
+      docId: userId,
+    );
+    return response.fold(
+          (l) => left(l.toApiError()),
+          (QuerySnapshot<Map<String, dynamic>> r){
+
+          },
     );
   }
 }
