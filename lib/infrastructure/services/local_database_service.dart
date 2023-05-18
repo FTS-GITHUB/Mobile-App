@@ -38,7 +38,7 @@ class LocalDatabaseService {
       return Session(
        id: maps[i]['sessionId'],
         appUseDuration: maps[i]['appUseDuration'],
-        sessionDate: DateTime.fromMillisecondsSinceEpoch(maps[i]['sessionDate']),
+        sessionDate: maps[i]['sessionDate'],
       );
     });
   }

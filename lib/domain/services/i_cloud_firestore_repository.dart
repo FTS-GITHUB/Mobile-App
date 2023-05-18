@@ -51,6 +51,13 @@ abstract class ICloudFirestoreRepository{
     required String docId,
   });
 
+  Future<Either<FirebaseException, QuerySnapshot<Map<String, dynamic>>>> getSessionCollection({
+    required String firstCollectionName,
+    required String secondCollectionName,
+    required String docId,
+    required String type,
+  });
+
   Future<Either<FirebaseException, Unit>> deleteSpecificNestedDocument({
     required String firstCollectionName,
     required String secondCollectionName,

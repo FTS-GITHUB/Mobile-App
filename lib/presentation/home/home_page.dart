@@ -51,17 +51,15 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-
-  runEveryMinute()async{
+  runEveryMinute() async {
     cron.schedule(Schedule.parse('* * * * *'), () async {
       bool isSessionCompleted = context.read<SessionCompletedCubit>().state;
       // TODO: change duration to user level duration
-      if(sessionInMinutes>10 && !isSessionCompleted){
+      if (sessionInMinutes > 10 && !isSessionCompleted) {
         context.read<SessionCompletedCubit>().initialize(true);
         showDialog(
           context: context,
-          builder: (ctx) =>
-              const SessionCompletePage(),
+          builder: (ctx) => const SessionCompletePage(),
         );
       }
     });
@@ -74,9 +72,12 @@ class _HomePageState extends State<HomePage> {
 
   uploadSession() {
     if (userService?.userData?.id != null) {
-      context
-          .read<SessionBloc>()
-          .add(GetAllSessions(userId: userService!.userData!.id!));
+      context.read<SessionBloc>().add(
+            GetAllSessions(
+              userId: userService!.userData!.id!,
+              isSessionCompleted: context.read<SessionCompletedCubit>().state,
+            ),
+          );
     }
   }
 
@@ -114,7 +115,7 @@ class _HomePageState extends State<HomePage> {
         ),
         BlocListener<SessionBloc, SessionState>(
           listener: (context, state) {
-            if(state is SessionStateUploaded){
+            if (state is SessionStateUploaded) {
               deletePreviousSession();
               context.read<SessionCompletedCubit>().initialize(false);
             }

@@ -10,6 +10,6 @@ abstract class ISessionRepository {
 
   Future<Either<ApiError, List<Session>>> getSessions({
     required String userId,
-    required List<Session> sessions,
+    required String type,
   });
 }

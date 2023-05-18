@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dropandgouser/application/session/session_cubit/session_completed_cubit.dart';
 import 'package:dropandgouser/domain/session/i_session_repository.dart';
 import 'package:dropandgouser/domain/session/session.dart';
 import 'package:dropandgouser/shared/constants/global.dart';
@@ -44,7 +45,11 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     if(sessions.isNotEmpty){
       UploadSession(
         userId: event.userId,
-        session: sessions.last
+        session: Session(
+          sessionDate: sessions.last.sessionDate,
+          appUseDuration: sessions.last.appUseDuration,
+          isSessionCompleted: event.isSessionCompleted
+        )
       );
     }
   }

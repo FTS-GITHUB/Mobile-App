@@ -14,10 +14,8 @@ class Session {
   final String? appUseDuration;
   @JsonKey(
     name: 'session_date',
-    toJson: dateToJson,
-    fromJson: dateFromJson,
   )
-  final DateTime? sessionDate;
+  final int? sessionDate;
   final bool isSessionCompleted;
 
   Session({
@@ -30,7 +28,7 @@ class Session {
   Session copyWith({
       String? id,
   String? appUseDuration,
-  DateTime? sessionDate,
+  int? sessionDate,
 })=> Session(
     id: id?? this.id,
     appUseDuration: appUseDuration ?? this.appUseDuration,
@@ -45,7 +43,7 @@ class Session {
   Map<String, dynamic> toMap() => {
     'sessionId': id,
     'appUseDuration': appUseDuration,
-    "sessionDate": sessionDate?.millisecondsSinceEpoch.toString(),
+    "sessionDate": sessionDate?.toString(),
   };
 
   factory Session.fromJson(String id, Map<String, dynamic> json) =>

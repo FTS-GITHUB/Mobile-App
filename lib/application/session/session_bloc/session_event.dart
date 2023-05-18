@@ -8,8 +8,10 @@ abstract class SessionEvent extends Equatable{
 class GetAllSessions extends SessionEvent{
   GetAllSessions({
     required this.userId,
+    required this.isSessionCompleted,
 });
   final String userId;
+  final bool isSessionCompleted;
 }
 
 class UploadSession extends SessionEvent{

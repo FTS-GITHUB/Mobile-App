@@ -47,7 +47,7 @@ class _LifeCycleManagerState extends State<LifeCycleManager>
             now.year,
             now.month,
             now.day,
-          ),
+          ).millisecondsSinceEpoch,
         ));
       }
     } else if (state == AppLifecycleState.resumed) {

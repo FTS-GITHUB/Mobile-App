@@ -10,6 +10,7 @@ import 'package:dropandgouser/application/account/account_cubit/set_reminder_cub
 import 'package:dropandgouser/application/account/account_setting_bloc/account_setting_bloc.dart';
 import 'package:dropandgouser/application/account/change_password_bloc/change_password_bloc.dart';
 import 'package:dropandgouser/application/account/personal_info_bloc/personal_info_bloc.dart';
+import 'package:dropandgouser/application/analytics/analytics_bloc/analytics_bloc.dart';
 import 'package:dropandgouser/application/audio_bloc/audio_bloc.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.dart';
@@ -29,6 +30,7 @@ import 'package:dropandgouser/application/onboarding/cubit/user_level_cubit.dart
 import 'package:dropandgouser/application/search/cubit/is_seearch_active.dart';
 import 'package:dropandgouser/application/search/search_found_bloc/search_found_bloc.dart';
 import 'package:dropandgouser/application/session/session_bloc/session_bloc.dart';
+import 'package:dropandgouser/application/session/session_cubit/session_completed_cubit.dart';
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/application/signup/signup_bloc.dart';
 import 'package:dropandgouser/application/splash/splash_bloc/splash_bloc.dart';
@@ -320,6 +322,14 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
         ),
         BlocProvider<SessionBloc>(
           create: (context) => SessionBloc(
+            sessionRepository: _sessionRepository,
+          ),
+        ),
+        BlocProvider<SessionCompletedCubit>(
+          create: (context) => SessionCompletedCubit(),
+        ),
+        BlocProvider<AnalyticsBloc>(
+          create: (context) => AnalyticsBloc(
             sessionRepository: _sessionRepository,
           ),
         ),

@@ -33,18 +33,22 @@ class SessionRepository implements ISessionRepository {
   @override
   Future<Either<ApiError, List<Session>>> getSessions({
     required String userId,
-    required List<Session> sessions,
+    required String type,
   }) async {
-    final response = await firestoreRepository.getNestedCollection(
+    final response = await firestoreRepository.getSessionCollection(
       firstCollectionName: FirestoreCollections.users,
       secondCollectionName: FirestoreCollections.sessions,
       docId: userId,
+      type: type,
     );
     return response.fold(
           (l) => left(l.toApiError()),
           (QuerySnapshot<Map<String, dynamic>> r){
             List<Session> sessions = [];
-
+            for(var docSnapshot in r.docs){
+              Session newSession = Session.fromJson(docSnapshot.id, docSnapshot.data());
+              sessions.add(newSession);
+            }
             return right(sessions);
           },
     );
