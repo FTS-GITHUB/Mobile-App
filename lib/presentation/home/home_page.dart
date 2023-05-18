@@ -1,13 +1,19 @@
+import 'package:cron/cron.dart';
 import 'package:dropandgouser/application/home/home_bloc/home_bloc.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_cubit.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_state.dart';
+import 'package:dropandgouser/application/session/session_bloc/session_bloc.dart';
+import 'package:dropandgouser/application/session/session_cubit/session_completed_cubit.dart';
 import 'package:dropandgouser/domain/home/category.dart';
 import 'package:dropandgouser/domain/services/user_service.dart';
+import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
+import 'package:dropandgouser/main.dart';
 import 'package:dropandgouser/presentation/home/widgets/category_view_more_header.dart';
 import 'package:dropandgouser/presentation/home/widgets/home_rect_category.dart';
 import 'package:dropandgouser/presentation/home/widgets/home_square_category.dart';
+import 'package:dropandgouser/presentation/session_complete/session_complete_page.dart';
 import 'package:dropandgouser/shared/animations/slide_animation.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/constants/global.dart';
@@ -33,12 +39,32 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
+  late UserService? userService;
+  Cron cron = Cron();
 
   @override
   void initState() {
-    restartTimer();
+    userService = getIt<UserService>();
+    uploadSession();
     refreshPage();
+    runEveryMinute();
     super.initState();
+  }
+
+
+  runEveryMinute()async{
+    cron.schedule(Schedule.parse('* * * * *'), () async {
+      bool isSessionCompleted = context.read<SessionCompletedCubit>().state;
+      // TODO: change duration to user level duration
+      if(sessionInMinutes>10 && !isSessionCompleted){
+        context.read<SessionCompletedCubit>().initialize(true);
+        showDialog(
+          context: context,
+          builder: (ctx) =>
+              const SessionCompletePage(),
+        );
+      }
+    });
   }
 
   refreshPage() {
@@ -46,29 +72,55 @@ class _HomePageState extends State<HomePage> {
     context.read<HomeBloc>().add(FetchCategories());
   }
 
+  uploadSession() {
+    if (userService?.userData?.id != null) {
+      context
+          .read<SessionBloc>()
+          .add(GetAllSessions(userId: userService!.userData!.id!));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HomeBloc, HomeState>(
-      listener: (context, state){
-        bool isRemindAtBedtime =
-            getIt<UserService>().userSetting?.isRemindBedtime ?? false;
-        bool isTimeRangeValid = isValidTimeRange(
-          const TimeOfDay(hour: 22, minute: 30),
-          const TimeOfDay(hour: 23, minute: 0),
-        );
-        if (isRemindAtBedtime && isTimeRangeValid) {
-          showDialog(context: context, builder: (dialogContext){
-            return AlertDialog(
-              content: Column(
-                children: [
-                  StandardText.headline5(context, 'Reminder for bedtime',),
-
-                ],
-              ),
-            );
-          });
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<HomeBloc, HomeState>(
+          listener: (context, state) {
+            if (state is HomeStateLoaded) {
+              bool isRemindAtBedtime =
+                  getIt<UserService>().userSetting?.isRemindBedtime ?? false;
+              bool isTimeRangeValid = isValidTimeRange(
+                const TimeOfDay(hour: 22, minute: 30),
+                const TimeOfDay(hour: 23, minute: 0),
+              );
+              if (isRemindAtBedtime && isTimeRangeValid) {
+                showDialog(
+                    context: context,
+                    builder: (dialogContext) {
+                      return AlertDialog(
+                        content: Column(
+                          children: [
+                            StandardText.headline5(
+                              context,
+                              'Reminder for bedtime',
+                            ),
+                          ],
+                        ),
+                      );
+                    });
+              }
+            }
+          },
+        ),
+        BlocListener<SessionBloc, SessionState>(
+          listener: (context, state) {
+            if(state is SessionStateUploaded){
+              deletePreviousSession();
+              context.read<SessionCompletedCubit>().initialize(false);
+            }
+          },
+        ),
+      ],
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(70),
@@ -126,7 +178,8 @@ class _HomePageState extends State<HomePage> {
                   if (state is UserStateLoaded) {
                     getIt<UserService>().userData = state.userData;
                     getIt<UserService>().userSetting = state.userSetting;
-                    SharedPreferenceHelper.isBiometricEnabled = state.userSetting.isBiometric;
+                    SharedPreferenceHelper.isBiometricEnabled =
+                        state.userSetting.isBiometric;
                     debugPrint("User Name: ${state.userData.fullName}");
                     debugPrint(
                         "Liked Categories: ${state.userData.likedCategories}");
@@ -136,7 +189,7 @@ class _HomePageState extends State<HomePage> {
                     builder: (context, userState) {
                   return BlocBuilder<HomeBloc, HomeState>(
                       builder: (context, state) {
-                        final user = getIt<UserService>();
+                    final user = getIt<UserService>();
                     return (state is HomeStateLoading)
                         ? const DropAndGoButtonLoading()
                         : (state is HomeStateLoaded)
@@ -150,86 +203,106 @@ class _HomePageState extends State<HomePage> {
                                               visible:
                                                   state.randomCategory.name !=
                                                       null,
-                                              child: BlocBuilder<LikesCubit, LikesState>(
-                                                builder: (context, likeState) {
-                                                  return (likeState is LikesStateLoading)?
-                                                  const SizedBox.shrink():
-                                                  (likeState is LikesStateLoaded)?
-                                                  HomeRectCategory(
-                                                    categoryName:
-                                                        state.randomCategory.name,
-                                                    imageUrl:
-                                                        state.randomCategory.imageUrl,
-                                                    isLiked: likeState.userData
-                                                                    .likedCategories !=
-                                                                null &&
-                                                        likeState.userData
-                                                                .likedCategories!
-                                                                .contains(state
+                                              child: BlocBuilder<LikesCubit,
+                                                      LikesState>(
+                                                  builder:
+                                                      (context, likeState) {
+                                                return (likeState
+                                                        is LikesStateLoading)
+                                                    ? const SizedBox.shrink()
+                                                    : (likeState
+                                                            is LikesStateLoaded)
+                                                        ? HomeRectCategory(
+                                                            categoryName: state
+                                                                .randomCategory
+                                                                .name,
+                                                            imageUrl: state
+                                                                .randomCategory
+                                                                .imageUrl,
+                                                            isLiked: likeState
+                                                                            .userData
+                                                                            .likedCategories !=
+                                                                        null &&
+                                                                    likeState
+                                                                        .userData
+                                                                        .likedCategories!
+                                                                        .contains(state
+                                                                            .randomCategory
+                                                                            .id!)
+                                                                ? true
+                                                                : false,
+                                                            onLike: () {
+                                                              if (state
+                                                                      .randomCategory
+                                                                      .id !=
+                                                                  null) {
+                                                                context
+                                                                    .read<
+                                                                        LikesCubit>()
+                                                                    .likeCategory(
+                                                                      categoryId: state
+                                                                          .randomCategory
+                                                                          .id!,
+                                                                    );
+                                                              }
+                                                            },
+                                                            onShare: () {},
+                                                            onTap: () {
+                                                              getIt<NavigationService>()
+                                                                  .navigateToNamed(
+                                                                context:
+                                                                    context,
+                                                                uri: NavigationService
+                                                                    .categoryDetailRouteUri,
+                                                                data: state
                                                                     .randomCategory
-                                                                    .id!)
-                                                        ? true
-                                                        : false,
-                                                    onLike: () {
-                                                      if (state.randomCategory.id !=
-                                                          null) {
-                                                        context
-                                                            .read<LikesCubit>()
-                                                            .likeCategory(
-                                                              categoryId: state
-                                                                  .randomCategory.id!,
-                                                            );
-                                                      }
-                                                    },
-                                                    onShare: () {},
-                                                    onTap: () {
-                                                      getIt<NavigationService>()
-                                                          .navigateToNamed(
-                                                        context: context,
-                                                        uri: NavigationService
-                                                            .categoryDetailRouteUri,
-                                                        data: state.randomCategory.id,
-                                                      );
-                                                    },
-                                                  ):HomeRectCategory(
-                                                    categoryName:
-                                                    state.randomCategory.name,
-                                                    imageUrl:
-                                                    state.randomCategory.imageUrl,
-                                                    isLiked: user.userData!
-                                                        .likedCategories !=
-                                                        null &&
-                                                        user.userData!
-                                                            .likedCategories!
-                                                            .contains(state
-                                                            .randomCategory
-                                                            .id!)
-                                                        ? true
-                                                        : false,
-                                                    onLike: () {
-                                                      // if (state.randomCategory.id !=
-                                                      //     null) {
-                                                      //   context
-                                                      //       .read<LikesCubit>()
-                                                      //       .likeCategory(
-                                                      //     categoryId: state
-                                                      //         .randomCategory.id!,
-                                                      //   );
-                                                      // }
-                                                    },
-                                                    onShare: () {},
-                                                    onTap: () {
-                                                      getIt<NavigationService>()
-                                                          .navigateToNamed(
-                                                        context: context,
-                                                        uri: NavigationService
-                                                            .categoryDetailRouteUri,
-                                                        data: state.randomCategory.id,
-                                                      );
-                                                    },
-                                                  );
-                                                }
-                                              ),
+                                                                    .id,
+                                                              );
+                                                            },
+                                                          )
+                                                        : HomeRectCategory(
+                                                            categoryName: state
+                                                                .randomCategory
+                                                                .name,
+                                                            imageUrl: state
+                                                                .randomCategory
+                                                                .imageUrl,
+                                                            isLiked: user.userData!
+                                                                            .likedCategories !=
+                                                                        null &&
+                                                                    user.userData!
+                                                                        .likedCategories!
+                                                                        .contains(state
+                                                                            .randomCategory
+                                                                            .id!)
+                                                                ? true
+                                                                : false,
+                                                            onLike: () {
+                                                              // if (state.randomCategory.id !=
+                                                              //     null) {
+                                                              //   context
+                                                              //       .read<LikesCubit>()
+                                                              //       .likeCategory(
+                                                              //     categoryId: state
+                                                              //         .randomCategory.id!,
+                                                              //   );
+                                                              // }
+                                                            },
+                                                            onShare: () {},
+                                                            onTap: () {
+                                                              getIt<NavigationService>()
+                                                                  .navigateToNamed(
+                                                                context:
+                                                                    context,
+                                                                uri: NavigationService
+                                                                    .categoryDetailRouteUri,
+                                                                data: state
+                                                                    .randomCategory
+                                                                    .id,
+                                                              );
+                                                            },
+                                                          );
+                                              }),
                                             )
                                           : const SizedBox.shrink(),
                                   35.h.verticalSpace,
@@ -322,7 +395,8 @@ class _HomePageState extends State<HomePage> {
                                     itemCount:
                                         state.recommendedCategories.length > 2
                                             ? 2
-                                            : state.recommendedCategories.length,
+                                            : state
+                                                .recommendedCategories.length,
                                   ),
                                   20.h.verticalSpace,
                                   SlideInAnimation(
@@ -366,11 +440,11 @@ class _HomePageState extends State<HomePage> {
                                         },
                                       );
                                     },
-                                    itemCount:
-                                        state.forBetterSleepCategories.length > 4
-                                            ? 4
-                                            : state
-                                                .forBetterSleepCategories.length,
+                                    itemCount: state.forBetterSleepCategories
+                                                .length >
+                                            4
+                                        ? 4
+                                        : state.forBetterSleepCategories.length,
                                   ),
                                   15.verticalSpace,
                                 ],

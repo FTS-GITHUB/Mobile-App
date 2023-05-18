@@ -257,6 +257,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.7"
+  cron:
+    dependency: "direct main"
+    description:
+      name: cron
+      sha256: d98aa8cdad0cccdb6b098e6a1fb89339c180d8a229145fa4cd8c6fc538f0e35f
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.1"
   cross_file:
     dependency: transitive
     description:
@@ -1387,13 +1395,13 @@ packages:
     source: hosted
     version: "1.9.1"
   sqflite:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: sqflite
-      sha256: "8453780d1f703ead201a39673deb93decf85d543f359f750e2afc4908b55533f"
+      sha256: b4d6710e1200e96845747e37338ea8a819a12b51689a3bcf31eff0003b37a0b9
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.8"
+    version: "2.2.8+4"
   sqflite_common:
     dependency: transitive
     description:

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropandgouser/infrastructure/services/local_database_service.dart';
 import 'package:dropandgouser/shared/constants/stopwatch.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,8 @@ DateTime? dateFromJson(Timestamp? val) => val == null
 Timestamp? dateToJson(DateTime? time) => time == null
     ? null
     : Timestamp.fromMillisecondsSinceEpoch(time.millisecondsSinceEpoch);
+
+late LocalDatabaseService localDatabaseService;
 
 String? validateMobile(String? value) {
   String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
@@ -50,4 +53,19 @@ String formatDurationInHhMmSs(Duration duration) {
   final ss = (duration.inSeconds % 60).toString().padLeft(2, '0');
 
   return '$HH:$mm:$ss';
+}
+
+Future<void> deletePreviousSession()async{
+  restartTimer();
+  await localDatabaseService.delete(DateTime(
+    now.year,
+    now.month,
+    now.day-1,
+  ).millisecondsSinceEpoch.toString());
+}
+
+int get sessionInMinutes{
+  Duration sessionDuration = stopWatch.elapsedDuration as Duration;
+  int sessionDurationInMinutes = sessionDuration.inMinutes;
+  return sessionDurationInMinutes;
 }

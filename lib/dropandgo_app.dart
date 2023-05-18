@@ -40,18 +40,18 @@ import 'package:dropandgouser/domain/services/i_auth_repository.dart';
 import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
 import 'package:dropandgouser/domain/services/i_storage_repository.dart';
 import 'package:dropandgouser/domain/session/i_session_repository.dart';
-import 'package:dropandgouser/domain/session/session.dart';
 import 'package:dropandgouser/domain/signup/i_signup_repository.dart';
 import 'package:dropandgouser/infrastructure/account/account_repository.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/home/home_repository.dart';
 import 'package:dropandgouser/infrastructure/login/login_repository.dart';
-import 'package:dropandgouser/infrastructure/services/local_auth_service.dart';
+import 'package:dropandgouser/infrastructure/services/local_database_service.dart';
 import 'package:dropandgouser/infrastructure/session/session_repository.dart';
 import 'package:dropandgouser/infrastructure/setting/setting_repository.dart';
 import 'package:dropandgouser/infrastructure/signup/signup_repository.dart';
 import 'package:dropandgouser/infrastructure/splash/splash_repository.dart';
 import 'package:dropandgouser/shared/app_lifecycle/life_cycle_manager.dart';
+import 'package:dropandgouser/shared/constants/global.dart';
 import 'package:dropandgouser/shared/helpers/shared_preferences_helper.dart';
 import 'package:dropandgouser/shared/helpers/theme.dart';
 import 'package:dropandgouser/shared/screen_util/screen_util.dart';
@@ -98,6 +98,8 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
   @override
   void initState() {
     SharedPreferenceHelper.instance.init();
+    localDatabaseService = LocalDatabaseService();
+    localDatabaseService.initialize();
     super.initState();
     initRepositories();
   }

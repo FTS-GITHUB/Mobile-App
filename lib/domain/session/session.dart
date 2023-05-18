@@ -18,11 +18,13 @@ class Session {
     fromJson: dateFromJson,
   )
   final DateTime? sessionDate;
+  final bool isSessionCompleted;
 
   Session({
     this.id,
     this.appUseDuration,
     this.sessionDate,
+    this.isSessionCompleted=true
 });
 
   Session copyWith({
@@ -39,6 +41,12 @@ class Session {
     final Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
     return Session.fromJson(snapshot.id, data);
   }
+
+  Map<String, dynamic> toMap() => {
+    'sessionId': id,
+    'appUseDuration': appUseDuration,
+    "sessionDate": sessionDate?.millisecondsSinceEpoch.toString(),
+  };
 
   factory Session.fromJson(String id, Map<String, dynamic> json) =>
       _$SessionFromJson(json)..id = id;
