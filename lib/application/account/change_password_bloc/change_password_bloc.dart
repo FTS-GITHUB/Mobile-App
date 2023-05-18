@@ -21,6 +21,7 @@ class ChangePasswordBloc
 
   Future<void> _onUpdatePassword(
       UpdatePassword event, Emitter<ChangePasswordState> emit) async {
+    emit(ChangePasswordStateLoading());
     final response = await _authRepository.updatePassword(
       oldPassword: event.oldPassword,
       newPassword: event.newPassword,

@@ -29,13 +29,13 @@ class PersonalInfoBloc extends Bloc<PersonalInfoEvent, PersonalInfoState> {
     UpdatePersonalInfo event,
     Emitter<PersonalInfoState> emit,
   ) async {
+    emit(PersonalInfoStateLoading());
     if (event.fileImage != null) {
       add(UpdateProfilePic(
         userData: event.userData,
         fileImage: event.fileImage!,
       ));
     } else {
-      emit(PersonalInfoStateLoading());
       final response = await _accountRepository.updatePersonalInfo(
         userData: event.userData,
       );
