@@ -64,6 +64,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'application/main/cubit/main_navbar_cubit.dart';
 import 'application/search/search_history_bloc/search_bloc.dart';
+import 'infrastructure/subscription/subscription_data_source.dart';
+import 'infrastructure/subscription/subscription_repository.dart';
 import 'presentation/delegates/gorouter_delegate.dart';
 
 class DropAndGoApp extends StatefulWidget {
