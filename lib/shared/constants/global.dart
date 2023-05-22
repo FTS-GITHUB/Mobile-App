@@ -56,16 +56,16 @@ String formatDurationInHhMmSs(Duration duration) {
   return '$HH:$mm:$ss';
 }
 
-Future<void> deletePreviousSession()async{
+Future<void> deletePreviousSession() async {
   restartTimer();
   await localDatabaseService.delete(DateTime(
     now.year,
     now.month,
-    now.day-1,
+    now.day - 1,
   ).millisecondsSinceEpoch.toString());
 }
 
-int get sessionInMinutes{
+int get sessionInMinutes {
   Duration sessionDuration = stopWatch.elapsedDuration as Duration;
   int sessionDurationInMinutes = sessionDuration.inMinutes;
   return sessionDurationInMinutes;
@@ -76,3 +76,55 @@ Duration durationParse(String time) {
   final dt = DateTime.parse('$ts $time');
   return Duration(hours: dt.hour, minutes: dt.minute, seconds: dt.second);
 }
+
+int countCurrentStreak(List<DateTime> dates) {
+  int consecutiveDays = 0;
+  DateTime today = dates.last;
+
+  for (int i = dates.length - 1; i >= 0; i--) {
+    if (isSameDate(dates[i], today)) {
+      consecutiveDays++;
+      today = today.subtract(
+        const Duration(days: 1),
+      );
+    } else {
+      break;
+    }
+  }
+
+  return consecutiveDays;
+}
+
+bool isSameDate(DateTime date1, DateTime date2) {
+  return date1.year == date2.year &&
+      date1.month == date2.month &&
+      date1.day == date2.day;
+}
+
+int countLongestStreak(List<DateTime> dates) {
+  int consecutiveDays = 0;
+  int currentConsecutiveDays = 0;
+
+  for (int i = 0; i < dates.length - 1; i++) {
+    DateTime currentDate = dates[i];
+    DateTime nextDate = dates[i + 1];
+
+    if (isConsecutiveDate(currentDate, nextDate)) {
+      currentConsecutiveDays++;
+    } else {
+      currentConsecutiveDays = 0;
+    }
+
+    if (currentConsecutiveDays > consecutiveDays) {
+      consecutiveDays = currentConsecutiveDays;
+    }
+  }
+
+  return consecutiveDays + 1;
+}
+
+bool isConsecutiveDate(DateTime date1, DateTime date2) {
+  final difference = date2.difference(date1).inDays;
+  return difference == 1;
+}
+

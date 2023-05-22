@@ -51,6 +51,9 @@ class UserData {
     includeIfNull: false,
   )
   final String? signInMethod;
+  final int? currentStreak;
+  final int? longestStreak;
+  final int? sessionsListened;
 
   UserData({
     this.id,
@@ -66,9 +69,12 @@ class UserData {
     this.dateOfBirth,
     this.file,
     this.createdAt,
-    this.isDeleted=false,
+    this.isDeleted = false,
     this.signInMethod,
     this.likedCategories,
+    this.currentStreak = 0,
+    this.longestStreak = 0,
+    this.sessionsListened = 0,
   });
 
   UserData copyWith({
@@ -87,6 +93,10 @@ class UserData {
     bool? isDeleted,
     List<String>? likedCategories,
     File? file,
+    String? signInMethod,
+    int? currentStreak,
+    int? longestStreak,
+    int? sessionsListened,
   }) =>
       UserData(
         id: id ?? this.id,
@@ -101,9 +111,13 @@ class UserData {
         country: country ?? this.country,
         dateOfBirth: dateOfBirth ?? this.dateOfBirth,
         createdAt: createdAt ?? this.createdAt,
-        isDeleted: isDeleted?? this.isDeleted,
-        likedCategories: likedCategories?? this.likedCategories,
-        file: file?? this.file,
+        isDeleted: isDeleted ?? this.isDeleted,
+        likedCategories: likedCategories ?? this.likedCategories,
+        file: file ?? this.file,
+        signInMethod: signInMethod ?? this.signInMethod,
+        currentStreak: currentStreak ?? this.currentStreak,
+        longestStreak: longestStreak ?? this.longestStreak,
+        sessionsListened: sessionsListened ?? this.sessionsListened,
       );
 
   factory UserData.fromSnapshot(DocumentSnapshot snapshot) {
