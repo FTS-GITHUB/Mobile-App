@@ -7,6 +7,7 @@ import 'package:dropandgouser/presentation/account/notification_page.dart';
 import 'package:dropandgouser/presentation/account/personal_info_page.dart';
 import 'package:dropandgouser/presentation/account/preference_page.dart';
 import 'package:dropandgouser/presentation/account/security_page.dart';
+import 'package:dropandgouser/presentation/account/subscription_page.dart';
 import 'package:dropandgouser/presentation/analytics/analytics_page.dart';
 import 'package:dropandgouser/presentation/categories/categories_page.dart';
 import 'package:dropandgouser/presentation/downloads/downloads_page.dart';
@@ -27,6 +28,8 @@ import 'package:dropandgouser/presentation/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../account/stripe_payment.dart';
+
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -34,11 +37,11 @@ class GoRouterDelegate {
   static final GoRouter routerConfig = GoRouter(
     initialLocation: NavigationService.initialSplashRouteUri,
     // initialLocation: '/${NavigationService.homeRouteUri}',
-    navigatorKey:_rootNavigatorKey,
+    navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
-        parentNavigatorKey:_rootNavigatorKey,
+        parentNavigatorKey: _rootNavigatorKey,
         path: NavigationService.initialSplashRouteUri,
         name: NavigationService.initialSplashRouteUri,
         builder: (context, routerState) {
@@ -46,7 +49,7 @@ class GoRouterDelegate {
         },
       ),
       GoRoute(
-        parentNavigatorKey:_rootNavigatorKey,
+        parentNavigatorKey: _rootNavigatorKey,
         path: '/${NavigationService.splashRouteUri}',
         name: NavigationService.splashRouteUri,
         builder: (context, routerState) {
@@ -54,7 +57,7 @@ class GoRouterDelegate {
         },
       ),
       GoRoute(
-        parentNavigatorKey:_rootNavigatorKey,
+        parentNavigatorKey: _rootNavigatorKey,
         path: "/${NavigationService.onboardingGenderRouteUri}",
         name: NavigationService.onboardingGenderRouteUri,
         builder: (context, routerState) {
@@ -62,7 +65,7 @@ class GoRouterDelegate {
         },
       ),
       GoRoute(
-        parentNavigatorKey:_rootNavigatorKey,
+        parentNavigatorKey: _rootNavigatorKey,
         path: "/${NavigationService.onboardingAgeRouteUri}",
         name: NavigationService.onboardingAgeRouteUri,
         builder: (context, routerState) {
@@ -70,15 +73,15 @@ class GoRouterDelegate {
         },
       ),
       GoRoute(
-        parentNavigatorKey:_rootNavigatorKey,
+        parentNavigatorKey: _rootNavigatorKey,
         path: "/${NavigationService.onboardingAchievementRouteUri}",
         name: NavigationService.onboardingAchievementRouteUri,
         builder: (context, routerState) {
           return const AchievementInfoPage();
         },
-      ),//createAccountRouteUri
+      ), //createAccountRouteUri
       GoRoute(
-        parentNavigatorKey:_rootNavigatorKey,
+        parentNavigatorKey: _rootNavigatorKey,
         path: "/${NavigationService.onboardingLevelRouteUri}",
         name: NavigationService.onboardingLevelRouteUri,
         builder: (context, routerState) {
@@ -86,7 +89,7 @@ class GoRouterDelegate {
         },
       ),
       GoRoute(
-        parentNavigatorKey:_rootNavigatorKey,
+        parentNavigatorKey: _rootNavigatorKey,
         path: "/${NavigationService.completeProfileRouteUri}",
         name: NavigationService.completeProfileRouteUri,
         builder: (context, routerState) {
@@ -94,7 +97,7 @@ class GoRouterDelegate {
         },
       ),
       GoRoute(
-        parentNavigatorKey:_rootNavigatorKey,
+        parentNavigatorKey: _rootNavigatorKey,
         path: "/${NavigationService.createAccountRouteUri}",
         name: NavigationService.createAccountRouteUri,
         builder: (context, routerState) {
@@ -104,7 +107,7 @@ class GoRouterDelegate {
         },
       ),
       GoRoute(
-        parentNavigatorKey:_rootNavigatorKey,
+        parentNavigatorKey: _rootNavigatorKey,
         path: "/${NavigationService.loginRouteUri}",
         name: NavigationService.loginRouteUri,
         builder: (context, routerState) {
@@ -112,7 +115,7 @@ class GoRouterDelegate {
         },
       ),
       GoRoute(
-        parentNavigatorKey:_rootNavigatorKey,
+        parentNavigatorKey: _rootNavigatorKey,
         path: "/${NavigationService.forgetPasswordRouteUri}",
         name: NavigationService.forgetPasswordRouteUri,
         builder: (context, routerState) {
@@ -120,88 +123,86 @@ class GoRouterDelegate {
         },
       ),
       ShellRoute(
-        navigatorKey: _shellNavigatorKey,
-        routes: [
-          GoRoute(
-            parentNavigatorKey: _shellNavigatorKey,
-            path: '/${NavigationService.homeRouteUri}',
-            name: NavigationService.homeRouteUri,
-            builder: (context, routerState) {
-              return const HomePage();
-            },
-            routes: [
-              GoRoute(
+          navigatorKey: _shellNavigatorKey,
+          routes: [
+            GoRoute(
                 parentNavigatorKey: _shellNavigatorKey,
-                path: NavigationService.categoriesRouteUri,
-                name: NavigationService.categoriesRouteUri,
+                path: '/${NavigationService.homeRouteUri}',
+                name: NavigationService.homeRouteUri,
                 builder: (context, routerState) {
-                  return CategoriesPage(
-                    categories: routerState.extra as List<Category>,
-                  );
+                  return const HomePage();
                 },
-              ),
-              GoRoute(
-                parentNavigatorKey: _shellNavigatorKey,
-                // path: ':${NavigationService.searchRouteUri}',
-                path: NavigationService.searchRouteUri,
-                name: NavigationService.searchRouteUri,
-                builder: (context, routerState) {
-                  return SearchPage(
-                    categories: routerState.extra as List<Category>,
-                  );
-                },
-              ),
-              GoRoute(
-                parentNavigatorKey: _shellNavigatorKey,
-                path: NavigationService.downloadsRouteUri,
-                name: NavigationService.downloadsRouteUri,
-                builder: (context, routerState) {
-                  return const DownloadsPage();
-                },
-              ),
-              GoRoute(
-                parentNavigatorKey: _shellNavigatorKey,
-                path: NavigationService.analyticsRouteUri,
-                name: NavigationService.analyticsRouteUri,
-                builder: (context, routerState) {
-                  return const AnalyticsPage();
-                },
-              ),
-              GoRoute(
-                parentNavigatorKey: _shellNavigatorKey,
-                path: NavigationService.accountRouteUri,
-                name: NavigationService.accountRouteUri,
-                builder: (context, routerState) {
-                  return const AccountPage();
-                },
-              ),
-              GoRoute(
-                parentNavigatorKey: _shellNavigatorKey,
-                path: NavigationService.categoryDetailRouteUri,
-                name: NavigationService.categoryDetailRouteUri,
-                builder: (context, routerState) {
-                  return PlayerAudioPage(
-                    categoryId: routerState.extra as String,
-                  );
-                },
-              ),
-              // GoRoute(
-              //   parentNavigatorKey: _shellNavigatorKey,
-              //   path: NavigationService.plyaerAudioRouteUri,
-              //   name: NavigationService.plyaerAudioRouteUri,
-              //   builder: (context, routerState) {
-              //     return PlayerAudioPage(
-              //       categoryId: routerState.extra as String,
-              //     );
-              //   },
-              // ),
-            ]
-          ),
-        ],
-        builder: (context, routerState, child){
-          return MainPage(child: child);
-        }
-      ),
+                routes: [
+                  GoRoute(
+                    parentNavigatorKey: _shellNavigatorKey,
+                    path: NavigationService.categoriesRouteUri,
+                    name: NavigationService.categoriesRouteUri,
+                    builder: (context, routerState) {
+                      return CategoriesPage(
+                        categories: routerState.extra as List<Category>,
+                      );
+                    },
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _shellNavigatorKey,
+                    // path: ':${NavigationService.searchRouteUri}',
+                    path: NavigationService.searchRouteUri,
+                    name: NavigationService.searchRouteUri,
+                    builder: (context, routerState) {
+                      return SearchPage(
+                        categories: routerState.extra as List<Category>,
+                      );
+                    },
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _shellNavigatorKey,
+                    path: NavigationService.downloadsRouteUri,
+                    name: NavigationService.downloadsRouteUri,
+                    builder: (context, routerState) {
+                      return const DownloadsPage();
+                    },
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _shellNavigatorKey,
+                    path: NavigationService.analyticsRouteUri,
+                    name: NavigationService.analyticsRouteUri,
+                    builder: (context, routerState) {
+                      return const AnalyticsPage();
+                    },
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _shellNavigatorKey,
+                    path: NavigationService.accountRouteUri,
+                    name: NavigationService.accountRouteUri,
+                    builder: (context, routerState) {
+                      return const AccountPage();
+                    },
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _shellNavigatorKey,
+                    path: NavigationService.categoryDetailRouteUri,
+                    name: NavigationService.categoryDetailRouteUri,
+                    builder: (context, routerState) {
+                      return PlayerAudioPage(
+                        categoryId: routerState.extra as String,
+                      );
+                    },
+                  ),
+                  // GoRoute(
+                  //   parentNavigatorKey: _shellNavigatorKey,
+                  //   path: NavigationService.plyaerAudioRouteUri,
+                  //   name: NavigationService.plyaerAudioRouteUri,
+                  //   builder: (context, routerState) {
+                  //     return PlayerAudioPage(
+                  //       categoryId: routerState.extra as String,
+                  //     );
+                  //   },
+                  // ),
+                ]),
+          ],
+          builder: (context, routerState, child) {
+            return MainPage(child: child);
+          }),
       GoRoute(
         parentNavigatorKey: _rootNavigatorKey,
         path: "/${NavigationService.personalInfoRouteUri}",
@@ -232,6 +233,23 @@ class GoRouterDelegate {
         name: NavigationService.securityRouteUri,
         builder: (context, routerState) {
           return const SecurityPage();
+        },
+      ),
+
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: "/${NavigationService.subscriptionRouteUri}",
+        name: NavigationService.subscriptionRouteUri,
+        builder: (context, routerState) {
+          return SubscriptionPage();
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: "/${NavigationService.stripePayment}",
+        name: NavigationService.stripePayment,
+        builder: (context, routerState) {
+          return StripePayment();
         },
       ),
       GoRoute(
