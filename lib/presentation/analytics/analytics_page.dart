@@ -16,8 +16,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SplineAreaData {
-  SplineAreaData(this.year,
-      this.y1,);
+  SplineAreaData(
+    this.year,
+    this.y1,
+  );
 
   final DateTime year;
   final double y1;
@@ -64,7 +66,9 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
 
   @override
   void initState() {
-    context.read<AnalyticsBloc>().add(FetchAnalytics(),);
+    context.read<AnalyticsBloc>().add(
+          FetchAnalytics(),
+        );
     super.initState();
   }
 
@@ -108,104 +112,115 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: BlocBuilder<AnalyticsBloc, AnalyticsState>(
-              builder: (context, state) {
-                return (state is AnalyticsStateLoading)?
-                const DropAndGoButtonLoading():
-                (state is AnalyticsStateLoaded)?
-                state.chartData.isEmpty?
-                    Center(child: StandardText.headline4(context, 'Not enough data',),):
-                Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 36.w,
-                        vertical: 12.h,
-                      ),
-                      padding: const EdgeInsets.all(16),
-                      height: context.height * .4,
-                      decoration: BoxDecoration(
-                        color: DropAndGoColors.primary,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              StandardText.headline4(
-                                context,
-                                '10h 50m',
-                                fontSize: 30.sp,
-                                color: DropAndGoColors.white,
-                              ),
-                              AppButton(
-                                color: DropAndGoColors.white,
-                                enableColor: DropAndGoColors.primary,
-                                textColor: DropAndGoColors.primary,
-                                textSize: 12,
-                                width: context.width * .25,
-                                height: 35,
-                                radius: 4,
-                                onPressed: () {},
-                                text: 'This Week',
-                              ),
-                            ],
-                          ),
-                          Flexible(
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                top: 25.h,
-                                left: 12.w,
-                              ),
-                              child: const LineChartWidget(),
-                            ),
-                          ),
-                        ],
-                      ),
+                builder: (context, state) {
+              return Column(
+                children: [
+                  (state is AnalyticsStateLoading)
+                      ? const DropAndGoButtonLoading()
+                      : (state is AnalyticsStateLoaded)
+                          ? state.chartData.isEmpty
+                              ? Center(
+                                  child: StandardText.headline4(
+                                    context,
+                                    'Not enough data',
+                                  ),
+                                )
+                              : Container(
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: 36.w,
+                                    vertical: 12.h,
+                                  ),
+                                  padding: const EdgeInsets.all(16),
+                                  height: context.height * .4,
+                                  decoration: BoxDecoration(
+                                    color: DropAndGoColors.primary,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          StandardText.headline4(
+                                            context,
+                                            '10h 50m',
+                                            fontSize: 30.sp,
+                                            color: DropAndGoColors.white,
+                                          ),
+                                          AppButton(
+                                            color: DropAndGoColors.white,
+                                            enableColor:
+                                                DropAndGoColors.primary,
+                                            textColor: DropAndGoColors.primary,
+                                            textSize: 12,
+                                            width: context.width * .25,
+                                            height: 35,
+                                            radius: 4,
+                                            onPressed: () {},
+                                            text: 'This Week',
+                                          ),
+                                        ],
+                                      ),
+                                      Flexible(
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                            top: 25.h,
+                                            left: 12.w,
+                                          ),
+                                          child: const LineChartWidget(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                          : (state is AnalyticsStateError)
+                              ? Center(
+                                  child: StandardText.headline4(
+                                    context,
+                                    state.message,
+                                  ),
+                                )
+                              : const SizedBox.shrink(),
+                  13.verticalSpace,
+                  GridView.builder(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 36.w,
                     ),
-                    13.verticalSpace,
-                    GridView.builder(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 36.w,
-                      ),
-                      primary: false,
-                      shrinkWrap: true,
-                      itemCount: 4,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 26.h,
-                        crossAxisSpacing: 12.w,
-                        childAspectRatio: 2.1.h,
-                      ),
-                      itemBuilder: (context, index) {
-                        return index == 0
-                            ? const StreakItem(
-                          title: 'Current Streak',
-                          data: "12d",
-                        )
-                            : index == 1
-                            ? const StreakItem(
-                          title: 'Longest Streak',
-                          data: "16d",
-                        )
-                            : index == 3
-                            ? const StreakItem(
-                          title: 'Sessions listened',
-                          data: "45",
-                        )
-                            : const StreakItem(
-                          title: 'Packs listened',
-                          data: "15",
-                        );
-                      },
-                    )
-                  ],
-                ):(state is AnalyticsStateError)?
-                Center(child: StandardText.headline4(context, state.message,),):
-                    const SizedBox.shrink()
-                ;
-              }
-            ),
+                    primary: false,
+                    shrinkWrap: true,
+                    itemCount: 4,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 26.h,
+                      crossAxisSpacing: 12.w,
+                      childAspectRatio: 2.1.h,
+                    ),
+                    itemBuilder: (context, index) {
+                      return index == 0
+                          ? const StreakItem(
+                              title: 'Current Streak',
+                              data: "12d",
+                            )
+                          : index == 1
+                              ? const StreakItem(
+                                  title: 'Longest Streak',
+                                  data: "16d",
+                                )
+                              : index == 3
+                                  ? const StreakItem(
+                                      title: 'Sessions listened',
+                                      data: "45",
+                                    )
+                                  : const StreakItem(
+                                      title: 'Packs listened',
+                                      data: "15",
+                                    );
+                    },
+                  )
+                ],
+              );
+            }),
           ),
         ),
       ),

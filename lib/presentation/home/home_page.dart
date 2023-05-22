@@ -6,6 +6,7 @@ import 'package:dropandgouser/application/session/session_bloc/session_bloc.dart
 import 'package:dropandgouser/application/session/session_cubit/session_completed_cubit.dart';
 import 'package:dropandgouser/domain/home/category.dart';
 import 'package:dropandgouser/domain/services/user_service.dart';
+import 'package:dropandgouser/domain/session/session.dart';
 import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
@@ -57,6 +58,13 @@ class _HomePageState extends State<HomePage> {
       // TODO: change duration to user level duration
       if (sessionInMinutes > 10 && !isSessionCompleted) {
         context.read<SessionCompletedCubit>().initialize(true);
+        final session = Session(
+          id: DateTime(now.year, now.month, now.day).millisecondsSinceEpoch.toString(),
+          isSessionCompleted: true,
+          sessionDate: DateTime(now.year, now.month, now.day).millisecondsSinceEpoch,
+          appUseDuration: stopWatch.elapsedDuration.toString(),
+        );
+        context.read<SessionBloc>().add(UploadSession(userId: userService?.userData?.id??'', session: session, isSessionCompleted: isSessionCompleted));
         showDialog(
           context: context,
           builder: (ctx) => const SessionCompletePage(),

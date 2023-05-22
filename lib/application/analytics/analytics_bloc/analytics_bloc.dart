@@ -40,8 +40,9 @@ class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
           List<SplineAreaData> chartData = [];
           r.forEach((data) {
             print(data.appUseDuration);
-            Duration sessionDuration = durationParse(data.appUseDuration!);
+            Duration sessionDuration = parseDuration(data.appUseDuration!);
             double durationInMinutes = sessionDuration.inMinutes.toDouble();
+            print(durationInMinutes);
             chartData.add(
               SplineAreaData(
                 DateTime.fromMillisecondsSinceEpoch(data.sessionDate!),
