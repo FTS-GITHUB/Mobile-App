@@ -79,6 +79,10 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   achievement: context.read<AchievementCubit>().state.title,
                   createdAt: DateTime.now(),
                   likedCategories: [],
+                  sessionsListened: 0,
+                  longestStreak: 0,
+                  currentStreak: 0,
+                  isDeleted: false,
                 );
                 UserSetting userSetting = UserSetting();
                 context.read<PostSignupBloc>().add(
@@ -114,6 +118,10 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 profilePicUrl: state.profilePicUrl,
                 createdAt: DateTime.now(),
                 likedCategories: [],
+                sessionsListened: 0,
+                longestStreak: 0,
+                currentStreak: 0,
+                isDeleted: false,
               );
               UserSetting userSetting = UserSetting();
               context.read<PostSignupBloc>().add(

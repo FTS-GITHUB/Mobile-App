@@ -175,27 +175,17 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
-                                          // Expanded(
-                                          //   flex: 1,
-                                          //   child: IconButton(
-                                          //     icon: SvgPicture.asset(
-                                          //       DropAndGoIcons.shareFill,
-                                          //       color: DropAndGoColors.primary,
-                                          //       width: 30,
-                                          //         height: 30,
-                                          //     ),
-                                          //       iconSize: 30,
-                                          //     onPressed: (){
-                                          //       showModalBottomSheet(context: context, builder: (ctx)=>
-                                          //       Container(
-                                          //         height: context.height*.3,
-                                          //         color: DropAndGoColors.yellow,
-                                          //       )
-                                          //       );
-                                          //     },
-                                          //   ),
-                                          // ),
-                                          // 8.horizontalSpace,
+                                          Expanded(
+                                            flex: 1,
+                                            child: IconButton(
+                                              icon: const Icon(Icons.download_outlined),
+                                                iconSize: 30,
+                                              onPressed: (){
+
+                                              },
+                                            ),
+                                          ),
+                                          8.horizontalSpace,
                                           Expanded(
                                             flex: 1,
                                             child: InkWell(

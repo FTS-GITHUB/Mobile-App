@@ -51,8 +51,17 @@ class UserData {
     includeIfNull: false,
   )
   final String? signInMethod;
+  @JsonKey(
+    name: 'current_streak',
+  )
   final int? currentStreak;
+  @JsonKey(
+    name: 'longest_streak',
+  )
   final int? longestStreak;
+  @JsonKey(
+    name: 'sessions_listened',
+  )
   final int? sessionsListened;
 
   UserData({
