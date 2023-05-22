@@ -116,7 +116,6 @@ class _HomePageState extends State<HomePage> {
         BlocListener<SessionBloc, SessionState>(
           listener: (context, state) {
             if (state is SessionStateUploaded) {
-              deletePreviousSession();
               context.read<SessionCompletedCubit>().initialize(false);
             }
           },

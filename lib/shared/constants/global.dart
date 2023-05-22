@@ -56,13 +56,9 @@ String formatDurationInHhMmSs(Duration duration) {
   return '$HH:$mm:$ss';
 }
 
-Future<void> deletePreviousSession() async {
+Future<void> deletePreviousSession(String id) async {
   restartTimer();
-  await localDatabaseService.delete(DateTime(
-    now.year,
-    now.month,
-    now.day - 1,
-  ).millisecondsSinceEpoch.toString());
+  await localDatabaseService.delete(id);
 }
 
 int get sessionInMinutes {

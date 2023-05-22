@@ -22,6 +22,7 @@ class SessionRepository implements ISessionRepository {
       firstCollectionName: FirestoreCollections.users,
       secondCollectionName: FirestoreCollections.sessions,
       firstDocId: userId,
+      secondDocId: session.id,
       object: session.toJson(),
     );
     return response.fold(

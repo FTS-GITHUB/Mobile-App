@@ -30,25 +30,26 @@ class _LifeCycleManagerState extends State<LifeCycleManager>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.inactive) {
+    if (state == AppLifecycleState.paused) {
       final user = getIt<UserService>().userData;
       if (user?.id != null) {
         print("User id: ${user?.id}");
         DateTime now = DateTime.now();
         localDatabaseService.recordSession(
-            session: Session(
-          id: DateTime(
-            now.year,
-            now.month,
-            now.day,
-          ).millisecondsSinceEpoch.toString(),
-          appUseDuration: '${stopWatch.elapsedDuration}',
-          sessionDate: DateTime(
-            now.year,
-            now.month,
-            now.day,
-          ).millisecondsSinceEpoch,
-        ));
+          session: Session(
+            id: DateTime(
+              now.year,
+              now.month,
+              now.day,
+            ).millisecondsSinceEpoch.toString(),
+            appUseDuration: '${stopWatch.elapsedDuration}',
+            sessionDate: DateTime(
+              now.year,
+              now.month,
+              now.day,
+            ).millisecondsSinceEpoch,
+          ),
+        );
       }
     } else if (state == AppLifecycleState.resumed) {
       stopWatch.start();
