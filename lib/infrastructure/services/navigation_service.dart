@@ -33,7 +33,9 @@ abstract class NavigationService {
   static const String personalInfoRouteUri = 'edit-profile';
   static const String notificationRouteUri = 'notification';
   static const String preferenceRouteUri = 'preference';
+  static const String subscriptionRouteUri = 'subscription';
   static const String securityRouteUri = 'security';
+  static const String stripePayment = 'stripe-payment';
   static const String changePasswordRouteUri = 'change-password';
   static const String categoryDetailRouteUri = 'category-detail';
   // static const String plyaerAudioRouteUri = 'audio';

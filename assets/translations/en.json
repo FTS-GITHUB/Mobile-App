@@ -39,6 +39,7 @@
   "account": {
     "title": "Account",
     "info": "Personal Info",
+    "subscription":"Subscription",
     "notification": "Notification",
     "pref": "Preference",
     "security": "Security",
