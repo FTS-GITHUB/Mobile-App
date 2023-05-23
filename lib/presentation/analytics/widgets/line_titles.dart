@@ -15,7 +15,7 @@ class LineTitles {
         getTitlesWidget: (value, titleMeta) {
           String labelX ='';
           switch(value.toInt()){
-            case (0):
+            case (7):
               labelX='Sun';
               break;
             case (1):
@@ -25,7 +25,7 @@ class LineTitles {
               labelX='Tue';
               break;
             case (3):
-              labelX='Tue';
+              labelX='Wed';
               break;
             case (4):
               labelX='Thu';

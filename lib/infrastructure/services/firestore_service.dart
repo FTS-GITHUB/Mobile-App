@@ -245,16 +245,12 @@ class FirestoreService implements ICloudFirestoreRepository {
     required object,
   }) async {
     try {
-      final docRef = _firestore
-          .collection(firstCollectionName)
-          .doc(firstDocId)
-          .collection(secondCollectionName)
-          .doc();
       await _firestore
           .collection(firstCollectionName)
           .doc(firstDocId)
           .collection(secondCollectionName)
-          .add(object);
+      .doc(secondDocId)
+          .set(object, SetOptions(merge: true));
       return right(unit);
     } on FirebaseException catch (e) {
       return left(e);

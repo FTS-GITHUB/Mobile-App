@@ -1,5 +1,6 @@
 import 'package:dropandgouser/application/analytics/analytics_bloc/analytics_bloc.dart';
 import 'package:dropandgouser/application/main/cubit/main_navbar_cubit.dart';
+import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/analytics/widgets/line_chart_widget.dart';
@@ -33,37 +34,6 @@ class AnalyticsPage extends StatefulWidget {
 }
 
 class _AnalyticsPageState extends State<AnalyticsPage> {
-  List<SplineAreaData>? chartData = <SplineAreaData>[
-    // _SplineAreaData(
-    //   DateTime(2010, 04, 06),
-    //   0,
-    // ),
-    // _SplineAreaData(
-    //   DateTime(2010, 04, 07),
-    //   35.5,
-    // ),
-    // _SplineAreaData(
-    //   DateTime(2010, 04, 08),
-    //   20,
-    // ),
-    // _SplineAreaData(
-    //   DateTime(2010, 04, 09),
-    //   32,
-    // ),
-    // _SplineAreaData(
-    //   DateTime(2010, 04, 10),
-    //   25,
-    // ),
-    // _SplineAreaData(
-    //   DateTime(2010, 04, 11),
-    //   37,
-    // ),
-    // _SplineAreaData(
-    //   DateTime(2010, 04, 06),
-    //   30,
-    // ),
-  ];
-
   @override
   void initState() {
     context.read<AnalyticsBloc>().add(
@@ -74,6 +44,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final userService = getIt<UserService>();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
@@ -144,7 +115,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                                         children: [
                                           StandardText.headline4(
                                             context,
-                                            '10h 50m',
+                                            getTotalTime(state.totalTimeInMinutes??0),
                                             fontSize: 30.sp,
                                             color: DropAndGoColors.white,
                                           ),
@@ -189,7 +160,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                     ),
                     primary: false,
                     shrinkWrap: true,
-                    itemCount: 4,
+                    itemCount: 3,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 26.h,
@@ -198,24 +169,22 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                     ),
                     itemBuilder: (context, index) {
                       return index == 0
-                          ? const StreakItem(
+                          ? StreakItem(
                               title: 'Current Streak',
-                              data: "12d",
+                              data:
+                                  "${userService.userData?.currentStreak ?? 0}d",
                             )
                           : index == 1
-                              ? const StreakItem(
+                              ? StreakItem(
                                   title: 'Longest Streak',
-                                  data: "16d",
+                                  data:
+                                      "${userService.userData?.longestStreak ?? 0}d",
                                 )
-                              : index == 3
-                                  ? const StreakItem(
-                                      title: 'Sessions listened',
-                                      data: "45",
-                                    )
-                                  : const StreakItem(
-                                      title: 'Packs listened',
-                                      data: "15",
-                                    );
+                              : StreakItem(
+                                  title: 'Sessions listened',
+                                  data:
+                                      "${userService.userData?.sessionsListened ?? 0}",
+                                );
                     },
                   )
                 ],
@@ -225,5 +194,39 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
         ),
       ),
     );
+  }
+
+
+  String getTotalTime(double time){
+    int timeToRound = time.round();
+    if(timeToRound < 60){
+      return '${timeToRound}m';
+    }else if (timeToRound>=60 && timeToRound <120){
+      return '1h ${timeToRound-60}m';
+    }else if (timeToRound>=120 && timeToRound <180){
+      return '2h ${timeToRound-120}m';
+    }else if (timeToRound>=180 && timeToRound <240){
+      return '3h ${timeToRound-180}m';
+    }else if (timeToRound>=240 && timeToRound <300){
+      return '4h ${timeToRound-240}m';
+    }else if (timeToRound>=300 && timeToRound <360){
+      return '5h ${timeToRound-300}m';
+    }else if (timeToRound>=360 && timeToRound <420){
+      return '6h ${timeToRound-360}m';
+    }else if (timeToRound>=420 && timeToRound <480){
+      return '7h ${timeToRound-420}m';
+    }else if (timeToRound>=480 && timeToRound <540){
+      return '8h ${timeToRound-480}m';
+    }else if (timeToRound>=540 && timeToRound <600){
+      return '9h ${timeToRound-540}m';
+    }else if (timeToRound>=600 && timeToRound <660){
+      return '10h ${timeToRound-600}m';
+    }else if (timeToRound>=660 && timeToRound <720){
+      return '11h ${timeToRound-660}m';
+    }else if (timeToRound>=720 && timeToRound <780){
+      return '12h ${timeToRound-720}m';
+    }else{
+      return '${time}m';
+    }
   }
 }

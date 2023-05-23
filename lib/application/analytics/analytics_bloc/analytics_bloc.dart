@@ -8,6 +8,7 @@ import 'package:dropandgouser/presentation/analytics/analytics_page.dart';
 import 'package:dropandgouser/shared/constants/global.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:math' as math;
 
 part 'analytics_state.dart';
 
@@ -38,6 +39,8 @@ class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
             AnalyticsStateError(message: l.message ?? 'Failed to connect')),
         (List<Session> r) {
           List<SplineAreaData> chartData = [];
+          List<SplineAreaData> tempChartData = [];
+          double totalTimeInMinutes = 0;
           r.forEach((data) {
             print(data.appUseDuration);
             Duration sessionDuration = parseDuration(data.appUseDuration!);
@@ -50,12 +53,26 @@ class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
               ),
             );
           });
+          if (chartData.isNotEmpty) {
+            tempChartData = chartData;
+            tempChartData.sort((a, b) => a.y1.compareTo(b.y1));
+            tempChartData.forEach((element) {
+              totalTimeInMinutes = totalTimeInMinutes + element.y1;
+              print("Day of Week: ${element.year.weekday}");
+            });
+            print(
+              "Maximum minutes in chart list is: ${tempChartData.last.y1}"
+            );
+            // chartData.sort((a,b)=> b.year.compareTo(a.year));
+          }
           emit(
             AnalyticsStateLoaded(
               chartData: chartData,
               currentStreak: 0,
               longestStreak: 0,
               sessionsListened: 0,
+              maxMinutes: tempChartData.last.y1,
+              totalTimeInMinutes: totalTimeInMinutes,
             ),
           );
         },

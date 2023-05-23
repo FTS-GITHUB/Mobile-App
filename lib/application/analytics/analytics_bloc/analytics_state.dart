@@ -15,6 +15,8 @@ class AnalyticsStateLoaded extends AnalyticsState {
     required this.currentStreak,
     required this.longestStreak,
     required this.sessionsListened,
+    required this.maxMinutes,
+    required this.totalTimeInMinutes,
     // required this.packsListened,
   });
 
@@ -22,6 +24,8 @@ class AnalyticsStateLoaded extends AnalyticsState {
   final int? currentStreak;
   final int? longestStreak;
   final int? sessionsListened;
+  final double? maxMinutes;
+  final double? totalTimeInMinutes;
   // final int? packsListened;
 }
 

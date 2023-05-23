@@ -35,6 +35,7 @@ class _LifeCycleManagerState extends State<LifeCycleManager>
       if (user?.id != null) {
         print("User id: ${user?.id}");
         DateTime now = DateTime.now();
+        var elapsedDuration = stopWatch.elapsedDuration as Duration;
         localDatabaseService.recordSession(
           session: Session(
             id: DateTime(
@@ -48,6 +49,7 @@ class _LifeCycleManagerState extends State<LifeCycleManager>
               now.month,
               now.day,
             ).millisecondsSinceEpoch,
+            isSessionCompleted: elapsedDuration.inMinutes>10?true:false,
           ),
         );
       }

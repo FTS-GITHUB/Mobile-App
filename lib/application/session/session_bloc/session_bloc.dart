@@ -38,7 +38,6 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
               DeletePreviousSession(
                 userId: event.userId,
                 session: event.session,
-                isSessionCompleted: event.isSessionCompleted,
               ),
             ));
   }
@@ -62,9 +61,8 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
             id: sessions.last.id,
             sessionDate: sessions.last.sessionDate,
             appUseDuration: sessions.last.appUseDuration,
-            isSessionCompleted: event.isSessionCompleted,
+            isSessionCompleted: sessions.last.isSessionCompleted,
           ),
-          isSessionCompleted: event.isSessionCompleted,
         ),
       );
     } else {
@@ -78,7 +76,6 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     add(
       GetAllSessions(
         userId: event.userId,
-        isSessionCompleted: event.isSessionCompleted,
       ),
     );
   }
