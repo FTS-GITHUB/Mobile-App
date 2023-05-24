@@ -29,6 +29,7 @@ import 'package:dropandgouser/application/onboarding/cubit/gender_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/user_level_cubit.dart';
 import 'package:dropandgouser/application/search/cubit/is_seearch_active.dart';
 import 'package:dropandgouser/application/search/search_found_bloc/search_found_bloc.dart';
+import 'package:dropandgouser/application/session/all_session_cubit/all_session_bloc.dart';
 import 'package:dropandgouser/application/session/session_bloc/session_bloc.dart';
 import 'package:dropandgouser/application/session/session_cubit/session_completed_cubit.dart';
 import 'package:dropandgouser/application/session/session_rating_cubit/session_rating_cubit.dart';
@@ -339,7 +340,12 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
             sessionRepository: _sessionRepository,
           ),
         ),
-      ], // SessionRatingCubit
+        BlocProvider<AllSessionBloc>(
+          create: (context) => AllSessionBloc(
+            sessionRepository: _sessionRepository,
+          ),
+        ),
+      ], // AllSessionBloc
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,

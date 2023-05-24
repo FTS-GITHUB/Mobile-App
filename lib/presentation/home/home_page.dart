@@ -2,6 +2,7 @@ import 'package:cron/cron.dart';
 import 'package:dropandgouser/application/home/home_bloc/home_bloc.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_cubit.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_state.dart';
+import 'package:dropandgouser/application/session/all_session_cubit/all_session_bloc.dart';
 import 'package:dropandgouser/application/session/session_bloc/session_bloc.dart';
 import 'package:dropandgouser/application/session/session_cubit/session_completed_cubit.dart';
 import 'package:dropandgouser/domain/home/category.dart';
@@ -57,12 +58,18 @@ class _HomePageState extends State<HomePage> {
       if (sessionInMinutes > 10 && !isSessionCompleted) {
         context.read<SessionCompletedCubit>().initialize(true);
         final session = Session(
-          id: DateTime(now.year, now.month, now.day).millisecondsSinceEpoch.toString(),
+          id: DateTime(now.year, now.month, now.day)
+              .millisecondsSinceEpoch
+              .toString(),
           isSessionCompleted: true,
-          sessionDate: DateTime(now.year, now.month, now.day).millisecondsSinceEpoch,
+          sessionDate:
+              DateTime(now.year, now.month, now.day).millisecondsSinceEpoch,
           appUseDuration: stopWatch.elapsedDuration.toString(),
         );
-        context.read<SessionBloc>().add(UploadSession(userId: userService?.userData?.id??'', session: session,));
+        context.read<SessionBloc>().add(UploadSession(
+              userId: userService?.userData?.id ?? '',
+              session: session,
+            ));
         showDialog(
           context: context,
           builder: (ctx) => const SessionCompletePage(),
@@ -82,6 +89,9 @@ class _HomePageState extends State<HomePage> {
             GetAllSessions(
               userId: userService!.userData!.id!,
             ),
+          );
+      context.read<AllSessionBloc>().add(
+            FetchSessions(),
           );
     }
   }
