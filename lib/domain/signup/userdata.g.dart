@@ -24,6 +24,9 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
       likedCategories: (json['liked_categories'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      currentStreak: json['current_streak'] as int? ?? 0,
+      longestStreak: json['longest_streak'] as int? ?? 0,
+      sessionsListened: json['sessions_listened'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$UserDataToJson(UserData instance) {
@@ -50,5 +53,8 @@ Map<String, dynamic> _$UserDataToJson(UserData instance) {
   val['is_deleted'] = instance.isDeleted;
   writeNotNull('liked_categories', instance.likedCategories);
   writeNotNull('sign_in_method', instance.signInMethod);
+  writeNotNull('current_streak', instance.currentStreak);
+  writeNotNull('longest_streak', instance.longestStreak);
+  writeNotNull('sessions_listened', instance.sessionsListened);
   return val;
 }

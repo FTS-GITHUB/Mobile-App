@@ -5,6 +5,7 @@ abstract class FirestoreCollections{
   static const String search = 'search';
   static const String audios = 'audios';
   static const String sessions = 'sessions';
+  static const String downloads = 'downloads';
 }
 
 abstract class FirestoreDocuments{

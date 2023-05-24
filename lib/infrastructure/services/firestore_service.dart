@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
+import 'package:dropandgouser/shared/constants/global.dart';
 import 'package:fpdart/src/either.dart';
 import 'package:fpdart/src/unit.dart';
 import 'package:injectable/injectable.dart';
@@ -244,17 +245,58 @@ class FirestoreService implements ICloudFirestoreRepository {
     required object,
   }) async {
     try {
-        final docRef = _firestore
-            .collection(firstCollectionName)
-            .doc(firstDocId)
-            .collection(secondCollectionName)
-            .doc();
-        await _firestore
-            .collection(firstCollectionName)
-            .doc(firstDocId)
-            .collection(secondCollectionName)
-            .add(object);
+      await _firestore
+          .collection(firstCollectionName)
+          .doc(firstDocId)
+          .collection(secondCollectionName)
+      .doc(secondDocId)
+          .set(object, SetOptions(merge: true));
       return right(unit);
+    } on FirebaseException catch (e) {
+      return left(e);
+    }
+  }
+
+  @override
+  Future<Either<FirebaseException, QuerySnapshot<Map<String, dynamic>>>>
+      getSessionCollection({
+    required String firstCollectionName,
+    required String secondCollectionName,
+    required String docId,
+    required String type,
+  }) async {
+    try {
+      late final QuerySnapshot<Map<String, dynamic>> response;
+      DateTime now = DateTime.now();
+      DateTime today = DateTime(now.year, now.month, now.day);
+      DateTime sevenDaysAgo = DateTime(now.year, now.month, now.day - 7);
+      DateTime monthAgo = DateTime(now.year, now.month - 1, now.day);
+      print(sevenDaysAgo.millisecondsSinceEpoch);
+      print(today.millisecondsSinceEpoch);
+      if (type == 'week') {
+        response = await _firestore
+            .collection(firstCollectionName)
+            .doc(docId)
+            .collection(secondCollectionName)
+            .where(
+              'session_date',
+              isGreaterThanOrEqualTo: sevenDaysAgo.millisecondsSinceEpoch,
+              isLessThanOrEqualTo: today.millisecondsSinceEpoch,
+            )
+            .get();
+      } else {
+        response = await _firestore
+            .collection(firstCollectionName)
+            .doc(docId)
+            .collection(secondCollectionName)
+            .where(
+              'session_date',
+              isGreaterThanOrEqualTo: dateToJson(monthAgo),
+              isLessThanOrEqualTo: dateToJson(today),
+            )
+            .get();
+      }
+      return right(response);
     } on FirebaseException catch (e) {
       return left(e);
     }

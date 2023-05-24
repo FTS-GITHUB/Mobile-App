@@ -8,7 +8,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'search_found_event.dart';
-
 part 'search_found_state.dart';
 
 class SearchFoundBloc extends Bloc<SearchEvent, SearchFoundState> {

@@ -1,6 +1,5 @@
 import 'package:dropandgouser/application/account/account_cubit/preference_cubit.dart';
 import 'package:dropandgouser/shared/enums/audio_quality.dart';
-import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

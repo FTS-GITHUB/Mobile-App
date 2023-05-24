@@ -8,7 +8,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'account_setting_event.dart';
-
 part 'account_setting_state.dart';
 
 class AccountSettingBloc

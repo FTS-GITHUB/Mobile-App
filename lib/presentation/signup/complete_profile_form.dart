@@ -11,7 +11,6 @@ import 'package:dropandgouser/presentation/signup/widgets/drop&go_date_picker.da
 import 'package:dropandgouser/presentation/signup/widgets/user_avatar.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
 import 'package:dropandgouser/shared/constants/global.dart';
-import 'package:dropandgouser/shared/enums/alert_type.dart';
 import 'package:dropandgouser/shared/extensions/extensions.dart';
 import 'package:dropandgouser/shared/extensions/number_extensions.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
@@ -19,7 +18,6 @@ import 'package:dropandgouser/shared/widgets/app_button_widget.dart';
 import 'package:dropandgouser/shared/widgets/appl_dropdown.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:dropandgouser/shared/widgets/standard_textfield.dart';
-import 'package:dropandgouser/shared/widgets/toasts.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

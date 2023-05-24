@@ -5,6 +5,13 @@ abstract class SessionEvent extends Equatable{
   List<Object?> get props => [];
 }
 
+class GetAllSessions extends SessionEvent{
+  GetAllSessions({
+    required this.userId,
+});
+  final String userId;
+}
+
 class UploadSession extends SessionEvent{
   UploadSession({
     required this.userId,
@@ -13,3 +20,13 @@ class UploadSession extends SessionEvent{
   final String userId;
   final Session session;
 }
+
+class DeletePreviousSession extends SessionEvent{
+  DeletePreviousSession({
+    required this.userId,
+    required this.session,
+  });
+  final String userId;
+  final Session session;
+}
+

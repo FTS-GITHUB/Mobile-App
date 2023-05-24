@@ -5,7 +5,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'change_password_event.dart';
-
 part 'change_password_state.dart';
 
 class ChangePasswordBloc
@@ -21,6 +20,7 @@ class ChangePasswordBloc
 
   Future<void> _onUpdatePassword(
       UpdatePassword event, Emitter<ChangePasswordState> emit) async {
+    emit(ChangePasswordStateLoading());
     final response = await _authRepository.updatePassword(
       oldPassword: event.oldPassword,
       newPassword: event.newPassword,

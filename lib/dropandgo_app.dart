@@ -10,6 +10,7 @@ import 'package:dropandgouser/application/account/account_cubit/set_reminder_cub
 import 'package:dropandgouser/application/account/account_setting_bloc/account_setting_bloc.dart';
 import 'package:dropandgouser/application/account/change_password_bloc/change_password_bloc.dart';
 import 'package:dropandgouser/application/account/personal_info_bloc/personal_info_bloc.dart';
+import 'package:dropandgouser/application/analytics/analytics_bloc/analytics_bloc.dart';
 import 'package:dropandgouser/application/audio_bloc/audio_bloc.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/countries_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.dart';
@@ -28,7 +29,10 @@ import 'package:dropandgouser/application/onboarding/cubit/gender_cubit.dart';
 import 'package:dropandgouser/application/onboarding/cubit/user_level_cubit.dart';
 import 'package:dropandgouser/application/search/cubit/is_seearch_active.dart';
 import 'package:dropandgouser/application/search/search_found_bloc/search_found_bloc.dart';
+import 'package:dropandgouser/application/session/all_session_cubit/all_session_bloc.dart';
 import 'package:dropandgouser/application/session/session_bloc/session_bloc.dart';
+import 'package:dropandgouser/application/session/session_cubit/session_completed_cubit.dart';
+import 'package:dropandgouser/application/session/session_rating_cubit/session_rating_cubit.dart';
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/application/signup/signup_bloc.dart';
 import 'package:dropandgouser/application/splash/splash_bloc/splash_bloc.dart';
@@ -40,18 +44,18 @@ import 'package:dropandgouser/domain/services/i_auth_repository.dart';
 import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
 import 'package:dropandgouser/domain/services/i_storage_repository.dart';
 import 'package:dropandgouser/domain/session/i_session_repository.dart';
-import 'package:dropandgouser/domain/session/session.dart';
 import 'package:dropandgouser/domain/signup/i_signup_repository.dart';
 import 'package:dropandgouser/infrastructure/account/account_repository.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/home/home_repository.dart';
 import 'package:dropandgouser/infrastructure/login/login_repository.dart';
-import 'package:dropandgouser/infrastructure/services/local_auth_service.dart';
+import 'package:dropandgouser/infrastructure/services/local_database_service.dart';
 import 'package:dropandgouser/infrastructure/session/session_repository.dart';
 import 'package:dropandgouser/infrastructure/setting/setting_repository.dart';
 import 'package:dropandgouser/infrastructure/signup/signup_repository.dart';
 import 'package:dropandgouser/infrastructure/splash/splash_repository.dart';
 import 'package:dropandgouser/shared/app_lifecycle/life_cycle_manager.dart';
+import 'package:dropandgouser/shared/constants/global.dart';
 import 'package:dropandgouser/shared/helpers/shared_preferences_helper.dart';
 import 'package:dropandgouser/shared/helpers/theme.dart';
 import 'package:dropandgouser/shared/screen_util/screen_util.dart';
@@ -62,8 +66,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'application/main/cubit/main_navbar_cubit.dart';
 import 'application/search/search_history_bloc/search_bloc.dart';
-import 'infrastructure/subscription/subscription_data_source.dart';
-import 'infrastructure/subscription/subscription_repository.dart';
 import 'presentation/delegates/gorouter_delegate.dart';
 
 class DropAndGoApp extends StatefulWidget {
@@ -100,6 +102,8 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
   @override
   void initState() {
     SharedPreferenceHelper.instance.init();
+    localDatabaseService = LocalDatabaseService();
+    localDatabaseService.initialize();
     super.initState();
     initRepositories();
   }
@@ -323,7 +327,25 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
             sessionRepository: _sessionRepository,
           ),
         ),
-      ], // PreferenceCubit
+        BlocProvider<SessionCompletedCubit>(
+          create: (context) => SessionCompletedCubit(),
+        ),
+        BlocProvider<AnalyticsBloc>(
+          create: (context) => AnalyticsBloc(
+            sessionRepository: _sessionRepository,
+          ),
+        ),
+        BlocProvider<SessionRatingCubit>(
+          create: (context) => SessionRatingCubit(
+            sessionRepository: _sessionRepository,
+          ),
+        ),
+        BlocProvider<AllSessionBloc>(
+          create: (context) => AllSessionBloc(
+            sessionRepository: _sessionRepository,
+          ),
+        ),
+      ], // AllSessionBloc
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,

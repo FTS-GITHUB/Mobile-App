@@ -1,10 +1,8 @@
-import 'package:dropandgouser/application/session/session_bloc/session_bloc.dart';
 import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/domain/session/session.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/shared/constants/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LifeCycleManager extends StatefulWidget {
   const LifeCycleManager({
@@ -27,35 +25,33 @@ class _LifeCycleManagerState extends State<LifeCycleManager>
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.inactive) {
+    if (state == AppLifecycleState.paused) {
       final user = getIt<UserService>().userData;
       if (user?.id != null) {
         print("User id: ${user?.id}");
         DateTime now = DateTime.now();
-        context.read<SessionBloc>().add(UploadSession(
-          userId: user!.id!,
+        var elapsedDuration = stopWatch.elapsedDuration as Duration;
+        localDatabaseService.recordSession(
           session: Session(
+            id: DateTime(
+              now.year,
+              now.month,
+              now.day,
+            ).millisecondsSinceEpoch.toString(),
             appUseDuration: '${stopWatch.elapsedDuration}',
             sessionDate: DateTime(
               now.year,
               now.month,
               now.day,
-            ),
+            ).millisecondsSinceEpoch,
+            isSessionCompleted: elapsedDuration.inMinutes>10?true:false,
           ),
-        ));
+        );
       }
-      // Duration duration1 = Duration(seconds: 1800);
-      // Duration duration = stopWatch.elapsedDuration as Duration;
-      // Duration addedDuration = duration + duration1;
-      // print('Duration in minutes ${duration.inMinutes}');
-      // print('Duration in HH MM SS: ${formatDurationInHhMmSs(addedDuration)}');
-      // print(stopWatch.elapsedDuration);
     } else if (state == AppLifecycleState.resumed) {
-      stopWatch.reset();
       stopWatch.start();
-      print(stopWatch.elapsedDuration);
     }
     print('AppLifecycleState: $state');
   }
