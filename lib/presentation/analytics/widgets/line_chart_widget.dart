@@ -51,85 +51,86 @@ class LineChartWidget extends StatelessWidget {
       });
 
   List<FlSpot>? getListFlSpot({required AnalyticsState state}) {
+    print(state);
     if (state is AnalyticsStateLoaded) {
       switch (state.chartData.length) {
         case 0:
           return [];
         case 1:
           return [
-            FlSpot(state.chartData[0].year.weekday.toDouble(),
+            FlSpot(1,
                 state.chartData[0].y1),
           ];
         case 2:
           return [
-            FlSpot(state.chartData[0].year.weekday.toDouble(),
+            FlSpot(1,
                 state.chartData[0].y1),
-            FlSpot(state.chartData[0].year.weekday + 1.toDouble(),
+            FlSpot(2,
                 state.chartData[1].y1),
           ];
         case 3:
           return [
-            FlSpot(state.chartData[0].year.weekday.toDouble(),
+            FlSpot(1,
                 state.chartData[0].y1),
-            FlSpot(state.chartData[0].year.weekday + 1.toDouble(),
+            FlSpot(2,
                 state.chartData[1].y1),
-            FlSpot(state.chartData[0].year.weekday + 2.toDouble(),
+            FlSpot(3,
                 state.chartData[2].y1),
           ];
         case 4:
           return [
-            FlSpot(state.chartData[0].year.weekday.toDouble(),
+            FlSpot(1,
                 state.chartData[0].y1),
-            FlSpot(state.chartData[0].year.weekday + 1.toDouble(),
+            FlSpot(2,
                 state.chartData[1].y1),
-            FlSpot(state.chartData[0].year.weekday + 2.toDouble(),
+            FlSpot(3,
                 state.chartData[2].y1),
-            FlSpot(state.chartData[0].year.weekday + 3.toDouble(),
+            FlSpot(4,
                 state.chartData[3].y1),
           ];
         case 5:
           return [
-            FlSpot(state.chartData[0].year.weekday.toDouble(),
+            FlSpot(1,
                 state.chartData[0].y1),
-            FlSpot(state.chartData[0].year.weekday + 1.toDouble(),
+            FlSpot(2,
                 state.chartData[1].y1),
-            FlSpot(state.chartData[0].year.weekday + 2.toDouble(),
+            FlSpot(3,
                 state.chartData[2].y1),
-            FlSpot(state.chartData[0].year.weekday + 3.toDouble(),
+            FlSpot(4,
                 state.chartData[3].y1),
-            FlSpot(state.chartData[0].year.weekday + 4.toDouble(),
+            FlSpot(5,
                 state.chartData[4].y1),
           ];
         case 6:
           return [
-            FlSpot(state.chartData[0].year.weekday.toDouble(),
+            FlSpot(1,
                 state.chartData[0].y1),
-            FlSpot(state.chartData[0].year.weekday + 1.toDouble(),
+            FlSpot(2,
                 state.chartData[1].y1),
-            FlSpot(state.chartData[0].year.weekday + 2.toDouble(),
+            FlSpot(3,
                 state.chartData[2].y1),
-            FlSpot(state.chartData[0].year.weekday + 3.toDouble(),
+            FlSpot(4,
                 state.chartData[3].y1),
-            FlSpot(state.chartData[0].year.weekday + 4.toDouble(),
+            FlSpot(5,
                 state.chartData[4].y1),
-            FlSpot(state.chartData[0].year.weekday + 5.toDouble(),
+            FlSpot(6,
                 state.chartData[5].y1),
           ];
         case 7:
           return [
-            FlSpot(state.chartData[0].year.weekday.toDouble(),
+           FlSpot(1,
                 state.chartData[0].y1),
-            FlSpot(state.chartData[0].year.weekday + 1.toDouble(),
+           FlSpot(2,
                 state.chartData[1].y1),
-            FlSpot(state.chartData[0].year.weekday + 2.toDouble(),
+            FlSpot(3,
                 state.chartData[2].y1),
-            FlSpot(state.chartData[0].year.weekday + 3.toDouble(),
+           FlSpot(4,
                 state.chartData[3].y1),
-            FlSpot(state.chartData[0].year.weekday + 4.toDouble(),
+            FlSpot(5,
                 state.chartData[4].y1),
-            FlSpot(state.chartData[0].year.weekday + 5.toDouble(),
+             FlSpot(6,
                 state.chartData[5].y1),
-            FlSpot(state.chartData[0].year.weekday + 6.toDouble(),
+            FlSpot(7,
                 state.chartData[6].y1),
           ];
       }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cron/cron.dart';
 import 'package:dropandgouser/application/home/home_bloc/home_bloc.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_cubit.dart';
@@ -5,6 +7,7 @@ import 'package:dropandgouser/application/likes_bloc/likes_state.dart';
 import 'package:dropandgouser/application/session/all_session_cubit/all_session_bloc.dart';
 import 'package:dropandgouser/application/session/session_bloc/session_bloc.dart';
 import 'package:dropandgouser/application/session/session_cubit/session_completed_cubit.dart';
+import 'package:dropandgouser/application/session/session_rating_cubit/session_rating_cubit.dart';
 import 'package:dropandgouser/domain/home/category.dart';
 import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/domain/session/session.dart';
@@ -40,11 +43,12 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
   late UserService? userService;
-  Cron cron = Cron();
+  late Timer _timer;
 
   @override
   void initState() {
     userService = getIt<UserService>();
+    stopWatch.start();
     uploadSession();
     refreshPage();
     runEveryMinute();
@@ -52,7 +56,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   runEveryMinute() async {
-    cron.schedule(Schedule.parse('* * * * *'), () async {
+    _timer = Timer.periodic(const Duration(
+      seconds: 60,
+    ), (_) {
       bool isSessionCompleted = context.read<SessionCompletedCubit>().state;
       // TODO: change duration to user level duration
       if (sessionInMinutes > 10 && !isSessionCompleted) {
@@ -63,17 +69,18 @@ class _HomePageState extends State<HomePage> {
               .toString(),
           isSessionCompleted: true,
           sessionDate:
-              DateTime(now.year, now.month, now.day).millisecondsSinceEpoch,
+          DateTime(now.year, now.month, now.day).millisecondsSinceEpoch,
           appUseDuration: stopWatch.elapsedDuration.toString(),
         );
         context.read<SessionBloc>().add(UploadSession(
-              userId: userService?.userData?.id ?? '',
-              session: session,
-            ));
+          userId: userService?.userData?.id ?? '',
+          session: session,
+        ));
         showDialog(
           context: context,
           builder: (ctx) => const SessionCompletePage(),
         );
+        _timer.cancel();
       }
     });
   }
@@ -94,6 +101,12 @@ class _HomePageState extends State<HomePage> {
             FetchSessions(),
           );
     }
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override

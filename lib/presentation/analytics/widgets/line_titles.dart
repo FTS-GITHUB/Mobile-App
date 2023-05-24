@@ -39,7 +39,7 @@ class LineTitles {
           }
           return StandardText.headline6(
             context,
-            labelX,
+            'Day ${titleMeta.formattedValue}',
             color: DropAndGoColors.white,
             fontSize: 12,
           );

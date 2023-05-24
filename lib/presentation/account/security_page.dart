@@ -4,6 +4,7 @@ import 'package:dropandgouser/application/account/account_setting_bloc/account_s
 import 'package:dropandgouser/application/complete_profile/cubit/rememberme_cubit.dart';
 import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/domain/signup/user_setting.dart';
+import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/account/widgets/account_appbar.dart';
@@ -31,6 +32,7 @@ class SecurityPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserData? userData = getIt<UserService>().userData;
     UserSetting? setting = getIt<UserService>().userSetting;
     initializeSecurityValues(context, setting);
     return BlocListener<AccountSettingBloc, AccountSettingState>(
@@ -82,17 +84,20 @@ class SecurityPage extends StatelessWidget {
               //   );
               // }),
               50.verticalSpace,
-              AppButton(
-                text: 'Change Password',
-                width: context.width,
-                color: DropAndGoColors.white,
-                enableColor: DropAndGoColors.primary,
-                onPressed: () {
-                  getIt<NavigationService>().pushNamed(
-                    context: context,
-                    uri: NavigationService.changePasswordRouteUri,
-                  );
-                },
+              Visibility(
+                visible: userData?.signInMethod==null,
+                child: AppButton(
+                  text: 'Change Password',
+                  width: context.width,
+                  color: DropAndGoColors.white,
+                  enableColor: DropAndGoColors.primary,
+                  onPressed: () {
+                    getIt<NavigationService>().pushNamed(
+                      context: context,
+                      uri: NavigationService.changePasswordRouteUri,
+                    );
+                  },
+                ),
               ),
               Container(
                 margin: const EdgeInsets.only(
