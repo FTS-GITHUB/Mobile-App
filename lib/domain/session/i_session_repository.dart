@@ -12,4 +12,14 @@ abstract class ISessionRepository {
     required String userId,
     required String type,
   });
+
+  Future<Either<ApiError, Unit>> uploadSessionRating({
+    required String userId,
+    required double rating,
+    required String sessionId,
+  });
+
+  Future<Either<ApiError, List<Session>>> getAllSessions({
+    required String userId,
+  });
 }

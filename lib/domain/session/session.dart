@@ -17,23 +17,28 @@ class Session {
   )
   final int? sessionDate;
   final bool isSessionCompleted;
+  final double? rating;
 
   Session({
     this.id,
     this.appUseDuration,
     this.sessionDate,
-    this.isSessionCompleted=true
-});
+    this.isSessionCompleted = false,
+    this.rating,
+  });
 
   Session copyWith({
-      String? id,
-  String? appUseDuration,
-  int? sessionDate,
-})=> Session(
-    id: id?? this.id,
-    appUseDuration: appUseDuration ?? this.appUseDuration,
-    sessionDate: sessionDate?? this.sessionDate,
-    );
+    String? id,
+    String? appUseDuration,
+    int? sessionDate,
+    double? rating,
+  }) =>
+      Session(
+        id: id ?? this.id,
+        appUseDuration: appUseDuration ?? this.appUseDuration,
+        sessionDate: sessionDate ?? this.sessionDate,
+        rating: rating ?? this.rating,
+      );
 
   factory Session.fromSnapshot(DocumentSnapshot snapshot) {
     final Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
@@ -41,10 +46,10 @@ class Session {
   }
 
   Map<String, dynamic> toMap() => {
-    'sessionId': id,
-    'appUseDuration': appUseDuration,
-    "sessionDate": sessionDate?.toString(),
-  };
+        'sessionId': id,
+        'appUseDuration': appUseDuration,
+        "sessionDate": sessionDate?.toString(),
+      };
 
   factory Session.fromJson(String id, Map<String, dynamic> json) =>
       _$SessionFromJson(json)..id = id;

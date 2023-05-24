@@ -43,15 +43,58 @@ class SessionRepository implements ISessionRepository {
       type: type,
     );
     return response.fold(
+      (l) => left(l.toApiError()),
+      (QuerySnapshot<Map<String, dynamic>> r) {
+        List<Session> sessions = [];
+        for (var docSnapshot in r.docs) {
+          Session newSession =
+              Session.fromJson(docSnapshot.id, docSnapshot.data());
+          sessions.add(newSession);
+        }
+        return right(sessions);
+      },
+    );
+  }
+
+  @override
+  Future<Either<ApiError, Unit>> uploadSessionRating({
+    required String userId,
+    required double rating,
+    required String sessionId,
+  }) async {
+    final response = await firestoreRepository.updateNestedDocument(
+      firstCollectionName: FirestoreCollections.users,
+      secondCollectionName: FirestoreCollections.sessions,
+      firstDocId: userId,
+      secondDocId: sessionId,
+      object: {
+        'rating': rating,
+      },
+    );
+    return response.fold(
           (l) => left(l.toApiError()),
-          (QuerySnapshot<Map<String, dynamic>> r){
-            List<Session> sessions = [];
-            for(var docSnapshot in r.docs){
-              Session newSession = Session.fromJson(docSnapshot.id, docSnapshot.data());
-              sessions.add(newSession);
-            }
-            return right(sessions);
-          },
+          (r) => right(unit),
+    );
+  }
+
+  @override
+  Future<Either<ApiError, List<Session>>> getAllSessions({required String userId}) async{
+    final response = await firestoreRepository.getNestedCollection(
+      firstCollectionName: FirestoreCollections.users,
+      secondCollectionName: FirestoreCollections.sessions,
+      docId: userId,
+    );
+    return response.fold(
+          (l) => left(l.toApiError()),
+          (QuerySnapshot<Map<String, dynamic>> r) {
+        List<Session> sessions = [];
+        for (var docSnapshot in r.docs) {
+          Session newSession =
+          Session.fromJson(docSnapshot.id, docSnapshot.data());
+          sessions.add(newSession);
+        }
+        return right(sessions);
+      },
     );
   }
 }

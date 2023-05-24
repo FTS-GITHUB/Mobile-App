@@ -31,6 +31,7 @@ import 'package:dropandgouser/application/search/cubit/is_seearch_active.dart';
 import 'package:dropandgouser/application/search/search_found_bloc/search_found_bloc.dart';
 import 'package:dropandgouser/application/session/session_bloc/session_bloc.dart';
 import 'package:dropandgouser/application/session/session_cubit/session_completed_cubit.dart';
+import 'package:dropandgouser/application/session/session_rating_cubit/session_rating_cubit.dart';
 import 'package:dropandgouser/application/setting/setting_bloc/setting_bloc.dart';
 import 'package:dropandgouser/application/signup/signup_bloc.dart';
 import 'package:dropandgouser/application/splash/splash_bloc/splash_bloc.dart';
@@ -335,7 +336,12 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
             sessionRepository: _sessionRepository,
           ),
         ),
-      ], // PreferenceCubit
+        BlocProvider<SessionRatingCubit>(
+          create: (context) => SessionRatingCubit(
+            sessionRepository: _sessionRepository,
+          ),
+        ),
+      ], // SessionRatingCubit
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,
