@@ -42,25 +42,6 @@ class DownloadsPage extends StatelessWidget {
         primary: true,
         slivers: [
           SliverToBoxAdapter(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 36.w),
-              child: const HomeRectCategory(),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: 37.h.verticalSpace,
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 36.w),
-              child: StandardText.headline5(
-                context,
-                "Liked",
-                color: DropAndGoColors.primary,
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
             child: 20.h.verticalSpace,
           ),
           SliverToBoxAdapter(

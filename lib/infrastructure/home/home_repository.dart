@@ -66,7 +66,7 @@ class HomeRepository implements IHomeRepository {
         );
         searches.add(search);
       }
-      searches.sort((a,b)=> a.createdAt!.compareTo(b.createdAt!));
+      searches.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
       return right(searches);
     });
   }
@@ -188,8 +188,8 @@ class HomeRepository implements IHomeRepository {
           object: userData.toJson(),
         );
         return response.fold(
-              (l) => left(l.toApiError()),
-              (docSnapshot) {
+          (l) => left(l.toApiError()),
+          (docSnapshot) {
             userData = UserData.fromJson(
               docSnapshot.data() ?? {},
             );
@@ -198,5 +198,40 @@ class HomeRepository implements IHomeRepository {
         );
       }
     });
+  }
+
+  @override
+  Future<Either<ApiError, List<Audio>>> getDownloads(
+      {required String userId}) async {
+    final response = await cloudFirestoreRepository.getNestedCollection(
+      firstCollectionName: FirestoreCollections.users,
+      secondCollectionName: FirestoreCollections.downloads,
+      docId: userId,
+    );
+    return response.fold(
+          (l) => left(l.toApiError()),
+          (docSnapshot) {
+            List<Audio> downloads= [];
+        for(var doc in docSnapshot.docs){
+          Audio audio = Audio.fromJson(doc.id, doc.data(),);
+          downloads.add(audio);
+        }
+        return right(downloads);
+      },
+    );
+  }
+
+  @override
+  Future<Either<ApiError, Unit>> addToDownload({required String userId}) async{
+    final response = await cloudFirestoreRepository.uploadNestedCollection(
+      firstCollectionName: FirestoreCollections.users,
+      secondCollectionName: FirestoreCollections.search,
+      firstDocId: userId,
+      object: '',
+    );
+    return response.fold(
+          (l) => left(l.toApiError()),
+          (r) => right(r),
+    );
   }
 }

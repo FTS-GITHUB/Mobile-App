@@ -34,4 +34,12 @@ abstract class IHomeRepository {
     required String userId,
     required String categoryId,
   });
+
+  Future<Either<ApiError, List<Audio>>> getDownloads({
+    required String userId,
+});
+
+  Future<Either<ApiError, Unit>> addToDownload({
+    required String userId,
+  });
 }

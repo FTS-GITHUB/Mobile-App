@@ -1,10 +1,14 @@
 part of 'download_bloc.dart';
 
-abstract class AnalyticsEvent extends Equatable{
+abstract class DownloadEvent extends Equatable{
   @override
   List<Object?> get props => [];
 }
 
-class DownloadAudio extends AnalyticsEvent{
+class FetchDownloads extends DownloadEvent{
+  FetchDownloads();
+}
+
+class DownloadAudio extends DownloadEvent{
   DownloadAudio();
 }
