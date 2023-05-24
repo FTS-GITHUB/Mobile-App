@@ -1,5 +1,4 @@
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
-
 import 'package:fpdart/src/either.dart';
 
 import '../../domain/subscription/i_stripe_subscription.dart';

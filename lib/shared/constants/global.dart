@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropandgouser/infrastructure/services/local_database_service.dart';
 import 'package:dropandgouser/shared/constants/stopwatch.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 DateTime? dateFromJson(Timestamp? val) => val == null
     ? null

@@ -1,11 +1,8 @@
-import 'package:dropandgouser/application/session/session_bloc/session_bloc.dart';
 import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/domain/session/session.dart';
-import 'package:dropandgouser/domain/session/session_time.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/shared/constants/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LifeCycleManager extends StatefulWidget {
   const LifeCycleManager({

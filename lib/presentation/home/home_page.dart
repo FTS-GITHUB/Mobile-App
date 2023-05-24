@@ -7,10 +7,8 @@ import 'package:dropandgouser/application/session/session_cubit/session_complete
 import 'package:dropandgouser/domain/home/category.dart';
 import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/domain/session/session.dart';
-import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
-import 'package:dropandgouser/main.dart';
 import 'package:dropandgouser/presentation/home/widgets/category_view_more_header.dart';
 import 'package:dropandgouser/presentation/home/widgets/home_rect_category.dart';
 import 'package:dropandgouser/presentation/home/widgets/home_square_category.dart';

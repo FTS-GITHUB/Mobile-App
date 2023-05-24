@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dropandgouser/application/session/session_cubit/session_completed_cubit.dart';
 import 'package:dropandgouser/domain/session/i_session_repository.dart';
 import 'package:dropandgouser/domain/session/session.dart';
 import 'package:dropandgouser/shared/constants/global.dart';
@@ -8,7 +7,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'session_event.dart';
-
 part 'session_state.dart';
 
 class SessionBloc extends Bloc<SessionEvent, SessionState> {

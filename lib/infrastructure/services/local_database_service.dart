@@ -1,5 +1,4 @@
 import 'package:dropandgouser/domain/session/session.dart';
-import 'package:dropandgouser/domain/session/session_time.dart';
 import 'package:sqflite/sqflite.dart';
 
 const String activeSession = 'ActiveSession';

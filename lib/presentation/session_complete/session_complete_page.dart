@@ -1,3 +1,4 @@
+import 'package:dropandgouser/application/session/session_rating_cubit/session_rating_cubit.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/session_complete/widgets/complete_tick.dart';
@@ -7,7 +8,10 @@ import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/packages/rating_bar.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../shared/constants/global.dart';
 
 class SessionCompletePage extends StatelessWidget {
   const SessionCompletePage({Key? key}) : super(key: key);
@@ -66,7 +70,11 @@ class SessionCompletePage extends StatelessWidget {
                 debugPrint(
                   'Rating is $rating',
                 );
-                await Future.delayed(const Duration(seconds: 2));
+                final sessionId = DateTime(now.year, now.month, now.day).millisecondsSinceEpoch.toString();
+                context.read<SessionRatingCubit>().uploadSessionRating(
+                      rating: rating,
+                      sessionId: sessionId,
+                    );
                 getIt<NavigationService>().navigateBack(context: context);
               },
             ),
