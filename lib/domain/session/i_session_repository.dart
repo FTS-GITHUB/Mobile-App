@@ -1,4 +1,5 @@
 import 'package:dropandgouser/domain/session/session.dart';
+import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -21,5 +22,10 @@ abstract class ISessionRepository {
 
   Future<Either<ApiError, List<Session>>> getAllSessions({
     required String userId,
+  });
+
+  Future<Either<ApiError, UserData>> updateUserData({
+    required String userId,
+    required UserData userData,
   });
 }

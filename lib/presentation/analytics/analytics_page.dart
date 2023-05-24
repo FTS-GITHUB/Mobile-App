@@ -1,5 +1,6 @@
 import 'package:dropandgouser/application/analytics/analytics_bloc/analytics_bloc.dart';
 import 'package:dropandgouser/application/main/cubit/main_navbar_cubit.dart';
+import 'package:dropandgouser/application/session/all_session_cubit/all_session_bloc.dart';
 import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
@@ -10,6 +11,7 @@ import 'package:dropandgouser/shared/extensions/media_query.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/app_button_widget.dart';
 import 'package:dropandgouser/shared/widgets/button_loading.dart';
+import 'package:dropandgouser/shared/widgets/shimmer_widget.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -115,7 +117,8 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                                         children: [
                                           StandardText.headline4(
                                             context,
-                                            getTotalTime(state.totalTimeInMinutes??0),
+                                            getTotalTime(
+                                                state.totalTimeInMinutes ?? 0),
                                             fontSize: 30.sp,
                                             color: DropAndGoColors.white,
                                           ),
@@ -154,39 +157,46 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                                 )
                               : const SizedBox.shrink(),
                   13.verticalSpace,
-                  GridView.builder(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 36.w,
-                    ),
-                    primary: false,
-                    shrinkWrap: true,
-                    itemCount: 3,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 26.h,
-                      crossAxisSpacing: 12.w,
-                      childAspectRatio: 2.1.h,
-                    ),
-                    itemBuilder: (context, index) {
-                      return index == 0
-                          ? StreakItem(
-                              title: 'Current Streak',
-                              data:
-                                  "${userService.userData?.currentStreak ?? 0}d",
-                            )
-                          : index == 1
-                              ? StreakItem(
-                                  title: 'Longest Streak',
-                                  data:
-                                      "${userService.userData?.longestStreak ?? 0}d",
-                                )
-                              : StreakItem(
-                                  title: 'Sessions listened',
-                                  data:
-                                      "${userService.userData?.sessionsListened ?? 0}",
-                                );
-                    },
-                  )
+                  BlocBuilder<AllSessionBloc, AllSessionState>(
+                      builder: (context, state) {
+                    return GridView.builder(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 36.w,
+                      ),
+                      primary: false,
+                      shrinkWrap: true,
+                      itemCount: 3,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 26.h,
+                        crossAxisSpacing: 12.w,
+                        childAspectRatio: 2.1.h,
+                      ),
+                      itemBuilder: (context, index) {
+                        return (state is AllSessionStateLoading)
+                            ? const ShimmerContainer(
+                                type: ShimmerType.square,
+                              )
+                            : (state is AllSessionStateLoaded)?index == 0
+                                ? StreakItem(
+                                    title: 'Current Streak',
+                                    data:
+                                        "${userService.userData?.currentStreak ?? 0}d",
+                                  )
+                                : index == 1
+                                    ? StreakItem(
+                                        title: 'Longest Streak',
+                                        data:
+                                            "${userService.userData?.longestStreak ?? 0}d",
+                                      )
+                                    : StreakItem(
+                                        title: 'Sessions listened',
+                                        data:
+                                            "${userService.userData?.sessionsListened ?? 0}",
+                                      ):const SizedBox.shrink();
+                      },
+                    );
+                  })
                 ],
               );
             }),
@@ -196,36 +206,35 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     );
   }
 
-
-  String getTotalTime(double time){
+  String getTotalTime(double time) {
     int timeToRound = time.round();
-    if(timeToRound < 60){
+    if (timeToRound < 60) {
       return '${timeToRound}m';
-    }else if (timeToRound>=60 && timeToRound <120){
-      return '1h ${timeToRound-60}m';
-    }else if (timeToRound>=120 && timeToRound <180){
-      return '2h ${timeToRound-120}m';
-    }else if (timeToRound>=180 && timeToRound <240){
-      return '3h ${timeToRound-180}m';
-    }else if (timeToRound>=240 && timeToRound <300){
-      return '4h ${timeToRound-240}m';
-    }else if (timeToRound>=300 && timeToRound <360){
-      return '5h ${timeToRound-300}m';
-    }else if (timeToRound>=360 && timeToRound <420){
-      return '6h ${timeToRound-360}m';
-    }else if (timeToRound>=420 && timeToRound <480){
-      return '7h ${timeToRound-420}m';
-    }else if (timeToRound>=480 && timeToRound <540){
-      return '8h ${timeToRound-480}m';
-    }else if (timeToRound>=540 && timeToRound <600){
-      return '9h ${timeToRound-540}m';
-    }else if (timeToRound>=600 && timeToRound <660){
-      return '10h ${timeToRound-600}m';
-    }else if (timeToRound>=660 && timeToRound <720){
-      return '11h ${timeToRound-660}m';
-    }else if (timeToRound>=720 && timeToRound <780){
-      return '12h ${timeToRound-720}m';
-    }else{
+    } else if (timeToRound >= 60 && timeToRound < 120) {
+      return '1h ${timeToRound - 60}m';
+    } else if (timeToRound >= 120 && timeToRound < 180) {
+      return '2h ${timeToRound - 120}m';
+    } else if (timeToRound >= 180 && timeToRound < 240) {
+      return '3h ${timeToRound - 180}m';
+    } else if (timeToRound >= 240 && timeToRound < 300) {
+      return '4h ${timeToRound - 240}m';
+    } else if (timeToRound >= 300 && timeToRound < 360) {
+      return '5h ${timeToRound - 300}m';
+    } else if (timeToRound >= 360 && timeToRound < 420) {
+      return '6h ${timeToRound - 360}m';
+    } else if (timeToRound >= 420 && timeToRound < 480) {
+      return '7h ${timeToRound - 420}m';
+    } else if (timeToRound >= 480 && timeToRound < 540) {
+      return '8h ${timeToRound - 480}m';
+    } else if (timeToRound >= 540 && timeToRound < 600) {
+      return '9h ${timeToRound - 540}m';
+    } else if (timeToRound >= 600 && timeToRound < 660) {
+      return '10h ${timeToRound - 600}m';
+    } else if (timeToRound >= 660 && timeToRound < 720) {
+      return '11h ${timeToRound - 660}m';
+    } else if (timeToRound >= 720 && timeToRound < 780) {
+      return '12h ${timeToRound - 720}m';
+    } else {
       return '${time}m';
     }
   }

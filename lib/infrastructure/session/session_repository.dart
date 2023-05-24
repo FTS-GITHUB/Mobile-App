@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
 import 'package:dropandgouser/domain/session/i_session_repository.dart';
 import 'package:dropandgouser/domain/session/session.dart';
+import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/shared/constants/firestore_collections.dart';
 import 'package:dropandgouser/shared/extensions/firebase_exception.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
@@ -72,28 +73,48 @@ class SessionRepository implements ISessionRepository {
       },
     );
     return response.fold(
-          (l) => left(l.toApiError()),
-          (r) => right(unit),
+      (l) => left(l.toApiError()),
+      (r) => right(unit),
     );
   }
 
   @override
-  Future<Either<ApiError, List<Session>>> getAllSessions({required String userId}) async{
+  Future<Either<ApiError, List<Session>>> getAllSessions(
+      {required String userId}) async {
     final response = await firestoreRepository.getNestedCollection(
       firstCollectionName: FirestoreCollections.users,
       secondCollectionName: FirestoreCollections.sessions,
       docId: userId,
     );
     return response.fold(
-          (l) => left(l.toApiError()),
-          (QuerySnapshot<Map<String, dynamic>> r) {
+      (l) => left(l.toApiError()),
+      (QuerySnapshot<Map<String, dynamic>> r) {
         List<Session> sessions = [];
         for (var docSnapshot in r.docs) {
           Session newSession =
-          Session.fromJson(docSnapshot.id, docSnapshot.data());
+              Session.fromJson(docSnapshot.id, docSnapshot.data());
           sessions.add(newSession);
         }
         return right(sessions);
+      },
+    );
+  }
+
+  @override
+  Future<Either<ApiError, UserData>> updateUserData({
+    required String userId,
+    required UserData userData,
+  }) async {
+    final response = await firestoreRepository.updateDocument(
+      collectionName: FirestoreCollections.users,
+      docId: userId,
+      object: userData.toJson(),
+    );
+    return response.fold(
+      (l) => left(l.toApiError()),
+      (DocumentSnapshot<Map<String, dynamic>> r) {
+        UserData userData = UserData.fromJson(r.data()??{});
+        return right(userData);
       },
     );
   }
