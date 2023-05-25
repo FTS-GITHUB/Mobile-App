@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
             id: DateTime(now.year, now.month, now.day)
                 .millisecondsSinceEpoch
                 .toString(),
-            isSessionCompleted: context.read<SessionCompletedCubit>().state,
+            isSessionCompleted: true,
             sessionDate:
             DateTime(now.year, now.month, now.day).millisecondsSinceEpoch,
             appUseDuration: stopWatch.elapsedDuration.toString(),
