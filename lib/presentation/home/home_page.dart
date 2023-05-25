@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
       if (sessionInMinutes > 10 && !isSessionCompleted) {
         final sessions = await localDatabaseService.getSessionsList();
         print(sessions);
-        if(sessions.last.isSessionCompleted==false){
+        if(sessions.isNotEmpty && sessions.last.isSessionCompleted==false){
           context.read<SessionCompletedCubit>().initialize(true);
           showDialog(
             context: context,
@@ -80,6 +80,7 @@ class _HomePageState extends State<HomePage> {
             appUseDuration: stopWatch.elapsedDuration.toString(),
           );
           localDatabaseService.recordSession(session: session);
+          _timer.cancel();
         }else{
           final session = Session(
             id: DateTime(now.year, now.month, now.day)
@@ -92,7 +93,7 @@ class _HomePageState extends State<HomePage> {
           );
           localDatabaseService.recordSession(session: session);
         }
-        _timer.cancel();
+        // _timer.cancel();
       }
     });
   }
