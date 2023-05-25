@@ -234,7 +234,7 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                                                 List<Audio> tempAudios = state.audios.where((element) => element.title==metadata.title).toList();
                                                 // print(tempAudios.first.audioUrl);
                                                 if(tempAudios.first.audioUrl!=null){
-                                                  download('${tempAudios.first.audioUrl!}?name="${tempAudios.first.title}"');
+                                                  download('${tempAudios.first.audioUrl!}?name=${tempAudios.first.title}');
                                                   print("${tempAudios.first.audioUrl!}?category=${tempAudios.first.category?.imageUrl}&name=\"${tempAudios.first.title}\"");
                                                 }
                                               },
