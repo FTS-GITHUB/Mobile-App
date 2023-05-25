@@ -74,7 +74,6 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
       String id = data[0];
       DownloadTaskStatus status = DownloadTaskStatus(data[1]);
       int progress = data[2];
-      setState(() {});
     });
 
     FlutterDownloader.registerCallback(downloadCallback);
@@ -94,7 +93,9 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
       download(url);
     }
     if (storageStatus.isGranted) {
-      final Directory? dir = await getExternalStorageDirectory();
+      Directory? dir = Platform.isAndroid
+          ? await getExternalStorageDirectory() //FOR ANDROID
+          : await getApplicationSupportDirectory(); //FOR iOS
       if (dir != null) {
         String path = dir.path;
         final taskId = await FlutterDownloader.enqueue(
@@ -103,6 +104,7 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
           // optional: header send with url (auth token etc)
           savedDir: path,
           showNotification: true,
+          saveInPublicStorage: true,
           // show download progress in status bar (for Android)
           openFileFromNotification:
               true, // click on notification to open downloaded file (for Android)

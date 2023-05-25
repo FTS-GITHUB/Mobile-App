@@ -74,7 +74,7 @@ class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
               currentStreak: 0,
               longestStreak: 0,
               sessionsListened: 0,
-              maxMinutes: tempChartData.last.y1,
+              maxMinutes: tempChartData.isNotEmpty?tempChartData.last.y1:40,
               totalTimeInMinutes: totalTimeInMinutes,
             ),
           );
