@@ -72,10 +72,11 @@ class _HomePageState extends State<HomePage> {
           DateTime(now.year, now.month, now.day).millisecondsSinceEpoch,
           appUseDuration: stopWatch.elapsedDuration.toString(),
         );
-        context.read<SessionBloc>().add(UploadSession(
-          userId: userService?.userData?.id ?? '',
-          session: session,
-        ));
+        localDatabaseService.recordSession(session: session);
+        // context.read<SessionBloc>().add(UploadSession(
+        //   userId: userService?.userData?.id ?? '',
+        //   session: session,
+        // ));
         showDialog(
           context: context,
           builder: (ctx) => const SessionCompletePage(),

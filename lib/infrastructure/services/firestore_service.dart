@@ -282,7 +282,7 @@ class FirestoreService implements ICloudFirestoreRepository {
               'session_date',
               isGreaterThanOrEqualTo: sevenDaysAgo.millisecondsSinceEpoch,
               isLessThanOrEqualTo: today.millisecondsSinceEpoch,
-            )
+            ).orderBy('session_date', descending: false)
             .get();
       } else {
         response = await _firestore

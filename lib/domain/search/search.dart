@@ -6,6 +6,7 @@ class Search {
   final String? artistName;
   final bool? isFavorite;
   final VoidCallback? onItemTapped;
+  final bool isDownloadPage;
 
   Search({
     this.imageUrl,
@@ -13,5 +14,6 @@ class Search {
     this.artistName,
     this.isFavorite=false,
     this.onItemTapped,
+    this.isDownloadPage = false,
 });
 }

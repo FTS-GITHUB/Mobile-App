@@ -1,8 +1,12 @@
+import 'dart:io';
+import 'dart:isolate';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:dropandgouser/application/audio_bloc/audio_bloc.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_cubit.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_state.dart';
+import 'package:dropandgouser/domain/player_audio/audio.dart';
 import 'package:dropandgouser/domain/player_audio/position_data.dart';
 import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
@@ -15,10 +19,13 @@ import 'package:dropandgouser/shared/packages/audio_progress_bar.dart';
 import 'package:dropandgouser/shared/widgets/button_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../shared/widgets/standard_text.dart';
@@ -38,6 +45,7 @@ class PlayerAudioPage extends StatefulWidget {
 class _PlayerAudioPageState extends State<PlayerAudioPage> {
   late AudioPlayer _audioPlayer;
   late final ConcatenatingAudioSource _playlist;
+  final ReceivePort _port = ReceivePort();
 
   Stream<PositionData> get _positionDataStream =>
       Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
@@ -59,12 +67,49 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
           ),
         );
     _audioPlayer = AudioPlayer();
-    // _initAudioPlayer();
-    // ..setUrl(
-    //     'https://cdn.pixabay.com/download/audio/2023/01/01/audio_816821e627.mp3?filename=relaxed-vlog-night-street-131746.mp3');
-    // ..setUrl('https://cdn.pixabay.com/audio/2022/10/14/audio_9939f792cb.mp3');
-    // _audioPlayer = AudioPlayer()..setAsset('assets/audio/relaxing.mp3');
     super.initState();
+    IsolateNameServer.registerPortWithName(
+        _port.sendPort, 'downloader_send_port');
+    _port.listen((dynamic data) {
+      String id = data[0];
+      DownloadTaskStatus status = DownloadTaskStatus(data[1]);
+      int progress = data[2];
+      setState(() {});
+    });
+
+    FlutterDownloader.registerCallback(downloadCallback);
+  }
+
+  @pragma('vm:entry-point')
+  static void downloadCallback(String id, int status, int progress) {
+    final SendPort? send =
+        IsolateNameServer.lookupPortByName('downloader_send_port');
+    send!.send([id, status, progress]);
+  }
+
+  Future<void> download(String url) async {
+    PermissionStatus storageStatus = await Permission.storage.status;
+    if (!storageStatus.isGranted) {
+      await Permission.storage.request();
+      download(url);
+    }
+    if (storageStatus.isGranted) {
+      final Directory? dir = await getExternalStorageDirectory();
+      if (dir != null) {
+        String path = dir.path;
+        final taskId = await FlutterDownloader.enqueue(
+          url: url,
+          headers: {},
+          // optional: header send with url (auth token etc)
+          savedDir: path,
+          showNotification: true,
+          // show download progress in status bar (for Android)
+          openFileFromNotification:
+              true, // click on notification to open downloaded file (for Android)
+        );
+        print("Task id = $taskId");
+      }
+    }
   }
 
   _initAudioPlayer() async {
@@ -75,6 +120,7 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
   @override
   void dispose() {
     _audioPlayer.dispose();
+    IsolateNameServer.removePortNameMapping('downloader_send_port');
     super.dispose();
   }
 
@@ -178,10 +224,19 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                                           Expanded(
                                             flex: 1,
                                             child: IconButton(
-                                              icon: const Icon(Icons.download_outlined),
-                                                iconSize: 30,
-                                              onPressed: (){
-
+                                              icon: const Icon(
+                                                Icons
+                                                    .download_for_offline_outlined,
+                                                size: 20,
+                                              ),
+                                              iconSize: 20,
+                                              onPressed: () {
+                                                List<Audio> tempAudios = state.audios.where((element) => element.title==metadata.title).toList();
+                                                // print(tempAudios.first.audioUrl);
+                                                if(tempAudios.first.audioUrl!=null){
+                                                  download('${tempAudios.first.audioUrl!}?name="${tempAudios.first.title}"');
+                                                  print("${tempAudios.first.audioUrl!}?category=${tempAudios.first.category?.imageUrl}&name=\"${tempAudios.first.title}\"");
+                                                }
                                               },
                                             ),
                                           ),
@@ -206,40 +261,47 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                                               },
                                               child: BlocBuilder<LikesCubit,
                                                       LikesState>(
-                                                  builder: (context, likeState) {
-                                                    final user =getIt<UserService>().userData;
+                                                  builder:
+                                                      (context, likeState) {
+                                                final user =
+                                                    getIt<UserService>()
+                                                        .userData;
                                                 return (likeState
                                                         is LikesStateLoading)
                                                     ? const SizedBox.shrink()
                                                     : (likeState
                                                             is LikesStateLoaded)
                                                         ? likeState.userData
-                                                    .likedCategories !=
-                                                    null &&
-                                                    likeState.userData
-                                                        .likedCategories!
-                                                        .contains(state.category.id)
-                                                    ? SvgPicture.asset(
-                                                  DropAndGoIcons
-                                                      .favoriteFilled,
-                                                )
-                                                        : SvgPicture.asset(
-                                                            DropAndGoIcons
-                                                                .favoriteOutlined,
-                                                          ):user!
-                                                    .likedCategories !=
-                                                    null &&
-                                                    user
-                                                        .likedCategories!
-                                                        .contains(state.category.id)
-                                                    ? SvgPicture.asset(
-                                                  DropAndGoIcons
-                                                      .favoriteFilled,
-                                                )
-                                                    : SvgPicture.asset(
-                                                  DropAndGoIcons
-                                                      .favoriteOutlined,
-                                                );
+                                                                        .likedCategories !=
+                                                                    null &&
+                                                                likeState
+                                                                    .userData
+                                                                    .likedCategories!
+                                                                    .contains(state
+                                                                        .category
+                                                                        .id)
+                                                            ? SvgPicture.asset(
+                                                                DropAndGoIcons
+                                                                    .favoriteFilled,
+                                                              )
+                                                            : SvgPicture.asset(
+                                                                DropAndGoIcons
+                                                                    .favoriteOutlined,
+                                                              )
+                                                        : user!.likedCategories !=
+                                                                    null &&
+                                                                user.likedCategories!
+                                                                    .contains(state
+                                                                        .category
+                                                                        .id)
+                                                            ? SvgPicture.asset(
+                                                                DropAndGoIcons
+                                                                    .favoriteFilled,
+                                                              )
+                                                            : SvgPicture.asset(
+                                                                DropAndGoIcons
+                                                                    .favoriteOutlined,
+                                                              );
                                               }),
                                             ),
                                           ),

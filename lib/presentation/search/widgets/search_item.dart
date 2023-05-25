@@ -19,29 +19,39 @@ class SearchItem extends StatelessWidget {
     return InkWell(
       onTap: search.onItemTapped,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 18),
+        margin: const EdgeInsets.only(top: 10, bottom: 10,),
         child: Row(
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                search.imageUrl!,
-                width: 73.w,
-                height: 70.h,
-                fit: BoxFit.cover,
-                color: DropAndGoColors.primary.withOpacity(.4),
-                colorBlendMode: BlendMode.hardLight,
-                errorBuilder: (context, err, _){
-                  return Image.asset(
-                    DropAndGoImages.defaultCategory,
-                    width: 73.w,
-                    height: 70.h,
-                    fit: BoxFit.cover,
-                    color: DropAndGoColors.primary.withOpacity(.4),
-                    colorBlendMode: BlendMode.hardLight,
-                  );
-                },
-              ),
+              child: search.isDownloadPage
+                  ? Container(
+                width: 50.w,
+                height: 50.h,
+                      color: DropAndGoColors.primary,
+                      child: const Icon(
+                        Icons.music_note_outlined,
+                        color: DropAndGoColors.white,
+                      ),
+                    )
+                  : Image.network(
+                      search.imageUrl!,
+                      width: 73.w,
+                      height: 70.h,
+                      fit: BoxFit.cover,
+                      color: DropAndGoColors.primary.withOpacity(.4),
+                      colorBlendMode: BlendMode.hardLight,
+                      errorBuilder: (context, err, _) {
+                        return Image.asset(
+                          DropAndGoImages.defaultCategory,
+                          width: 73.w,
+                          height: 70.h,
+                          fit: BoxFit.cover,
+                          color: DropAndGoColors.primary.withOpacity(.4),
+                          colorBlendMode: BlendMode.hardLight,
+                        );
+                      },
+                    ),
             ),
             10.w.horizontalSpace,
             Column(
@@ -61,12 +71,15 @@ class SearchItem extends StatelessWidget {
                 // ),
               ],
             ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: !(search.isFavorite != null && search.isFavorite!)
-                    ? SvgPicture.asset(DropAndGoIcons.favoriteFilled)
-                    : SvgPicture.asset(DropAndGoIcons.favoriteOutlined),
+            Visibility(
+              visible: !search.isDownloadPage,
+              child: Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: !(search.isFavorite != null && search.isFavorite!)
+                      ? SvgPicture.asset(DropAndGoIcons.favoriteFilled)
+                      : SvgPicture.asset(DropAndGoIcons.favoriteOutlined),
+                ),
               ),
             ),
           ],

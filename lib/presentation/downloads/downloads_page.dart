@@ -1,3 +1,7 @@
+import 'dart:io';
+import 'dart:isolate';
+import 'dart:ui';
+
 import 'package:dropandgouser/application/main/cubit/main_navbar_cubit.dart';
 import 'package:dropandgouser/domain/search/search.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
@@ -9,11 +13,48 @@ import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class DownloadsPage extends StatelessWidget {
+class DownloadsPage extends StatefulWidget {
   const DownloadsPage({Key? key}) : super(key: key);
+
+  @override
+  State<DownloadsPage> createState() => _DownloadsPageState();
+}
+
+class _DownloadsPageState extends State<DownloadsPage> {
+  List<DownloadTask>? tasks;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // IsolateNameServer.registerPortWithName(
+    //     _port.sendPort, 'downloader_send_port');
+    // _port.listen((dynamic data) {
+    //   String id = data[0];
+    //   DownloadTaskStatus status = DownloadTaskStatus(data[1]);
+    //   int progress = data[2];
+    //   setState(() {});
+    // });
+    //
+    // FlutterDownloader.registerCallback(downloadCallback);
+    getDownloadedTasks();
+    setState(() {
+
+    });
+  }
+
+  getDownloadedTasks()async {
+    tasks = await FlutterDownloader.loadTasks();
+    tasks?.forEach((element) {
+      print(element.url);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +93,7 @@ class DownloadsPage extends StatelessWidget {
                 right: 28.w,
               ),
               primary: false,
-              itemCount: 12,
+              itemCount: tasks?.length??0,
               itemBuilder: (context, index) {
                 return SearchItem(
                   search: Search(
@@ -60,7 +101,12 @@ class DownloadsPage extends StatelessWidget {
                     artistName: "Artist Name",
                     imageUrl: DropAndGoImages.addictions,
                     isFavorite: true,
-                    onItemTapped: () {},
+                    isDownloadPage: true,
+                    onItemTapped: () {
+                      if(tasks!=null && tasks!.isNotEmpty){
+                        FlutterDownloader.open(taskId: tasks![index].taskId);
+                      }
+                    },
                   ),
                 );
               },

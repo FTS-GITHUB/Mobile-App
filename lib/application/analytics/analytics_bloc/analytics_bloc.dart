@@ -50,9 +50,14 @@ class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
                 durationInMinutes,
               ),
             );
+            tempChartData.add(
+              SplineAreaData(
+                DateTime.fromMillisecondsSinceEpoch(data.sessionDate!),
+                durationInMinutes,
+              ),
+            );
           });
           if (chartData.isNotEmpty) {
-            tempChartData = chartData;
             tempChartData.sort((a, b) => a.y1.compareTo(b.y1));
             tempChartData.forEach((element) {
               totalTimeInMinutes = totalTimeInMinutes + element.y1;

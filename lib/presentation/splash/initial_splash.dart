@@ -11,7 +11,10 @@ import 'package:dropandgouser/shared/widgets/toasts.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:dropandgouser/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class InitialSplashPage extends StatefulWidget {
   const InitialSplashPage({Key? key}) : super(key: key);
@@ -28,6 +31,7 @@ class _InitialSplashPageState extends State<InitialSplashPage> {
     getCountries();
     super.initState();
   }
+
 
   getCountries(){
     for(var country in Countries.values){

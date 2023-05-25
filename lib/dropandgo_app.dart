@@ -45,6 +45,7 @@ import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart'
 import 'package:dropandgouser/domain/services/i_storage_repository.dart';
 import 'package:dropandgouser/domain/session/i_session_repository.dart';
 import 'package:dropandgouser/domain/signup/i_signup_repository.dart';
+import 'package:dropandgouser/firebase_options.dart';
 import 'package:dropandgouser/infrastructure/account/account_repository.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/home/home_repository.dart';
@@ -60,9 +61,11 @@ import 'package:dropandgouser/shared/helpers/shared_preferences_helper.dart';
 import 'package:dropandgouser/shared/helpers/theme.dart';
 import 'package:dropandgouser/shared/screen_util/screen_util.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 
 import 'application/main/cubit/main_navbar_cubit.dart';
 import 'application/search/search_history_bloc/search_bloc.dart';
@@ -104,8 +107,13 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
     SharedPreferenceHelper.instance.init();
     localDatabaseService = LocalDatabaseService();
     localDatabaseService.initialize();
+    initFirebase();
     super.initState();
     initRepositories();
+  }
+
+  initFirebase()async{
+
   }
 
   // Future<void> initConnectivity() async {
