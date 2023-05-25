@@ -29,6 +29,7 @@ class _InitialSplashPageState extends State<InitialSplashPage> {
     super.initState();
   }
 
+
   getCountries(){
     for(var country in Countries.values){
       CountriesCubit.countries.add(country.isoShortName);

@@ -10,6 +10,7 @@ import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/shared/constants/firestore_collections.dart';
 import 'package:dropandgouser/shared/extensions/firebase_exception.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:fpdart/src/either.dart';
 import 'package:fpdart/src/unit.dart';
 
@@ -66,7 +67,7 @@ class HomeRepository implements IHomeRepository {
         );
         searches.add(search);
       }
-      searches.sort((a,b)=> a.createdAt!.compareTo(b.createdAt!));
+      searches.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
       return right(searches);
     });
   }
@@ -188,8 +189,8 @@ class HomeRepository implements IHomeRepository {
           object: userData.toJson(),
         );
         return response.fold(
-              (l) => left(l.toApiError()),
-              (docSnapshot) {
+          (l) => left(l.toApiError()),
+          (docSnapshot) {
             userData = UserData.fromJson(
               docSnapshot.data() ?? {},
             );
@@ -198,5 +199,16 @@ class HomeRepository implements IHomeRepository {
         );
       }
     });
+  }
+
+  @override
+  Future<Either<ApiError, List<DownloadTask>>> getDownloads() async {
+    try{
+      final response = await FlutterDownloader.loadTasks();
+      return right(response??[]);
+    }catch(e){
+      return left(ApiError(message: e.toString()));
+    }
+
   }
 }

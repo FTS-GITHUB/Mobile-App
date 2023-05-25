@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/domain/session/session.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
@@ -27,7 +29,7 @@ class _LifeCycleManagerState extends State<LifeCycleManager>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.paused) {
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
       final user = getIt<UserService>().userData;
       if (user?.id != null) {
         print("User id: ${user?.id}");

@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropandgouser/infrastructure/services/local_database_service.dart';
 import 'package:dropandgouser/shared/constants/stopwatch.dart';

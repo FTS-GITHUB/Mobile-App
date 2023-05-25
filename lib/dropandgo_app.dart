@@ -17,6 +17,7 @@ import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.d
 import 'package:dropandgouser/application/complete_profile/cubit/dob_date_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/profile_file_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/rememberme_cubit.dart';
+import 'package:dropandgouser/application/download/download_bloc/download_bloc.dart';
 import 'package:dropandgouser/application/home/home_bloc/home_bloc.dart';
 import 'package:dropandgouser/application/home/user_bloc/user_bloc.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_cubit.dart';
@@ -104,8 +105,13 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
     SharedPreferenceHelper.instance.init();
     localDatabaseService = LocalDatabaseService();
     localDatabaseService.initialize();
+    initFirebase();
     super.initState();
     initRepositories();
+  }
+
+  initFirebase()async{
+
   }
 
   // Future<void> initConnectivity() async {
@@ -345,7 +351,12 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
             sessionRepository: _sessionRepository,
           ),
         ),
-      ], // AllSessionBloc
+        BlocProvider<DownloadBloc>(
+          create: (context) => DownloadBloc(
+            homeRepository: _homeRepository,
+          ),
+        ),
+      ], // DownloadBloc
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,

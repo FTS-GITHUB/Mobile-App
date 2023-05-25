@@ -10,8 +10,11 @@ class DownloadStateInitial extends DownloadState {}
 class DownloadStateLoading extends DownloadState {}
 
 class DownloadStateLoaded extends DownloadState {
-  DownloadStateLoaded();
+  DownloadStateLoaded({
+    required this.tasks,
+});
 
+  final List<DownloadTask>? tasks;
 }
 
 class DownloadStateError extends DownloadState {

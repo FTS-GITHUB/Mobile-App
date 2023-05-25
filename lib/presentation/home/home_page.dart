@@ -1,13 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
-import 'package:cron/cron.dart';
 import 'package:dropandgouser/application/home/home_bloc/home_bloc.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_cubit.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_state.dart';
 import 'package:dropandgouser/application/session/all_session_cubit/all_session_bloc.dart';
 import 'package:dropandgouser/application/session/session_bloc/session_bloc.dart';
 import 'package:dropandgouser/application/session/session_cubit/session_completed_cubit.dart';
-import 'package:dropandgouser/application/session/session_rating_cubit/session_rating_cubit.dart';
 import 'package:dropandgouser/domain/home/category.dart';
 import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/domain/session/session.dart';
@@ -58,29 +58,42 @@ class _HomePageState extends State<HomePage> {
   runEveryMinute() async {
     _timer = Timer.periodic(const Duration(
       seconds: 60,
-    ), (_) {
+    ), (_) async{
       bool isSessionCompleted = context.read<SessionCompletedCubit>().state;
       // TODO: change duration to user level duration
       if (sessionInMinutes > 10 && !isSessionCompleted) {
-        context.read<SessionCompletedCubit>().initialize(true);
-        final session = Session(
-          id: DateTime(now.year, now.month, now.day)
-              .millisecondsSinceEpoch
-              .toString(),
-          isSessionCompleted: true,
-          sessionDate:
-          DateTime(now.year, now.month, now.day).millisecondsSinceEpoch,
-          appUseDuration: stopWatch.elapsedDuration.toString(),
-        );
-        context.read<SessionBloc>().add(UploadSession(
-          userId: userService?.userData?.id ?? '',
-          session: session,
-        ));
-        showDialog(
-          context: context,
-          builder: (ctx) => const SessionCompletePage(),
-        );
-        _timer.cancel();
+        final sessions = await localDatabaseService.getSessionsList();
+        print(sessions);
+        if(sessions.isNotEmpty && sessions.last.isSessionCompleted==false){
+          context.read<SessionCompletedCubit>().initialize(true);
+          showDialog(
+            context: context,
+            builder: (ctx) => const SessionCompletePage(),
+          );
+          final session = Session(
+            id: DateTime(now.year, now.month, now.day)
+                .millisecondsSinceEpoch
+                .toString(),
+            isSessionCompleted: true,
+            sessionDate:
+            DateTime(now.year, now.month, now.day).millisecondsSinceEpoch,
+            appUseDuration: stopWatch.elapsedDuration.toString(),
+          );
+          localDatabaseService.recordSession(session: session);
+          _timer.cancel();
+        }else{
+          final session = Session(
+            id: DateTime(now.year, now.month, now.day)
+                .millisecondsSinceEpoch
+                .toString(),
+            isSessionCompleted: true,
+            sessionDate:
+            DateTime(now.year, now.month, now.day).millisecondsSinceEpoch,
+            appUseDuration: stopWatch.elapsedDuration.toString(),
+          );
+          localDatabaseService.recordSession(session: session);
+        }
+        // _timer.cancel();
       }
     });
   }
