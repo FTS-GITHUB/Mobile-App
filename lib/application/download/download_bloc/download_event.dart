@@ -7,8 +7,5 @@ abstract class DownloadEvent extends Equatable{
 
 class FetchDownloads extends DownloadEvent{
   FetchDownloads();
-}
 
-class DownloadAudio extends DownloadEvent{
-  DownloadAudio();
 }

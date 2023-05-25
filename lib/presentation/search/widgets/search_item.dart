@@ -18,6 +18,7 @@ class SearchItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: search.onItemTapped,
+      onLongPress: search.onLongPress,
       child: Container(
         margin: const EdgeInsets.only(top: 10, bottom: 10,),
         child: Row(

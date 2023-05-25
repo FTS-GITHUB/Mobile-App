@@ -4,6 +4,7 @@ import 'package:dropandgouser/domain/session/i_session_repository.dart';
 import 'package:dropandgouser/domain/session/session.dart';
 import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/shared/constants/firestore_collections.dart';
+import 'package:dropandgouser/shared/constants/global.dart';
 import 'package:dropandgouser/shared/extensions/firebase_exception.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
 import 'package:fpdart/src/either.dart';
@@ -19,11 +20,13 @@ class SessionRepository implements ISessionRepository {
     required String userId,
     required Session session,
   }) async {
-    final response = await firestoreRepository.uploadSessionDocument(
+    final response = await firestoreRepository.updateNestedDocument(
       firstCollectionName: FirestoreCollections.users,
       secondCollectionName: FirestoreCollections.sessions,
       firstDocId: userId,
-      secondDocId: session.id,
+      secondDocId: session.id?? DateTime(
+        now.year, now.month, now.day
+      ).millisecondsSinceEpoch.toString(),
       object: session.toJson(),
     );
     return response.fold(

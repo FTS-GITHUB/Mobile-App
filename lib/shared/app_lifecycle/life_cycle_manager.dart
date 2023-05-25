@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/domain/session/session.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';

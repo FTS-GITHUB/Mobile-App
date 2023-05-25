@@ -1,23 +1,19 @@
-import 'dart:io';
-import 'dart:isolate';
-import 'dart:ui';
-
+import 'package:dropandgouser/application/download/download_bloc/download_bloc.dart';
 import 'package:dropandgouser/application/main/cubit/main_navbar_cubit.dart';
 import 'package:dropandgouser/domain/search/search.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
-import 'package:dropandgouser/presentation/home/widgets/home_rect_category.dart';
 import 'package:dropandgouser/presentation/search/widgets/search_item.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
+import 'package:dropandgouser/shared/extensions/extensions.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
+import 'package:dropandgouser/shared/widgets/button_loading.dart';
 import 'package:dropandgouser/shared/widgets/standard_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class DownloadsPage extends StatefulWidget {
   const DownloadsPage({Key? key}) : super(key: key);
@@ -27,33 +23,10 @@ class DownloadsPage extends StatefulWidget {
 }
 
 class _DownloadsPageState extends State<DownloadsPage> {
-  List<DownloadTask>? tasks;
-
   @override
   void initState() {
+    context.read<DownloadBloc>().add(FetchDownloads());
     super.initState();
-
-    // IsolateNameServer.registerPortWithName(
-    //     _port.sendPort, 'downloader_send_port');
-    // _port.listen((dynamic data) {
-    //   String id = data[0];
-    //   DownloadTaskStatus status = DownloadTaskStatus(data[1]);
-    //   int progress = data[2];
-    //   setState(() {});
-    // });
-    //
-    // FlutterDownloader.registerCallback(downloadCallback);
-    getDownloadedTasks();
-    setState(() {
-
-    });
-  }
-
-  getDownloadedTasks()async {
-    tasks = await FlutterDownloader.loadTasks();
-    tasks?.forEach((element) {
-      print(element.url);
-    });
   }
 
   @override
@@ -79,41 +52,124 @@ class _DownloadsPageState extends State<DownloadsPage> {
           ),
         ),
       ),
-      body: CustomScrollView(
-        primary: true,
-        slivers: [
-          SliverToBoxAdapter(
-            child: 20.h.verticalSpace,
-          ),
-          SliverToBoxAdapter(
-            child: ListView.builder(
-              shrinkWrap: true,
-              padding: EdgeInsets.only(
-                left: 36.w,
-                right: 28.w,
-              ),
-              primary: false,
-              itemCount: tasks?.length??0,
-              itemBuilder: (context, index) {
-                return SearchItem(
-                  search: Search(
-                    title: "ANXIETY",
-                    artistName: "Artist Name",
-                    imageUrl: DropAndGoImages.addictions,
-                    isFavorite: true,
-                    isDownloadPage: true,
-                    onItemTapped: () {
-                      if(tasks!=null && tasks!.isNotEmpty){
-                        FlutterDownloader.open(taskId: tasks![index].taskId);
-                      }
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+      body: BlocBuilder<DownloadBloc, DownloadState>(builder: (context, state) {
+        return (state is DownloadStateLoading)
+            ? const DropAndGoButtonLoading()
+            : (state is DownloadStateLoaded)
+                ? CustomScrollView(
+                    primary: true,
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: Visibility(
+                          visible:
+                              state.tasks != null && state.tasks!.isNotEmpty,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            padding: EdgeInsets.only(
+                              left: 36.w,
+                              right: 28.w,
+                            ),
+                            primary: false,
+                            itemCount: state.tasks?.length ?? 0,
+                            itemBuilder: (context, index) {
+                              var audio = state.tasks?[index];
+                              Uri uri = Uri.parse(audio!.url);
+                              print(uri.queryParameters["name"]);
+                              return SearchItem(
+                                search: Search(
+                                    title: uri.queryParameters["name"],
+                                    artistName: "Artist Name",
+                                    imageUrl: DropAndGoImages.addictions,
+                                    isFavorite: true,
+                                    isDownloadPage: true,
+                                    onItemTapped: () {
+                                      if (state.tasks != null &&
+                                          state.tasks!.isNotEmpty) {
+                                        FlutterDownloader.open(
+                                          taskId: state.tasks![index].taskId,
+                                        );
+                                      }
+                                    },
+                                    onLongPress: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (dialogContext) {
+                                            return AlertDialog(
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  StandardText.headline6(
+                                                    dialogContext,
+                                                    'Do you want to delete this file?',
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    children: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          FlutterDownloader.remove(taskId: state.tasks![index].taskId);
+                                                          getIt<NavigationService>().navigateBack(context: context);
+                                                          context.read<DownloadBloc>().add(FetchDownloads());
+                                                        },
+                                                        child: StandardText
+                                                            .headline5(
+                                                          context,
+                                                          "Yes",
+                                                          color: DropAndGoColors.red,
+                                                        ),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          getIt<NavigationService>().navigateBack(context: context);
+                                                        },
+                                                        child: StandardText
+                                                            .headline5(
+                                                          context,
+                                                          "No",
+                                                        ),
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          });
+                                    }),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: Visibility(
+                          visible: state.tasks == null || state.tasks!.isEmpty,
+                          child: Container(
+                            width: context.width,
+                            height: context.height - 150,
+                            alignment: Alignment.center,
+                            child: StandardText.headline5(
+                              context,
+                              "No downloads yet!",
+                              color: DropAndGoColors.black,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                : (state is DownloadStateError)
+                    ? Container(
+                        width: context.width,
+                        height: context.height - 150,
+                        alignment: Alignment.center,
+                        child: StandardText.headline5(
+                          context,
+                          state.message,
+                          color: DropAndGoColors.black,
+                        ),
+                      )
+                    : const SizedBox.shrink();
+      }),
     );
   }
 }

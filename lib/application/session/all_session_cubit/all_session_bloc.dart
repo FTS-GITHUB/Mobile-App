@@ -9,9 +9,8 @@ import 'package:dropandgouser/shared/constants/global.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'all_session_state.dart';
-
 part 'all_session_event.dart';
+part 'all_session_state.dart';
 
 class AllSessionBloc extends Bloc<AllSessionEvent, AllSessionState> {
   AllSessionBloc({

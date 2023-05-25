@@ -3,6 +3,7 @@ import 'package:dropandgouser/domain/player_audio/audio.dart';
 import 'package:dropandgouser/domain/search/previous_searches.dart';
 import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract class IHomeRepository {
@@ -35,11 +36,5 @@ abstract class IHomeRepository {
     required String categoryId,
   });
 
-  Future<Either<ApiError, List<Audio>>> getDownloads({
-    required String userId,
-});
-
-  Future<Either<ApiError, Unit>> addToDownload({
-    required String userId,
-  });
+  Future<Either<ApiError, List<DownloadTask>>> getDownloads();
 }

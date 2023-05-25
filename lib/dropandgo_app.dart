@@ -17,6 +17,7 @@ import 'package:dropandgouser/application/complete_profile/cubit/country_cubit.d
 import 'package:dropandgouser/application/complete_profile/cubit/dob_date_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/profile_file_cubit.dart';
 import 'package:dropandgouser/application/complete_profile/cubit/rememberme_cubit.dart';
+import 'package:dropandgouser/application/download/download_bloc/download_bloc.dart';
 import 'package:dropandgouser/application/home/home_bloc/home_bloc.dart';
 import 'package:dropandgouser/application/home/user_bloc/user_bloc.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_cubit.dart';
@@ -45,7 +46,6 @@ import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart'
 import 'package:dropandgouser/domain/services/i_storage_repository.dart';
 import 'package:dropandgouser/domain/session/i_session_repository.dart';
 import 'package:dropandgouser/domain/signup/i_signup_repository.dart';
-import 'package:dropandgouser/firebase_options.dart';
 import 'package:dropandgouser/infrastructure/account/account_repository.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/home/home_repository.dart';
@@ -61,11 +61,9 @@ import 'package:dropandgouser/shared/helpers/shared_preferences_helper.dart';
 import 'package:dropandgouser/shared/helpers/theme.dart';
 import 'package:dropandgouser/shared/screen_util/screen_util.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 
 import 'application/main/cubit/main_navbar_cubit.dart';
 import 'application/search/search_history_bloc/search_bloc.dart';
@@ -353,7 +351,12 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
             sessionRepository: _sessionRepository,
           ),
         ),
-      ], // AllSessionBloc
+        BlocProvider<DownloadBloc>(
+          create: (context) => DownloadBloc(
+            homeRepository: _homeRepository,
+          ),
+        ),
+      ], // DownloadBloc
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,

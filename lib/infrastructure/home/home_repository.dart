@@ -10,6 +10,7 @@ import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/shared/constants/firestore_collections.dart';
 import 'package:dropandgouser/shared/extensions/firebase_exception.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:fpdart/src/either.dart';
 import 'package:fpdart/src/unit.dart';
 
@@ -201,37 +202,13 @@ class HomeRepository implements IHomeRepository {
   }
 
   @override
-  Future<Either<ApiError, List<Audio>>> getDownloads(
-      {required String userId}) async {
-    final response = await cloudFirestoreRepository.getNestedCollection(
-      firstCollectionName: FirestoreCollections.users,
-      secondCollectionName: FirestoreCollections.downloads,
-      docId: userId,
-    );
-    return response.fold(
-          (l) => left(l.toApiError()),
-          (docSnapshot) {
-            List<Audio> downloads= [];
-        for(var doc in docSnapshot.docs){
-          Audio audio = Audio.fromJson(doc.id, doc.data(),);
-          downloads.add(audio);
-        }
-        return right(downloads);
-      },
-    );
-  }
+  Future<Either<ApiError, List<DownloadTask>>> getDownloads() async {
+    try{
+      final response = await FlutterDownloader.loadTasks();
+      return right(response??[]);
+    }catch(e){
+      return left(ApiError(message: e.toString()));
+    }
 
-  @override
-  Future<Either<ApiError, Unit>> addToDownload({required String userId}) async{
-    final response = await cloudFirestoreRepository.uploadNestedCollection(
-      firstCollectionName: FirestoreCollections.users,
-      secondCollectionName: FirestoreCollections.search,
-      firstDocId: userId,
-      object: '',
-    );
-    return response.fold(
-          (l) => left(l.toApiError()),
-          (r) => right(r),
-    );
   }
 }
