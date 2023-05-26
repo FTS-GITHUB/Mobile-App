@@ -65,9 +65,11 @@
 	<integer>5</integer>
 	<key>FDAllFilesDownloadedMessage</key>
 	<string>All files have been downloaded</string>
-	<key>NSDocumentsFolderUsageDescription</key>
-	<string>App wants to access your documents to access downloaded audio</string>
-	<key>NSDownloadsFolderUsageDescription</key>
-	<string>App wants to access your downloads folder to access downloaded audio</string>
+	<key>UISupportsDocumentBrowser</key>
+    <true/>
+    <key>LSSupportsOpeningDocumentsInPlace</key>
+    <true/>
+    <key>UIFileSharingEnabled</key>
+    <true/>
 </dict>
 </plist>

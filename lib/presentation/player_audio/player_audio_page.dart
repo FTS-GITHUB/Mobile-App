@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:dropandgouser/application/audio_bloc/audio_bloc.dart';
+import 'package:dropandgouser/application/audio_bloc/audio_cubit/download_progress_cubit.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_cubit.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_state.dart';
 import 'package:dropandgouser/domain/player_audio/audio.dart';
@@ -46,6 +47,7 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
   late AudioPlayer _audioPlayer;
   late final ConcatenatingAudioSource _playlist;
   final ReceivePort _port = ReceivePort();
+  int progress = 0;
 
   Stream<PositionData> get _positionDataStream =>
       Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
@@ -71,19 +73,26 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
     IsolateNameServer.registerPortWithName(
         _port.sendPort, 'downloader_send_port');
     _port.listen((dynamic data) {
+      // setState(() {
       String id = data[0];
       DownloadTaskStatus status = DownloadTaskStatus(data[1]);
-      int progress = data[2];
+      progress = data[2];
+      print('Download $progress');
+      context.read<DownloadProgressCubit>().updateDownloadProgress(progress);
+      if(progress==100){
+        context.read<DownloadProgressCubit>().reset();
+      }
     });
+    // });
 
     FlutterDownloader.registerCallback(downloadCallback);
   }
 
   @pragma('vm:entry-point')
   static void downloadCallback(String id, int status, int progress) {
-    final SendPort? send =
+    final SendPort? sendPort =
         IsolateNameServer.lookupPortByName('downloader_send_port');
-    send!.send([id, status, progress]);
+    sendPort!.send([id, status, progress]);
   }
 
   Future<void> download(String url) async {
@@ -95,7 +104,7 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
     if (storageStatus.isGranted) {
       Directory? dir = Platform.isAndroid
           ? await getExternalStorageDirectory() //FOR ANDROID
-          : await getApplicationSupportDirectory(); //FOR iOS
+          : await getApplicationDocumentsDirectory(); //FOR iOS
       if (dir != null) {
         String path = dir.path;
         final taskId = await FlutterDownloader.enqueue(
@@ -233,11 +242,20 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                                               ),
                                               iconSize: 20,
                                               onPressed: () {
-                                                List<Audio> tempAudios = state.audios.where((element) => element.title==metadata.title).toList();
+                                                List<Audio> tempAudios = state
+                                                    .audios
+                                                    .where((element) =>
+                                                        element.title ==
+                                                        metadata.title)
+                                                    .toList();
                                                 // print(tempAudios.first.audioUrl);
-                                                if(tempAudios.first.audioUrl!=null){
-                                                  download('${tempAudios.first.audioUrl!}?name=${tempAudios.first.title}');
-                                                  print("${tempAudios.first.audioUrl!}?category=${tempAudios.first.category?.imageUrl}&name=\"${tempAudios.first.title}\"");
+                                                if (tempAudios.first.audioUrl !=
+                                                    null) {
+                                                  download(
+                                                      '${tempAudios.first.audioUrl!}?name=Sample');
+                                                  // download('${tempAudios.first.audioUrl!}?name=${tempAudios.first.title}');
+                                                  print(
+                                                      "${tempAudios.first.audioUrl!}?category=${tempAudios.first.category?.imageUrl}&name=\"${tempAudios.first.title}\"");
                                                 }
                                               },
                                             ),
@@ -312,6 +330,17 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                                       StandardText.body2(
                                         context,
                                         metadata.artist ?? 'N/A',
+                                      ),
+                                      BlocBuilder<DownloadProgressCubit, int>(
+                                        builder: (context, downloadProgress) {
+                                          return Visibility(
+                                            visible: downloadProgress>0 && downloadProgress<100,
+                                            child: LinearProgressIndicator(
+                                              color: DropAndGoColors.primary,
+                                              value: (downloadProgress/100).toDouble(),
+                                            ),
+                                          );
+                                        }
                                       ),
                                     ],
                                   );
