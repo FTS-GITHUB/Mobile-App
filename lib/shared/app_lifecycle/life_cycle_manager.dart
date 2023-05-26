@@ -3,6 +3,7 @@
 import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/domain/session/session.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
+import 'package:dropandgouser/infrastructure/services/local_database_service.dart';
 import 'package:dropandgouser/shared/constants/global.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,7 @@ class _LifeCycleManagerState extends State<LifeCycleManager>
   @override
   void initState() {
     super.initState();
+    localDatabaseService??LocalDatabaseService();
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -35,7 +37,7 @@ class _LifeCycleManagerState extends State<LifeCycleManager>
         print("User id: ${user?.id}");
         DateTime now = DateTime.now();
         var elapsedDuration = stopWatch.elapsedDuration as Duration;
-        localDatabaseService.recordSession(
+        localDatabaseService!.recordSession(
           session: Session(
             id: DateTime(
               now.year,

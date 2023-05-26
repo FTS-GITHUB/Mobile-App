@@ -103,8 +103,8 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
   @override
   void initState() {
     SharedPreferenceHelper.instance.init();
-    localDatabaseService = LocalDatabaseService();
-    localDatabaseService.initialize();
+    localDatabaseService??LocalDatabaseService();
+    localDatabaseService!.initialize();
     initFirebase();
     super.initState();
     initRepositories();

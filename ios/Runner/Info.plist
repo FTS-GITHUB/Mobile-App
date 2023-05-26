@@ -57,12 +57,17 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key><true/>
-    </dict>
-    <key>FDMaximumConcurrentTasks</key>
-    <integer>5</integer>
-    <key>FDAllFilesDownloadedMessage</key>
-    <string>All files have been downloaded</string>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>FDMaximumConcurrentTasks</key>
+	<integer>5</integer>
+	<key>FDAllFilesDownloadedMessage</key>
+	<string>All files have been downloaded</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>App wants to access your documents to access downloaded audio</string>
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>App wants to access your downloads folder to access downloaded audio</string>
 </dict>
 </plist>

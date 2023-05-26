@@ -13,7 +13,7 @@ Timestamp? dateToJson(DateTime? time) => time == null
     ? null
     : Timestamp.fromMillisecondsSinceEpoch(time.millisecondsSinceEpoch);
 
-late LocalDatabaseService localDatabaseService;
+LocalDatabaseService? localDatabaseService;
 
 String? validateMobile(String? value) {
   String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
@@ -59,7 +59,8 @@ String formatDurationInHhMmSs(Duration duration) {
 
 Future<void> deletePreviousSession(String id) async {
   restartTimer();
-  await localDatabaseService.delete(id);
+  localDatabaseService??LocalDatabaseService();
+  await localDatabaseService!.delete(id);
 }
 
 int get sessionInMinutes {

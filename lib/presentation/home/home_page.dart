@@ -12,6 +12,7 @@ import 'package:dropandgouser/domain/home/category.dart';
 import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/domain/session/session.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
+import 'package:dropandgouser/infrastructure/services/local_database_service.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/home/widgets/category_view_more_header.dart';
 import 'package:dropandgouser/presentation/home/widgets/home_rect_category.dart';
@@ -48,6 +49,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     userService = getIt<UserService>();
+    localDatabaseService ??= LocalDatabaseService();
     stopWatch.start();
     uploadSession();
     refreshPage();
@@ -62,7 +64,7 @@ class _HomePageState extends State<HomePage> {
       bool isSessionCompleted = context.read<SessionCompletedCubit>().state;
       // TODO: change duration to user level duration
       if (sessionInMinutes > 10 && !isSessionCompleted) {
-        final sessions = await localDatabaseService.getSessionsList();
+        final sessions = await localDatabaseService!.getSessionsList();
         print(sessions);
         if(sessions.isNotEmpty && sessions.last.isSessionCompleted==false){
           context.read<SessionCompletedCubit>().initialize(true);
@@ -79,7 +81,7 @@ class _HomePageState extends State<HomePage> {
             DateTime(now.year, now.month, now.day).millisecondsSinceEpoch,
             appUseDuration: stopWatch.elapsedDuration.toString(),
           );
-          localDatabaseService.recordSession(session: session);
+          localDatabaseService!.recordSession(session: session);
           _timer.cancel();
         }else{
           final session = Session(
@@ -91,7 +93,7 @@ class _HomePageState extends State<HomePage> {
             DateTime(now.year, now.month, now.day).millisecondsSinceEpoch,
             appUseDuration: stopWatch.elapsedDuration.toString(),
           );
-          localDatabaseService.recordSession(session: session);
+          localDatabaseService!.recordSession(session: session);
         }
         // _timer.cancel();
       }
