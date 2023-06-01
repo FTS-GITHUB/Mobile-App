@@ -13,7 +13,7 @@ Timestamp? dateToJson(DateTime? time) => time == null
     ? null
     : Timestamp.fromMillisecondsSinceEpoch(time.millisecondsSinceEpoch);
 
-late LocalDatabaseService localDatabaseService;
+LocalDatabaseService? localDatabaseService;
 
 String? validateMobile(String? value) {
   String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
@@ -59,7 +59,8 @@ String formatDurationInHhMmSs(Duration duration) {
 
 Future<void> deletePreviousSession(String id) async {
   restartTimer();
-  await localDatabaseService.delete(id);
+  localDatabaseService??LocalDatabaseService();
+  await localDatabaseService!.delete(id);
 }
 
 int get sessionInMinutes {
@@ -85,16 +86,18 @@ Duration parseDuration(String s) {
 
 int countCurrentStreak(List<DateTime> dates) {
   int consecutiveDays = 0;
-  DateTime today = dates.last;
+  if(dates.isNotEmpty){
+    DateTime today = dates.last;
 
-  for (int i = dates.length - 1; i >= 0; i--) {
-    if (isSameDate(dates[i], today)) {
-      consecutiveDays++;
-      today = today.subtract(
-        const Duration(days: 1),
-      );
-    } else {
-      break;
+    for (int i = dates.length - 1; i >= 0; i--) {
+      if (isSameDate(dates[i], today)) {
+        consecutiveDays++;
+        today = today.subtract(
+          const Duration(days: 1),
+        );
+      } else {
+        break;
+      }
     }
   }
 

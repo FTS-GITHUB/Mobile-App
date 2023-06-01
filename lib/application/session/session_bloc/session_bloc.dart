@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dropandgouser/domain/session/i_session_repository.dart';
 import 'package:dropandgouser/domain/session/session.dart';
+import 'package:dropandgouser/infrastructure/services/local_database_service.dart';
 import 'package:dropandgouser/shared/constants/global.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,7 +45,8 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
       Emitter<SessionState> emit) async {
     DateTime now = DateTime.now();
     DateTime today = DateTime(now.year, now.month, now.day);
-    List<Session> sessions = await localDatabaseService.getSessionsList();
+    localDatabaseService = LocalDatabaseService();
+    List<Session> sessions = await localDatabaseService!.getSessionsList();
     sessions.forEach((element) {
       print(element.toJson());
     });
