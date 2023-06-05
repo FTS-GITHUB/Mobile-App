@@ -15,6 +15,14 @@ class LoginUser extends LoginEvent {
   final String password;
 }
 
+class CheckLoginStatus extends LoginEvent {
+  CheckLoginStatus({
+    required this.userId,
+  });
+
+  final String userId;
+}
+
 class LoginUserWithGmail extends LoginEvent {
   LoginUserWithGmail();
 }
@@ -42,7 +50,7 @@ class UpdateSocialLoginUser extends LoginEvent {
 class UpdateSocialLoginSetting extends LoginEvent {
   UpdateSocialLoginSetting({
     required this.userId,
-});
+  });
 
   final String userId;
 }
