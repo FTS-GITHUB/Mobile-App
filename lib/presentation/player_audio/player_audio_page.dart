@@ -79,7 +79,7 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
       progress = data[2];
       print('Download $progress');
       context.read<DownloadProgressCubit>().updateDownloadProgress(progress);
-      if(progress==100){
+      if (progress == 100) {
         context.read<DownloadProgressCubit>().reset();
       }
     });
@@ -251,11 +251,14 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                                                 // print(tempAudios.first.audioUrl);
                                                 if (tempAudios.first.audioUrl !=
                                                     null) {
+                                                  String fileName = tempAudios
+                                                      .first.title!
+                                                      .replaceAll(' ', '');
                                                   download(
-                                                      '${tempAudios.first.audioUrl!}?name=Sample');
+                                                      '${tempAudios.first.audioUrl!}?name=$fileName');
                                                   // download('${tempAudios.first.audioUrl!}?name=${tempAudios.first.title}');
                                                   print(
-                                                      "${tempAudios.first.audioUrl!}?category=${tempAudios.first.category?.imageUrl}&name=\"${tempAudios.first.title}\"");
+                                                      "${tempAudios.first.audioUrl!}?category=${tempAudios.first.category?.imageUrl}&name=$fileName");
                                                 }
                                               },
                                             ),
@@ -332,16 +335,17 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                                         metadata.artist ?? 'N/A',
                                       ),
                                       BlocBuilder<DownloadProgressCubit, int>(
-                                        builder: (context, downloadProgress) {
-                                          return Visibility(
-                                            visible: downloadProgress>0 && downloadProgress<100,
-                                            child: LinearProgressIndicator(
-                                              color: DropAndGoColors.primary,
-                                              value: (downloadProgress/100).toDouble(),
-                                            ),
-                                          );
-                                        }
-                                      ),
+                                          builder: (context, downloadProgress) {
+                                        return Visibility(
+                                          visible: downloadProgress > 0 &&
+                                              downloadProgress < 100,
+                                          child: LinearProgressIndicator(
+                                            color: DropAndGoColors.primary,
+                                            value: (downloadProgress / 100)
+                                                .toDouble(),
+                                          ),
+                                        );
+                                      }),
                                     ],
                                   );
                                 }),

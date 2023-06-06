@@ -147,6 +147,7 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
     );
     _loginRepository = LoginRepository(
       authRepository: _authRepository,
+      firestoreRepository: _cloudFirestoreRepository,
     );
     _splashRepository = SplashRepository(_cloudFirestoreRepository);
     _homeRepository = HomeRepository(
