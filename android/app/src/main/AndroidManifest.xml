@@ -9,7 +9,7 @@
     <application
         android:usesCleartextTraffic="true"
         android:label="dropandgouser"
-        android:name="${applicationName}"
+        android:name="Drop and Go"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
