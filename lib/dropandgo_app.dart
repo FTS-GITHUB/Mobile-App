@@ -9,6 +9,7 @@ import 'package:dropandgouser/application/account/account_cubit/remind_bedtime_c
 import 'package:dropandgouser/application/account/account_cubit/set_reminder_cubit.dart';
 import 'package:dropandgouser/application/account/account_setting_bloc/account_setting_bloc.dart';
 import 'package:dropandgouser/application/account/change_password_bloc/change_password_bloc.dart';
+import 'package:dropandgouser/application/account/change_password_cubit/change_password_cubit.dart';
 import 'package:dropandgouser/application/account/personal_info_bloc/personal_info_bloc.dart';
 import 'package:dropandgouser/application/analytics/analytics_bloc/analytics_bloc.dart';
 import 'package:dropandgouser/application/audio_bloc/audio_bloc.dart';
@@ -360,7 +361,10 @@ class _DropAndGoAppState extends State<DropAndGoApp> {
         BlocProvider<DownloadProgressCubit>(
           create: (context) => DownloadProgressCubit(),
         ),
-      ], // DownloadProgressCubit
+        BlocProvider<ChangePasswordCubit>(
+          create: (context) => ChangePasswordCubit(),
+        ),
+      ], // ChangePasswordCubit
       child: _DropAndGoApp(
         theme: DropAndGoTheme.standard,
         // networkNotifier: _networkNotifier,
