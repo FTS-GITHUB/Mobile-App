@@ -6,7 +6,9 @@ import 'package:dropandgouser/domain/home/i_home_repository.dart';
 import 'package:dropandgouser/domain/player_audio/audio.dart';
 import 'package:dropandgouser/domain/search/previous_searches.dart';
 import 'package:dropandgouser/domain/services/i_cloud_firestore_repository.dart';
+import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/domain/signup/userdata.dart';
+import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/shared/constants/firestore_collections.dart';
 import 'package:dropandgouser/shared/extensions/firebase_exception.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
@@ -202,13 +204,35 @@ class HomeRepository implements IHomeRepository {
   }
 
   @override
-  Future<Either<ApiError, List<DownloadTask>>> getDownloads() async {
-    try{
-      final response = await FlutterDownloader.loadTasks();
-      return right(response??[]);
-    }catch(e){
-      return left(ApiError(message: e.toString()));
-    }
+  Future<Either<ApiError, List<Audio>>> getDownloads() async {
+    List<Audio> audios = [];
+          final user = getIt<UserService>().userData;
+      if (user?.id == null) {
+        return left(ApiError(message: 'Not authorized, login again',),);
+      }
+      final Either<FirebaseException, QuerySnapshot<Map<String, dynamic>>> response = await cloudFirestoreRepository.getNestedCollection(firstCollectionName: FirestoreCollections.users, secondCollectionName: FirestoreCollections.downloads, docId: user!.id!);
+      return response.fold((l) => left(l.toApiError()), (docsSnapshot) {
+        docsSnapshot.docs.forEach((doc) {
+          Audio audio = Audio.fromJson(doc.id, doc.data());
+          audios.add(audio);
+        });
+        return right(audios);
+      });
 
+  }
+
+  @override
+  Future<Either<ApiError, Unit>> deleteDownloadedAudio({required String userId, required String docId}) async{
+    final response =
+        await cloudFirestoreRepository.deleteSpecificNestedDocument(
+      firstCollectionName: FirestoreCollections.users,
+      secondCollectionName: FirestoreCollections.downloads,
+      firstDocId: userId,
+      secondDocId: docId,
+    );
+    return response.fold(
+          (l) => left(l.toApiError()),
+          (r) => right(r),
+    );
   }
 }

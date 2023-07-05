@@ -1,5 +1,6 @@
 import 'package:dropandgouser/application/download/download_bloc/download_bloc.dart';
 import 'package:dropandgouser/application/main/cubit/main_navbar_cubit.dart';
+import 'package:dropandgouser/domain/player_audio/audio.dart';
 import 'package:dropandgouser/domain/search/search.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
@@ -62,7 +63,7 @@ class _DownloadsPageState extends State<DownloadsPage> {
                       SliverToBoxAdapter(
                         child: Visibility(
                           visible:
-                              state.tasks != null && state.tasks!.isNotEmpty,
+                              state.audios.isNotEmpty,
                           child: ListView.builder(
                             shrinkWrap: true,
                             padding: EdgeInsets.only(
@@ -70,79 +71,84 @@ class _DownloadsPageState extends State<DownloadsPage> {
                               right: 28.w,
                             ),
                             primary: false,
-                            itemCount: state.tasks?.length ?? 0,
+                            itemCount: state.audios.length ?? 0,
                             itemBuilder: (context, index) {
-                              var audio = state.tasks?[index];
-                              Uri uri = Uri.parse(audio!.url);
-                              print(uri.queryParameters["name"]);
-                              return SearchItem(
-                                search: Search(
-                                    title: uri.queryParameters["name"],
-                                    artistName: "Artist Name",
-                                    imageUrl: DropAndGoImages.addictions,
-                                    isFavorite: true,
-                                    isDownloadPage: true,
-                                    onItemTapped: () {
-                                      if (state.tasks != null &&
-                                          state.tasks!.isNotEmpty) {
-                                        FlutterDownloader.open(
-                                          taskId: state.tasks![index].taskId,
-                                        );
-                                      }
-                                    },
-                                    onLongPress: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (dialogContext) {
-                                            return AlertDialog(
-                                              content: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  StandardText.headline6(
-                                                    dialogContext,
-                                                    'Do you want to delete this file?',
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.end,
-                                                    children: [
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          FlutterDownloader.remove(taskId: state.tasks![index].taskId);
-                                                          getIt<NavigationService>().navigateBack(context: context);
-                                                          context.read<DownloadBloc>().add(FetchDownloads());
-                                                        },
-                                                        child: StandardText
-                                                            .headline5(
-                                                          context,
-                                                          "Yes",
-                                                          color: DropAndGoColors.red,
+                              Audio audio = state.audios[index];
+                              if(audio.audioUrl!=null){
+                                Uri uri = Uri.parse(audio.audioUrl!);
+                                print(uri.queryParameters["name"]);
+                                return SearchItem(
+                                  search: Search(
+                                      title: uri.queryParameters["name"],
+                                      artistName: "Artist Name",
+                                      imageUrl: DropAndGoImages.addictions,
+                                      isFavorite: true,
+                                      isDownloadPage: true,
+                                      onItemTapped: () {
+                                        print('Task id: ${state.audios[index].title}');
+                                        print('Task id: ${state.audios[index].audioUrl}');
+                                        // if (state.audios != null &&
+                                        //     state.audios.isNotEmpty) {
+                                        //   FlutterDownloader.open(
+                                        //     taskId: state.audios[index].taskId,
+                                        //   );
+                                        // }
+                                      },
+                                      onLongPress: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (dialogContext) {
+                                              return AlertDialog(
+                                                content: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    StandardText.headline6(
+                                                      dialogContext,
+                                                      'Do you want to delete this file?',
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                      children: [
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            // FlutterDownloader.remove(taskId: state.audios[index].taskId);
+                                                            getIt<NavigationService>().navigateBack(context: context);
+                                                            context.read<DownloadBloc>().add(FetchDownloads());
+                                                          },
+                                                          child: StandardText
+                                                              .headline5(
+                                                            context,
+                                                            "Yes",
+                                                            color: DropAndGoColors.red,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          getIt<NavigationService>().navigateBack(context: context);
-                                                        },
-                                                        child: StandardText
-                                                            .headline5(
-                                                          context,
-                                                          "No",
-                                                        ),
-                                                      )
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          });
-                                    }),
-                              );
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            getIt<NavigationService>().navigateBack(context: context);
+                                                          },
+                                                          child: StandardText
+                                                              .headline5(
+                                                            context,
+                                                            "No",
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              );
+                                            });
+                                      }),
+                                );
+                              }
+                              return SizedBox.shrink();
                             },
                           ),
                         ),
                       ),
                       SliverToBoxAdapter(
                         child: Visibility(
-                          visible: state.tasks == null || state.tasks!.isEmpty,
+                          visible: state.audios.isEmpty,
                           child: Container(
                             width: context.width,
                             height: context.height - 150,

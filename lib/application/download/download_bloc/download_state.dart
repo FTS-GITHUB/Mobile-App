@@ -11,10 +11,10 @@ class DownloadStateLoading extends DownloadState {}
 
 class DownloadStateLoaded extends DownloadState {
   DownloadStateLoaded({
-    required this.tasks,
+    required this.audios,
 });
 
-  final List<DownloadTask>? tasks;
+  final List<Audio> audios;
 }
 
 class DownloadStateError extends DownloadState {

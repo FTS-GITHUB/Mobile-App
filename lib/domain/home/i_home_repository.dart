@@ -36,5 +36,10 @@ abstract class IHomeRepository {
     required String categoryId,
   });
 
-  Future<Either<ApiError, List<DownloadTask>>> getDownloads();
+  Future<Either<ApiError, List<Audio>>> getDownloads();
+
+  Future<Either<ApiError, Unit>> deleteDownloadedAudio({
+    required String userId,
+    required String docId,
+  });
 }
