@@ -74,8 +74,8 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
         _port.sendPort, 'downloader_send_port');
     _port.listen((dynamic data) {
       // setState(() {
-      // String id = data[0];
-      // DownloadTaskStatus status = DownloadTaskStatus(data[1]);
+      String id = data[0];
+      DownloadTaskStatus status = DownloadTaskStatus(data[1]);
       progress = data[2];
       print('Download $progress');
       context.read<DownloadProgressCubit>().updateDownloadProgress(progress);
