@@ -8,8 +8,8 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <application
         android:usesCleartextTraffic="true"
-        android:label="dropandgouser"
-        android:name="Drop and Go"
+        android:label="Drop and Go"
+        android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
