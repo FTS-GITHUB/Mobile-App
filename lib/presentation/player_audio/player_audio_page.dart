@@ -105,6 +105,7 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                       id: data.id ?? Random().nextInt(100).toString(),
                       title: data.title ?? 'N/A',
                       artist: data.artist ?? 'N/A',
+                      displayTitle: data.imageUrl,
                     ),
                   );
                   audioSources.add(audioSource);
@@ -167,12 +168,6 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                       ),
                       child: Column(
                         children: [
-                          HomeRectCategory(
-                            categoryName: state.category.name,
-                            height: 247.h,
-                            imageUrl: state.category.imageUrl,
-                          ),
-                          34.verticalSpace,
                           Visibility(
                             visible: state.audios.isNotEmpty,
                             child: StreamBuilder<SequenceState?>(
@@ -189,6 +184,12 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      HomeRectCategory(
+                                        categoryName: state.category.name,
+                                        height: 247.h,
+                                        imageUrl: metadata.displayTitle??state.category.imageUrl,
+                                      ),
+                                      34.verticalSpace,
                                       Row(
                                         children: [
                                           Expanded(
@@ -303,18 +304,6 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                                         context,
                                         metadata.artist ?? 'N/A',
                                       ),
-                                      BlocBuilder<DownloadProgressCubit, int>(
-                                          builder: (context, downloadProgress) {
-                                        return Visibility(
-                                          visible: downloadProgress > 0 &&
-                                              downloadProgress < 100,
-                                          child: LinearProgressIndicator(
-                                            color: DropAndGoColors.primary,
-                                            value: (downloadProgress / 100)
-                                                .toDouble(),
-                                          ),
-                                        );
-                                      }),
                                     ],
                                   );
                                 }),

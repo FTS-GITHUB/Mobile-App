@@ -9,6 +9,7 @@ part of 'audio.dart';
 Audio _$AudioFromJson(Map<String, dynamic> json) => Audio(
       artist: json['artist'] as String?,
       audioUrl: json['audio_url'] as String?,
+      imageUrl: json['image_url'] as String?,
       category: json['category'] == null
           ? null
           : AudioCategory.fromJson(json['category'] as Map<String, dynamic>),
@@ -23,6 +24,7 @@ Audio _$AudioFromJson(Map<String, dynamic> json) => Audio(
 Map<String, dynamic> _$AudioToJson(Audio instance) => <String, dynamic>{
       'artist': instance.artist,
       'audio_url': instance.audioUrl,
+      'image_url': instance.imageUrl,
       'category': instance.category?.toJson(),
       'creator': instance.creator?.toJson(),
       'id': instance.id,
