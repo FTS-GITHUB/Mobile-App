@@ -25,7 +25,7 @@ class Toasts {
         borderRadius: BorderRadius.circular(8),
         color: color ?? (type == AlertType.Error
             ? DropAndGoColors.red
-            : DropAndGoColors.white),
+            : DropAndGoColors.green),
       ),
       padding: color==null?null:const EdgeInsets.only(left: 8),
       child: Row(
@@ -38,9 +38,7 @@ class Toasts {
               type == AlertType.Error
                   ? Icons.error
                   : Icons.info_outline,
-              color: type == AlertType.Error
-                  ? DropAndGoColors.white
-                  : DropAndGoColors.black,
+              color: DropAndGoColors.white,
             ),
           ),
           Expanded(
@@ -53,18 +51,14 @@ class Toasts {
                   context,
                   title,
                   fontWeight: DropAndGoFontWeight.black,
-                  color: type == AlertType.Error
-                      ? DropAndGoColors.white
-                      : DropAndGoColors.black,
+                  color: DropAndGoColors.white,
                 ),
                 StandardText.subtitle3(
                   context,
                   description,
                   fontSize: 12,
                   fontWeight: DropAndGoFontWeight.regular,
-                  color: type == AlertType.Error
-                      ? DropAndGoColors.white
-                      : DropAndGoColors.black,
+                  color: DropAndGoColors.white,
                 ),
               ],
             ),
@@ -72,11 +66,9 @@ class Toasts {
           Flexible(
             child: IconButton(
               onPressed: fToast.removeCustomToast,
-              icon: Icon(
+              icon: const Icon(
                 Icons.close,
-                color: type == AlertType.Error
-                    ? DropAndGoColors.white
-                    : DropAndGoColors.black,
+                color:DropAndGoColors.white,
               ),
             ),
           ),

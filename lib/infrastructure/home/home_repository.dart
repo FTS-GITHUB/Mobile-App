@@ -79,7 +79,7 @@ class HomeRepository implements IHomeRepository {
     required String userId,
     required String searchText,
   }) async {
-    final response = await cloudFirestoreRepository.uploadNestedCollection(
+    final response = await cloudFirestoreRepository.uploadNestedSearchCollection(
       firstCollectionName: FirestoreCollections.users,
       secondCollectionName: FirestoreCollections.search,
       firstDocId: userId,
@@ -206,29 +206,54 @@ class HomeRepository implements IHomeRepository {
   @override
   Future<Either<ApiError, List<Audio>>> getDownloads() async {
     List<Audio> audios = [];
-          final user = getIt<UserService>().userData;
-      if (user?.id == null) {
-        return left(ApiError(message: 'Not authorized, login again',),);
-      }
-      final Either<FirebaseException, QuerySnapshot<Map<String, dynamic>>> response = await cloudFirestoreRepository.getNestedCollection(firstCollectionName: FirestoreCollections.users, secondCollectionName: FirestoreCollections.downloads, docId: user!.id!);
-      return response.fold((l) => left(l.toApiError()), (docsSnapshot) {
-        docsSnapshot.docs.forEach((doc) {
-          Audio audio = Audio.fromJson(doc.id, doc.data());
-          audios.add(audio);
-        });
-        return right(audios);
+    final user = getIt<UserService>().userData;
+    if (user?.id == null) {
+      return left(
+        ApiError(
+          message: 'Not authorized, login again',
+        ),
+      );
+    }
+    final Either<FirebaseException, QuerySnapshot<Map<String, dynamic>>>
+        response = await cloudFirestoreRepository.getNestedCollection(
+            firstCollectionName: FirestoreCollections.users,
+            secondCollectionName: FirestoreCollections.downloads,
+            docId: user!.id!);
+    return response.fold((l) => left(l.toApiError()), (docsSnapshot) {
+      docsSnapshot.docs.forEach((doc) {
+        Audio audio = Audio.fromJson(doc.id, doc.data());
+        audios.add(audio);
       });
-
+      return right(audios);
+    });
   }
 
   @override
-  Future<Either<ApiError, Unit>> deleteDownloadedAudio({required String userId, required String docId}) async{
+  Future<Either<ApiError, Unit>> deleteDownloadedAudio(
+      {required String userId, required String docId}) async {
     final response =
         await cloudFirestoreRepository.deleteSpecificNestedDocument(
       firstCollectionName: FirestoreCollections.users,
       secondCollectionName: FirestoreCollections.downloads,
       firstDocId: userId,
       secondDocId: docId,
+    );
+    return response.fold(
+      (l) => left(l.toApiError()),
+      (r) => right(r),
+    );
+  }
+
+  @override
+  Future<Either<ApiError, Unit>> addDownload({
+    required String userId,
+    required Audio audio,
+  }) async{
+    final response = await cloudFirestoreRepository.uploadNestedCollection(
+      firstCollectionName: FirestoreCollections.users,
+      secondCollectionName: FirestoreCollections.downloads,
+      firstDocId: userId,
+      object: audio.toJson(),
     );
     return response.fold(
           (l) => left(l.toApiError()),

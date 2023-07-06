@@ -42,4 +42,9 @@ abstract class IHomeRepository {
     required String userId,
     required String docId,
   });
+
+  Future<Either<ApiError, Unit>> addDownload({
+    required String userId,
+    required Audio audio,
+  });
 }

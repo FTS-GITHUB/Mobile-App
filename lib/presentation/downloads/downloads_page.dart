@@ -54,6 +54,7 @@ class _DownloadsPageState extends State<DownloadsPage> {
         ),
       ),
       body: BlocBuilder<DownloadBloc, DownloadState>(builder: (context, state) {
+        print(state);
         return (state is DownloadStateLoading)
             ? const DropAndGoButtonLoading()
             : (state is DownloadStateLoaded)
@@ -73,14 +74,14 @@ class _DownloadsPageState extends State<DownloadsPage> {
                             primary: false,
                             itemCount: state.audios.length ?? 0,
                             itemBuilder: (context, index) {
+                              print('Audios: ${state.audios.length}');
                               Audio audio = state.audios[index];
-                              if(audio.audioUrl!=null){
-                                Uri uri = Uri.parse(audio.audioUrl!);
-                                print(uri.queryParameters["name"]);
+                                // Uri uri = Uri.parse(audio.audioUrl!);
+                                // print(uri.queryParameters["name"]);
                                 return SearchItem(
                                   search: Search(
-                                      title: uri.queryParameters["name"],
-                                      artistName: "Artist Name",
+                                      title: audio.title,
+                                      artistName: audio.artist,
                                       imageUrl: DropAndGoImages.addictions,
                                       isFavorite: true,
                                       isDownloadPage: true,
@@ -113,7 +114,7 @@ class _DownloadsPageState extends State<DownloadsPage> {
                                                           onPressed: () {
                                                             // FlutterDownloader.remove(taskId: state.audios[index].taskId);
                                                             getIt<NavigationService>().navigateBack(context: context);
-                                                            context.read<DownloadBloc>().add(FetchDownloads());
+                                                            context.read<DownloadBloc>().add(DeleteDownload(downloadId: state.audios[index].id??''));
                                                           },
                                                           child: StandardText
                                                               .headline5(
@@ -140,8 +141,6 @@ class _DownloadsPageState extends State<DownloadsPage> {
                                             });
                                       }),
                                 );
-                              }
-                              return SizedBox.shrink();
                             },
                           ),
                         ),

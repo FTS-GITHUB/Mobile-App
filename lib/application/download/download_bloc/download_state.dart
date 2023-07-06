@@ -17,6 +17,14 @@ class DownloadStateLoaded extends DownloadState {
   final List<Audio> audios;
 }
 
+class DownloadStateAdded extends DownloadState {
+  DownloadStateAdded();
+}
+
+class DownloadStateDeleted extends DownloadState {
+  DownloadStateDeleted();
+}
+
 class DownloadStateError extends DownloadState {
   DownloadStateError({
     required this.message,
