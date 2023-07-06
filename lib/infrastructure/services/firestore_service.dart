@@ -202,6 +202,7 @@ class FirestoreService implements ICloudFirestoreRepository {
           .collection(firstCollectionName)
           .doc(docId)
           .collection(secondCollectionName)
+      .orderBy('created_at',descending: true)
           .get();
       return right(response);
     } on FirebaseException catch (e) {
