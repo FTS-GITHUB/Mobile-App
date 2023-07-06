@@ -45,7 +45,6 @@ class PlayerAudioPage extends StatefulWidget {
 class _PlayerAudioPageState extends State<PlayerAudioPage> {
   late AudioPlayer _audioPlayer;
   late final ConcatenatingAudioSource _playlist;
-  final ReceivePort _port = ReceivePort();
   int progress = 0;
 
   Stream<PositionData> get _positionDataStream =>
@@ -222,13 +221,7 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                                                 // print(tempAudios.first.audioUrl);
                                                 if (tempAudios.first.audioUrl !=
                                                     null) {
-                                                  String fileName = tempAudios
-                                                      .first.title!
-                                                      .replaceAll(' ', '');
                                                   download(tempAudios.first);
-                                                  // download('${tempAudios.first.audioUrl!}?name=${tempAudios.first.title}');
-                                                  print(
-                                                      "${tempAudios.first.audioUrl!}?category=${tempAudios.first.category?.imageUrl}&name=$fileName");
                                                 }
                                               },
                                             ),
