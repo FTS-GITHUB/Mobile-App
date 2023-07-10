@@ -13,7 +13,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'login_event.dart';
-
 part 'login_state.dart';
 
 mixin ForgetPasswordBloc on Bloc<LoginEvent, LoginState> {}
@@ -29,7 +28,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with ForgetPasswordBloc {
     on<LoginUserWithGmail>(_onLoginUserWithGmail);
     on<UpdateSocialLoginUser>(_onUpdateSocialLoginUser);
     on<UpdateSocialLoginSetting>(_onUpdateSocialLoginSetting);
-    on<CheckLoginStatus>(_onCheckLoginStatus);
   }
 
   final ILoginRepository loginRepository;
@@ -44,10 +42,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with ForgetPasswordBloc {
 
     response.fold(
       (l) => emit(LoginStateError(message: l.message ?? "Error from server")),
-      (r) => add(
-        CheckLoginStatus(
-          userId: r,
-        ),
+      (r) => emit(
+        LoginStateLoaded(),
       ),
     );
   }
@@ -101,7 +97,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with ForgetPasswordBloc {
       UpdateSocialLoginUser event, Emitter<LoginState> emit) async {
     if (event.userCredential.user?.uid == null) {
       emit(LoginStateError(message: "Failed to login. please try again"));
-    } else {
+    }else{
       UserData userData = UserData(
         id: event.userCredential.user?.uid,
         email: event.userCredential.user?.email,
@@ -119,33 +115,34 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with ForgetPasswordBloc {
         userData: userData,
       );
       response.fold(
-        (l) => emit(
+            (l) => emit(
           LoginStateError(
             message: l.message ?? "Failed to connect",
           ),
         ),
-        (UserData r) {
-          getIt<UserService>().userData = r;
-          add(UpdateSocialLoginSetting(userId: r.id!));
+            (UserData r) {
+              getIt<UserService>().userData = r;
+              add(UpdateSocialLoginSetting(
+                userId: r.id!
+              ));
         },
       );
     }
   }
 
-  Future<void> _onUpdateSocialLoginSetting(
-      UpdateSocialLoginSetting event, Emitter<LoginState> emit) async {
-    UserSetting userSetting = UserSetting();
+  Future<void> _onUpdateSocialLoginSetting(UpdateSocialLoginSetting event, Emitter<LoginState> emit) async{
+    UserSetting userSetting =UserSetting();
     final response = await signupRepository.uploadUserSetting(
       docId: event.userId,
       userSetting: userSetting,
     );
     response.fold(
-      (l) => emit(
+          (l) => emit(
         LoginStateError(
           message: l.message ?? "Failed to connect",
         ),
       ),
-      (UserSetting r) {
+          (UserSetting r) {
         getIt<UserService>().userSetting = r;
         emit(
           LoggedInWithSocial(),
@@ -153,27 +150,5 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with ForgetPasswordBloc {
       },
     );
   }
-
-  Future<void> _onCheckLoginStatus(
-      CheckLoginStatus event, Emitter<LoginState> emit) async {
-    final response = await loginRepository.getUser(
-      id: event.userId,
-    );
-    response.fold(
-      (l) => emit(
-        LoginStateError(
-          message: l.message ?? "Failed to connect",
-        ),
-      ),
-      (UserData r) {
-        if (r.isDeleted) {
-          emit(LoginStateError(
-            message: "You might have been temporarily block by drop & go",
-          ));
-        } else {
-          emit(LoginStateLoaded());
-        }
-      },
-    );
-  }
 }
+

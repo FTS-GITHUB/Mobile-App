@@ -10,7 +10,8 @@ Session _$SessionFromJson(Map<String, dynamic> json) => Session(
       id: json['id'] as String?,
       appUseDuration: json['app_use_duration'] as String?,
       sessionDate: json['session_date'] as int?,
-      isSessionCompleted: json['isSessionCompleted'] as bool? ?? true,
+      isSessionCompleted: json['isSessionCompleted'] as bool? ?? false,
+      rating: (json['rating'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$SessionToJson(Session instance) {
@@ -26,5 +27,6 @@ Map<String, dynamic> _$SessionToJson(Session instance) {
   val['app_use_duration'] = instance.appUseDuration;
   val['session_date'] = instance.sessionDate;
   val['isSessionCompleted'] = instance.isSessionCompleted;
+  val['rating'] = instance.rating;
   return val;
 }

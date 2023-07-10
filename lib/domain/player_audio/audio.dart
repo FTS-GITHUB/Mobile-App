@@ -12,7 +12,8 @@ class Audio {
   Audio({
     this.artist,
     this.audioUrl,
-    this.category,
+    this.imageUrl,
+    this.categories,
     this.creator,
     this.id,
     this.title,
@@ -22,7 +23,9 @@ class Audio {
   final String? artist;
   @JsonKey(name: 'audio_url')
   final String? audioUrl;
-  final AudioCategory? category;
+  @JsonKey(name: 'image_url')
+  final String? imageUrl;
+  final List<AudioCategory>? categories;
   final Creator? creator;
   String? id;
   final String? title;

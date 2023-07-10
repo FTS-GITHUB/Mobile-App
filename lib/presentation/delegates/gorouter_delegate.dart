@@ -1,4 +1,5 @@
 import 'package:dropandgouser/domain/home/category.dart';
+import 'package:dropandgouser/domain/player_audio/audio.dart';
 import 'package:dropandgouser/domain/signup/userdata.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/account/account_page.dart';
@@ -10,6 +11,7 @@ import 'package:dropandgouser/presentation/account/security_page.dart';
 import 'package:dropandgouser/presentation/account/subscription_page.dart';
 import 'package:dropandgouser/presentation/analytics/analytics_page.dart';
 import 'package:dropandgouser/presentation/categories/categories_page.dart';
+import 'package:dropandgouser/presentation/downloads/download_detail_page.dart';
 import 'package:dropandgouser/presentation/downloads/downloads_page.dart';
 import 'package:dropandgouser/presentation/forget_password/forget_password_page.dart';
 import 'package:dropandgouser/presentation/home/home_page.dart';
@@ -160,6 +162,14 @@ class GoRouterDelegate {
                     name: NavigationService.downloadsRouteUri,
                     builder: (context, routerState) {
                       return const DownloadsPage();
+                    },
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _shellNavigatorKey,
+                    path: NavigationService.downloadDetailRouteUri,
+                    name: NavigationService.downloadDetailRouteUri,
+                    builder: (context, routerState) {
+                      return DownloadDetailPage(audio: routerState.extra as Audio);
                     },
                   ),
                   GoRoute(

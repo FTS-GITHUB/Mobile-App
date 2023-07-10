@@ -11,6 +11,11 @@ class CountriesCubit extends Cubit<List<String>>{
   }
 
   onCountriesAdded(){
+    countries.sort(
+          (a, b) => a.toLowerCase().compareTo(
+        b.toLowerCase(),
+      ),
+    );
     emit(countries);
   }
 }

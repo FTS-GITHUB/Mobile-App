@@ -1,5 +1,6 @@
 import 'package:dropandgouser/application/download/download_bloc/download_bloc.dart';
 import 'package:dropandgouser/application/main/cubit/main_navbar_cubit.dart';
+import 'package:dropandgouser/domain/player_audio/audio.dart';
 import 'package:dropandgouser/domain/search/search.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
@@ -53,6 +54,7 @@ class _DownloadsPageState extends State<DownloadsPage> {
         ),
       ),
       body: BlocBuilder<DownloadBloc, DownloadState>(builder: (context, state) {
+        print(state);
         return (state is DownloadStateLoading)
             ? const DropAndGoButtonLoading()
             : (state is DownloadStateLoaded)
@@ -61,8 +63,7 @@ class _DownloadsPageState extends State<DownloadsPage> {
                     slivers: [
                       SliverToBoxAdapter(
                         child: Visibility(
-                          visible:
-                              state.tasks != null && state.tasks!.isNotEmpty,
+                          visible: state.audios.isNotEmpty,
                           child: ListView.builder(
                             shrinkWrap: true,
                             padding: EdgeInsets.only(
@@ -70,25 +71,33 @@ class _DownloadsPageState extends State<DownloadsPage> {
                               right: 28.w,
                             ),
                             primary: false,
-                            itemCount: state.tasks?.length ?? 0,
+                            itemCount: state.audios.length ?? 0,
                             itemBuilder: (context, index) {
-                              var audio = state.tasks?[index];
-                              Uri uri = Uri.parse(audio!.url);
-                              print(uri.queryParameters["name"]);
+                              print('Audios: ${state.audios.length}');
+                              Audio audio = state.audios[index];
+                              // Uri uri = Uri.parse(audio.audioUrl!);
+                              // print(uri.queryParameters["name"]);
                               return SearchItem(
                                 search: Search(
-                                    title: uri.queryParameters["name"],
-                                    artistName: "Artist Name",
+                                    title: audio.title,
+                                    artistName: audio.artist,
                                     imageUrl: DropAndGoImages.addictions,
                                     isFavorite: true,
                                     isDownloadPage: true,
                                     onItemTapped: () {
-                                      if (state.tasks != null &&
-                                          state.tasks!.isNotEmpty) {
-                                        FlutterDownloader.open(
-                                          taskId: state.tasks![index].taskId,
-                                        );
-                                      }
+                                      getIt<NavigationService>()
+                                          .pushNamed(
+                                        context: context,
+                                        uri: NavigationService
+                                            .downloadDetailRouteUri,
+                                        data: state.audios[index],
+                                      );
+                                      // if (state.audios != null &&
+                                      //     state.audios.isNotEmpty) {
+                                      //   FlutterDownloader.open(
+                                      //     taskId: state.audios[index].taskId,
+                                      //   );
+                                      // }
                                     },
                                     onLongPress: () {
                                       showDialog(
@@ -103,24 +112,40 @@ class _DownloadsPageState extends State<DownloadsPage> {
                                                     'Do you want to delete this file?',
                                                   ),
                                                   Row(
-                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
                                                     children: [
                                                       TextButton(
                                                         onPressed: () {
-                                                          FlutterDownloader.remove(taskId: state.tasks![index].taskId);
-                                                          getIt<NavigationService>().navigateBack(context: context);
-                                                          context.read<DownloadBloc>().add(FetchDownloads());
+                                                          // FlutterDownloader.remove(taskId: state.audios[index].taskId);
+                                                          getIt<NavigationService>()
+                                                              .navigateBack(
+                                                                  context:
+                                                                      context);
+                                                          context
+                                                              .read<
+                                                                  DownloadBloc>()
+                                                              .add(DeleteDownload(
+                                                                  downloadId: state
+                                                                          .audios[
+                                                                              index]
+                                                                          .id ??
+                                                                      ''));
                                                         },
                                                         child: StandardText
                                                             .headline5(
                                                           context,
                                                           "Yes",
-                                                          color: DropAndGoColors.red,
+                                                          color: DropAndGoColors
+                                                              .red,
                                                         ),
                                                       ),
                                                       TextButton(
                                                         onPressed: () {
-                                                          getIt<NavigationService>().navigateBack(context: context);
+                                                          getIt<NavigationService>()
+                                                              .navigateBack(
+                                                                  context:
+                                                                      context);
                                                         },
                                                         child: StandardText
                                                             .headline5(
@@ -142,7 +167,7 @@ class _DownloadsPageState extends State<DownloadsPage> {
                       ),
                       SliverToBoxAdapter(
                         child: Visibility(
-                          visible: state.tasks == null || state.tasks!.isEmpty,
+                          visible: state.audios.isEmpty,
                           child: Container(
                             width: context.width,
                             height: context.height - 150,

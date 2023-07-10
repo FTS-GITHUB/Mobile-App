@@ -27,6 +27,7 @@ abstract class NavigationService {
   static const String homeRouteUri = 'home';
   static const String analyticsRouteUri = 'analytics';
   static const String downloadsRouteUri = 'downloads';
+  static const String downloadDetailRouteUri = 'download-detail';
   static const String accountRouteUri = 'account';
   static const String categoriesRouteUri = 'categories';
   static const String searchRouteUri = 'search';

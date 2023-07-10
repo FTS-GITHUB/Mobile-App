@@ -88,7 +88,7 @@ class SignupRepository extends ISignupRepository {
         ),
       );
     }
-    final response = await firestoreRepository.uploadNestedCollection(
+    final response = await firestoreRepository.uploadNestedSearchCollection(
       firstCollectionName: FirestoreCollections.users,
       firstDocId: docId,
       secondCollectionName: FirestoreCollections.settings,

@@ -1,10 +1,8 @@
-import 'dart:io';
-import 'dart:isolate';
 import 'dart:math';
 import 'dart:ui';
 
 import 'package:dropandgouser/application/audio_bloc/audio_bloc.dart';
-import 'package:dropandgouser/application/audio_bloc/audio_cubit/download_progress_cubit.dart';
+import 'package:dropandgouser/application/download/download_bloc/download_bloc.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_cubit.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_state.dart';
 import 'package:dropandgouser/domain/player_audio/audio.dart';
@@ -15,18 +13,17 @@ import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
 import 'package:dropandgouser/presentation/home/widgets/home_rect_category.dart';
 import 'package:dropandgouser/presentation/player_audio/widgets/controls.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
+import 'package:dropandgouser/shared/enums/alert_type.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/packages/audio_progress_bar.dart';
 import 'package:dropandgouser/shared/widgets/button_loading.dart';
+import 'package:dropandgouser/shared/widgets/toasts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../shared/widgets/standard_text.dart';
@@ -46,7 +43,6 @@ class PlayerAudioPage extends StatefulWidget {
 class _PlayerAudioPageState extends State<PlayerAudioPage> {
   late AudioPlayer _audioPlayer;
   late final ConcatenatingAudioSource _playlist;
-  final ReceivePort _port = ReceivePort();
   int progress = 0;
 
   Stream<PositionData> get _positionDataStream =>
@@ -70,57 +66,12 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
         );
     _audioPlayer = AudioPlayer();
     super.initState();
-    IsolateNameServer.registerPortWithName(
-        _port.sendPort, 'downloader_send_port');
-    _port.listen((dynamic data) {
-      // setState(() {
-      String id = data[0];
-      DownloadTaskStatus status = DownloadTaskStatus(data[1]);
-      progress = data[2];
-      print('Download $progress');
-      context.read<DownloadProgressCubit>().updateDownloadProgress(progress);
-      if (progress == 100) {
-        context.read<DownloadProgressCubit>().reset();
-      }
-    });
-    // });
-
-    FlutterDownloader.registerCallback(downloadCallback);
   }
 
-  @pragma('vm:entry-point')
-  static void downloadCallback(String id, int status, int progress) {
-    final SendPort? sendPort =
-        IsolateNameServer.lookupPortByName('downloader_send_port');
-    sendPort!.send([id, status, progress]);
-  }
-
-  Future<void> download(String url) async {
-    PermissionStatus storageStatus = await Permission.storage.status;
-    if (!storageStatus.isGranted) {
-      await Permission.storage.request();
-      download(url);
-    }
-    if (storageStatus.isGranted) {
-      Directory? dir = Platform.isAndroid
-          ? await getExternalStorageDirectory() //FOR ANDROID
-          : await getApplicationDocumentsDirectory(); //FOR iOS
-      if (dir != null) {
-        String path = dir.path;
-        final taskId = await FlutterDownloader.enqueue(
-          url: url,
-          headers: {},
-          // optional: header send with url (auth token etc)
-          savedDir: path,
-          showNotification: true,
-          saveInPublicStorage: true,
-          // show download progress in status bar (for Android)
-          openFileFromNotification:
-              true, // click on notification to open downloaded file (for Android)
+  Future<void> download(Audio audio) async {
+    context.read<DownloadBloc>().add(
+          AddDownload(audio: audio),
         );
-        print("Task id = $taskId");
-      }
-    }
   }
 
   _initAudioPlayer() async {
@@ -137,29 +88,46 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AudioBloc, AudioState>(
-      listener: (context, state) {
-        if (state is AudioStateLoaded) {
-          final List<AudioSource> audioSources = <AudioSource>[];
-          for (var data in state.audios) {
-            if (data.audioUrl != null) {
-              var audioSource = AudioSource.uri(
-                Uri.parse(data.audioUrl!),
-                tag: MediaItem(
-                  id: data.id ?? Random().nextInt(100).toString(),
-                  title: data.title ?? 'N/A',
-                  artist: data.artist ?? 'N/A',
-                ),
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AudioBloc, AudioState>(
+          listener: (context, state) {
+            if (state is AudioStateLoaded) {
+              final List<AudioSource> audioSources = <AudioSource>[];
+              for (var data in state.audios) {
+                if (data.audioUrl != null) {
+                  var audioSource = AudioSource.uri(
+                    Uri.parse(data.audioUrl!),
+                    tag: MediaItem(
+                      id: data.id ?? Random().nextInt(100).toString(),
+                      title: data.title ?? 'N/A',
+                      artist: data.artist ?? 'N/A',
+                      displayTitle: data.imageUrl,
+                    ),
+                  );
+                  audioSources.add(audioSource);
+                }
+              }
+              _playlist = ConcatenatingAudioSource(
+                children: audioSources,
               );
-              audioSources.add(audioSource);
+              _initAudioPlayer();
             }
-          }
-          _playlist = ConcatenatingAudioSource(
-            children: audioSources,
-          );
-          _initAudioPlayer();
-        }
-      },
+          },
+        ),
+        BlocListener<DownloadBloc, DownloadState>(
+          listener: (context, state) {
+            if (state is DownloadStateAdded) {
+              getIt<Toasts>().showToast(
+                context,
+                type: AlertType.Success,
+                title: "Success",
+                description: 'Added to downloads',
+              );
+            }
+          },
+        ),
+      ],
       child: BlocBuilder<AudioBloc, AudioState>(builder: (context, state) {
         return (state is AudioStateLoading)
             ? const DropAndGoButtonLoading()
@@ -197,12 +165,6 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                       ),
                       child: Column(
                         children: [
-                          HomeRectCategory(
-                            categoryName: state.category.name,
-                            height: 247.h,
-                            imageUrl: state.category.imageUrl,
-                          ),
-                          34.verticalSpace,
                           Visibility(
                             visible: state.audios.isNotEmpty,
                             child: StreamBuilder<SequenceState?>(
@@ -219,6 +181,12 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      HomeRectCategory(
+                                        categoryName: state.category.name,
+                                        height: 247.h,
+                                        imageUrl: metadata.displayTitle??state.category.imageUrl,
+                                      ),
+                                      34.verticalSpace,
                                       Row(
                                         children: [
                                           Expanded(
@@ -251,14 +219,7 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                                                 // print(tempAudios.first.audioUrl);
                                                 if (tempAudios.first.audioUrl !=
                                                     null) {
-                                                  String fileName = tempAudios
-                                                      .first.title!
-                                                      .replaceAll(' ', '');
-                                                  download(
-                                                      '${tempAudios.first.audioUrl!}?name=$fileName');
-                                                  // download('${tempAudios.first.audioUrl!}?name=${tempAudios.first.title}');
-                                                  print(
-                                                      "${tempAudios.first.audioUrl!}?category=${tempAudios.first.category?.imageUrl}&name=$fileName");
+                                                  download(tempAudios.first);
                                                 }
                                               },
                                             ),
@@ -334,18 +295,6 @@ class _PlayerAudioPageState extends State<PlayerAudioPage> {
                                         context,
                                         metadata.artist ?? 'N/A',
                                       ),
-                                      BlocBuilder<DownloadProgressCubit, int>(
-                                          builder: (context, downloadProgress) {
-                                        return Visibility(
-                                          visible: downloadProgress > 0 &&
-                                              downloadProgress < 100,
-                                          child: LinearProgressIndicator(
-                                            color: DropAndGoColors.primary,
-                                            value: (downloadProgress / 100)
-                                                .toDouble(),
-                                          ),
-                                        );
-                                      }),
                                     ],
                                   );
                                 }),

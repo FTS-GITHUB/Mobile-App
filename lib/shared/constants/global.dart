@@ -87,7 +87,7 @@ Duration parseDuration(String s) {
 int countCurrentStreak(List<DateTime> dates) {
   int consecutiveDays = 0;
   if(dates.isNotEmpty){
-    DateTime today = DateTime.now();
+    DateTime today = dates.last;
 
     for (int i = dates.length - 1; i >= 0; i--) {
       if (isSameDate(dates[i], today)) {

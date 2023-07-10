@@ -9,9 +9,10 @@ part of 'audio.dart';
 Audio _$AudioFromJson(Map<String, dynamic> json) => Audio(
       artist: json['artist'] as String?,
       audioUrl: json['audio_url'] as String?,
-      category: json['category'] == null
-          ? null
-          : AudioCategory.fromJson(json['category'] as Map<String, dynamic>),
+      imageUrl: json['image_url'] as String?,
+      categories: (json['categories'] as List<dynamic>?)
+          ?.map((e) => AudioCategory.fromJson(e as Map<String, dynamic>))
+          .toList(),
       creator: json['creator'] == null
           ? null
           : Creator.fromJson(json['creator'] as Map<String, dynamic>),
@@ -23,7 +24,8 @@ Audio _$AudioFromJson(Map<String, dynamic> json) => Audio(
 Map<String, dynamic> _$AudioToJson(Audio instance) => <String, dynamic>{
       'artist': instance.artist,
       'audio_url': instance.audioUrl,
-      'category': instance.category?.toJson(),
+      'image_url': instance.imageUrl,
+      'categories': instance.categories?.map((e) => e.toJson()).toList(),
       'creator': instance.creator?.toJson(),
       'id': instance.id,
       'title': instance.title,

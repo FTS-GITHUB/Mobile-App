@@ -107,7 +107,7 @@ class FirestoreService implements ICloudFirestoreRepository {
   }
 
   @override
-  Future<Either<FirebaseException, Unit>> uploadNestedCollection({
+  Future<Either<FirebaseException, Unit>> uploadNestedSearchCollection({
     required String firstCollectionName,
     required String secondCollectionName,
     required String firstDocId,
@@ -146,6 +146,32 @@ class FirestoreService implements ICloudFirestoreRepository {
   }
 
   @override
+  Future<Either<FirebaseException, Unit>> uploadNestedCollection({
+    required String firstCollectionName,
+    required String secondCollectionName,
+    required String firstDocId,
+    String? secondDocId,
+    required object,
+  }) async {
+    try {
+        final docRef = _firestore
+            .collection(firstCollectionName)
+            .doc(firstDocId)
+            .collection(secondCollectionName)
+            .doc();
+        await _firestore
+            .collection(firstCollectionName)
+            .doc(firstDocId)
+            .collection(secondCollectionName)
+            .doc(docRef.id)
+            .set(object);
+      return right(unit);
+    } on FirebaseException catch (e) {
+      return left(e);
+    }
+  }
+
+  @override
   Future<Either<FirebaseException, DocumentSnapshot<Map<String, dynamic>>>>
       getNestedDocument(
           {required String firstCollectionName,
@@ -176,6 +202,7 @@ class FirestoreService implements ICloudFirestoreRepository {
           .collection(firstCollectionName)
           .doc(docId)
           .collection(secondCollectionName)
+      .orderBy('created_at',descending: true)
           .get();
       return right(response);
     } on FirebaseException catch (e) {

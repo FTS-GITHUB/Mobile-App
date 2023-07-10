@@ -8,28 +8,32 @@ class Controls extends StatelessWidget {
   const Controls({
     Key? key,
     required this.audioPlayer,
+    this.isDownloadPage = false,
   }) : super(key: key);
 
   final AudioPlayer audioPlayer;
+  final bool isDownloadPage;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        IconButton(
-          padding: EdgeInsets.zero,
-          onPressed: audioPlayer.seekToPrevious,
-          icon: SvgPicture.asset(
-            DropAndGoIcons.previous,
+        if (!isDownloadPage)
+          IconButton(
+            padding: EdgeInsets.zero,
+            onPressed: audioPlayer.seekToPrevious,
+            icon: SvgPicture.asset(
+              DropAndGoIcons.previous,
+            ),
+            iconSize: 24,
           ),
-          iconSize: 24,
-        ),
         StreamBuilder<PlayerState>(
           stream: audioPlayer.playerStateStream,
           builder: (context, snapshot) {
             final PlayerState? playerState = snapshot.data;
-            final ProcessingState? processingState = playerState?.processingState;
+            final ProcessingState? processingState =
+                playerState?.processingState;
             final bool? playing = playerState?.playing;
             if (kDebugMode) {
               print(snapshot);
@@ -71,14 +75,15 @@ class Controls extends StatelessWidget {
             );
           },
         ),
-        IconButton(
-          padding: EdgeInsets.zero,
-          onPressed: audioPlayer.seekToNext,
-          icon: SvgPicture.asset(
-            DropAndGoIcons.next,
+        if (!isDownloadPage)
+          IconButton(
+            padding: EdgeInsets.zero,
+            onPressed: audioPlayer.seekToNext,
+            icon: SvgPicture.asset(
+              DropAndGoIcons.next,
+            ),
+            iconSize: 24,
           ),
-          iconSize: 24,
-        ),
       ],
     );
   }

@@ -28,7 +28,7 @@ class LevelItem extends StatelessWidget {
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8.w),
           child: Icon(
-            isSelected ? Icons.check_box : Icons.check_box_outlined,
+            isSelected ? Icons.check_box : Icons.check_box_outline_blank,
             color: DropAndGoColors.white,
           ),
         ),
