@@ -1,25 +1,15 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:dropandgouser/application/audio_bloc/audio_bloc.dart';
-import 'package:dropandgouser/application/download/download_bloc/download_bloc.dart';
-import 'package:dropandgouser/application/likes_bloc/likes_cubit.dart';
-import 'package:dropandgouser/application/likes_bloc/likes_state.dart';
 import 'package:dropandgouser/domain/player_audio/audio.dart';
 import 'package:dropandgouser/domain/player_audio/position_data.dart';
-import 'package:dropandgouser/domain/services/user_service.dart';
 import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/infrastructure/services/navigation_service.dart';
-import 'package:dropandgouser/presentation/home/widgets/home_rect_category.dart';
 import 'package:dropandgouser/presentation/player_audio/widgets/controls.dart';
 import 'package:dropandgouser/shared/constants/assets.dart';
-import 'package:dropandgouser/shared/enums/alert_type.dart';
 import 'package:dropandgouser/shared/helpers/colors.dart';
 import 'package:dropandgouser/shared/packages/audio_progress_bar.dart';
-import 'package:dropandgouser/shared/widgets/button_loading.dart';
-import 'package:dropandgouser/shared/widgets/toasts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
@@ -134,6 +124,7 @@ class _DownloadDetailPageState extends State<DownloadDetailPage> {
                             borderRadius: BorderRadius.circular(16),
                             color: DropAndGoColors.black),
                         height: 247.h,
+                        width: double.infinity,
                         child: Icon(
                           Icons.music_note_outlined,
                           color: DropAndGoColors.white,

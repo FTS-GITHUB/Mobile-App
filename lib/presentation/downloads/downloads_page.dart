@@ -63,8 +63,7 @@ class _DownloadsPageState extends State<DownloadsPage> {
                     slivers: [
                       SliverToBoxAdapter(
                         child: Visibility(
-                          visible:
-                              state.audios.isNotEmpty,
+                          visible: state.audios.isNotEmpty,
                           child: ListView.builder(
                             shrinkWrap: true,
                             padding: EdgeInsets.only(
@@ -76,71 +75,92 @@ class _DownloadsPageState extends State<DownloadsPage> {
                             itemBuilder: (context, index) {
                               print('Audios: ${state.audios.length}');
                               Audio audio = state.audios[index];
-                                // Uri uri = Uri.parse(audio.audioUrl!);
-                                // print(uri.queryParameters["name"]);
-                                return SearchItem(
-                                  search: Search(
-                                      title: audio.title,
-                                      artistName: audio.artist,
-                                      imageUrl: DropAndGoImages.addictions,
-                                      isFavorite: true,
-                                      isDownloadPage: true,
-                                      onItemTapped: () {
-                                        print('Task id: ${state.audios[index].title}');
-                                        print('Task id: ${state.audios[index].audioUrl}');
-                                        // if (state.audios != null &&
-                                        //     state.audios.isNotEmpty) {
-                                        //   FlutterDownloader.open(
-                                        //     taskId: state.audios[index].taskId,
-                                        //   );
-                                        // }
-                                      },
-                                      onLongPress: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (dialogContext) {
-                                              return AlertDialog(
-                                                content: Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: [
-                                                    StandardText.headline6(
-                                                      dialogContext,
-                                                      'Do you want to delete this file?',
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.end,
-                                                      children: [
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            // FlutterDownloader.remove(taskId: state.audios[index].taskId);
-                                                            getIt<NavigationService>().navigateBack(context: context);
-                                                            context.read<DownloadBloc>().add(DeleteDownload(downloadId: state.audios[index].id??''));
-                                                          },
-                                                          child: StandardText
-                                                              .headline5(
-                                                            context,
-                                                            "Yes",
-                                                            color: DropAndGoColors.red,
-                                                          ),
+                              // Uri uri = Uri.parse(audio.audioUrl!);
+                              // print(uri.queryParameters["name"]);
+                              return SearchItem(
+                                search: Search(
+                                    title: audio.title,
+                                    artistName: audio.artist,
+                                    imageUrl: DropAndGoImages.addictions,
+                                    isFavorite: true,
+                                    isDownloadPage: true,
+                                    onItemTapped: () {
+                                      getIt<NavigationService>()
+                                          .pushNamed(
+                                        context: context,
+                                        uri: NavigationService
+                                            .downloadDetailRouteUri,
+                                        data: state.audios[index],
+                                      );
+                                      // if (state.audios != null &&
+                                      //     state.audios.isNotEmpty) {
+                                      //   FlutterDownloader.open(
+                                      //     taskId: state.audios[index].taskId,
+                                      //   );
+                                      // }
+                                    },
+                                    onLongPress: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (dialogContext) {
+                                            return AlertDialog(
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  StandardText.headline6(
+                                                    dialogContext,
+                                                    'Do you want to delete this file?',
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          // FlutterDownloader.remove(taskId: state.audios[index].taskId);
+                                                          getIt<NavigationService>()
+                                                              .navigateBack(
+                                                                  context:
+                                                                      context);
+                                                          context
+                                                              .read<
+                                                                  DownloadBloc>()
+                                                              .add(DeleteDownload(
+                                                                  downloadId: state
+                                                                          .audios[
+                                                                              index]
+                                                                          .id ??
+                                                                      ''));
+                                                        },
+                                                        child: StandardText
+                                                            .headline5(
+                                                          context,
+                                                          "Yes",
+                                                          color: DropAndGoColors
+                                                              .red,
                                                         ),
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            getIt<NavigationService>().navigateBack(context: context);
-                                                          },
-                                                          child: StandardText
-                                                              .headline5(
-                                                            context,
-                                                            "No",
-                                                          ),
-                                                        )
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              );
-                                            });
-                                      }),
-                                );
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          getIt<NavigationService>()
+                                                              .navigateBack(
+                                                                  context:
+                                                                      context);
+                                                        },
+                                                        child: StandardText
+                                                            .headline5(
+                                                          context,
+                                                          "No",
+                                                        ),
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          });
+                                    }),
+                              );
                             },
                           ),
                         ),

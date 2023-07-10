@@ -1,9 +1,7 @@
-import 'dart:isolate';
 import 'dart:math';
 import 'dart:ui';
 
 import 'package:dropandgouser/application/audio_bloc/audio_bloc.dart';
-import 'package:dropandgouser/application/audio_bloc/audio_cubit/download_progress_cubit.dart';
 import 'package:dropandgouser/application/download/download_bloc/download_bloc.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_cubit.dart';
 import 'package:dropandgouser/application/likes_bloc/likes_state.dart';
