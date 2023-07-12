@@ -66,7 +66,9 @@ class _HomePageState extends State<HomePage> {
       if (sessionInMinutes > 10 && !isSessionCompleted) {
         final sessions = await localDatabaseService!.getSessionsList();
         print(sessions);
-        if(sessions.isNotEmpty && sessions.last.isSessionCompleted==false){
+        if(sessions.isNotEmpty){
+          Duration sessionDuration = parseDuration(sessions.last.appUseDuration!);
+          double durationInMinutes = sessionDuration.inMinutes.toDouble();
           context.read<SessionCompletedCubit>().initialize(true);
           showDialog(
             context: context,
@@ -76,7 +78,7 @@ class _HomePageState extends State<HomePage> {
             id: DateTime(now.year, now.month, now.day)
                 .millisecondsSinceEpoch
                 .toString(),
-            isSessionCompleted: true,
+            isSessionCompleted:durationInMinutes>10? true:false,
             sessionDate:
             DateTime(now.year, now.month, now.day).millisecondsSinceEpoch,
             appUseDuration: stopWatch.elapsedDuration.toString(),

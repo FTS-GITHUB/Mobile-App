@@ -7,6 +7,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'audio_event.dart';
+
 part 'audio_state.dart';
 
 class AudioBloc extends Bloc<AudioEvent, AudioState> {
@@ -22,19 +23,31 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
   Future<void> _onFetchAudios(
       FetchAudios event, Emitter<AudioState> emit) async {
     emit(AudioStateLoading());
-    final response = await homeRepository.getAudios(
-      categoryId: event.categoryId,
-    );
+    if (event.category == null) {
+      add(FetchCategory(
+        categoryId: event.categoryId,
+      ));
+    } else {
+      final response = await homeRepository.getAudios(
+        category: event.category!,
+      );
 
-    response.fold(
-      (l) => emit(AudioStateError(message: l.message ?? 'Failed to connect')),
-      (r) => add(
-        FetchCategory(
-          categoryId: event.categoryId,
-          audios: r,
-        ),
-      ),
-    );
+      response.fold(
+        (l) => emit(AudioStateError(message: l.message ?? 'Failed to connect')),
+        (r) {
+          emit(
+            AudioStateLoaded(
+              audios: r,
+              category: Category(
+                id: event.category?.id,
+                name: event.category?.name??'',
+                imageUrl: event.category?.imageUrl??''
+              ),
+            ),
+          );
+        },
+      );
+    }
   }
 
   Future<void> _onFetchCategory(
@@ -43,12 +56,16 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
         await homeRepository.getCategory(categoryId: event.categoryId);
     response.fold(
       (l) => emit(AudioStateError(message: l.message ?? 'Failed to connect')),
-      (r) => emit(
-        AudioStateLoaded(
-          audios: event.audios,
-          category: r,
-        ),
-      ),
+      (Category r) {
+        AudioCategory category =
+            AudioCategory(id: r.id, name: r.name, imageUrl: r.imageUrl);
+        add(
+          FetchAudios(
+            category: category,
+            categoryId: event.categoryId,
+          ),
+        );
+      },
     );
   }
 }

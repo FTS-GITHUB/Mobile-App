@@ -26,6 +26,12 @@ abstract class ICloudFirestoreRepository{
     Object? whereValue,
   });
 
+  Future<Either<FirebaseException, QuerySnapshot<Map<String, dynamic>>>> getComplexCollection({
+    required String collectionName,
+    Object? whereKey,
+    dynamic object,
+  });
+
   Future<Either<FirebaseException, DocumentSnapshot<Map<String, dynamic>>>> getDocument({
     required String collectionName,
     required String docId,

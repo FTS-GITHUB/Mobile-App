@@ -27,7 +27,7 @@ abstract class IHomeRepository {
   });
 
   Future<Either<ApiError, List<Audio>>> getAudios({
-    required String categoryId,
+    required AudioCategory category,
   });
 
   Future<Either<ApiError, UserData>> likeCategory({

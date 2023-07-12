@@ -154,17 +154,17 @@ class FirestoreService implements ICloudFirestoreRepository {
     required object,
   }) async {
     try {
-        final docRef = _firestore
-            .collection(firstCollectionName)
-            .doc(firstDocId)
-            .collection(secondCollectionName)
-            .doc();
-        await _firestore
-            .collection(firstCollectionName)
-            .doc(firstDocId)
-            .collection(secondCollectionName)
-            .doc(docRef.id)
-            .set(object);
+      final docRef = _firestore
+          .collection(firstCollectionName)
+          .doc(firstDocId)
+          .collection(secondCollectionName)
+          .doc();
+      await _firestore
+          .collection(firstCollectionName)
+          .doc(firstDocId)
+          .collection(secondCollectionName)
+          .doc(docRef.id)
+          .set(object);
       return right(unit);
     } on FirebaseException catch (e) {
       return left(e);
@@ -202,7 +202,7 @@ class FirestoreService implements ICloudFirestoreRepository {
           .collection(firstCollectionName)
           .doc(docId)
           .collection(secondCollectionName)
-      .orderBy('created_at',descending: true)
+          .orderBy('created_at', descending: true)
           .get();
       return right(response);
     } on FirebaseException catch (e) {
@@ -276,7 +276,7 @@ class FirestoreService implements ICloudFirestoreRepository {
           .collection(firstCollectionName)
           .doc(firstDocId)
           .collection(secondCollectionName)
-      .doc(secondDocId)
+          .doc(secondDocId)
           .set(object, SetOptions(merge: true));
       return right(unit);
     } on FirebaseException catch (e) {
@@ -309,7 +309,8 @@ class FirestoreService implements ICloudFirestoreRepository {
               'session_date',
               isGreaterThanOrEqualTo: sevenDaysAgo.millisecondsSinceEpoch,
               isLessThanOrEqualTo: today.millisecondsSinceEpoch,
-            ).orderBy('session_date', descending: false)
+            )
+            .orderBy('session_date', descending: false)
             .get();
       } else {
         response = await _firestore
@@ -324,6 +325,36 @@ class FirestoreService implements ICloudFirestoreRepository {
             .get();
       }
       return right(response);
+    } on FirebaseException catch (e) {
+      return left(e);
+    }
+  }
+
+  @override
+  Future<Either<FirebaseException, QuerySnapshot<Map<String, dynamic>>>>
+      getComplexCollection({
+    required String collectionName,
+    Object? whereKey,
+    dynamic object,
+  }) async{
+    try {
+      late QuerySnapshot<Map<String, dynamic>> documentSnapshot;
+      if (whereKey != null) {
+        await _firestore
+            .collection(collectionName)
+            .where(whereKey, arrayContains: object)
+            .get()
+            .then(
+              (QuerySnapshot<Map<String, dynamic>> value) =>
+          documentSnapshot = value,
+        );
+      } else {
+        await _firestore.collection(collectionName).get().then(
+              (QuerySnapshot<Map<String, dynamic>> value) =>
+          documentSnapshot = value,
+        );
+      }
+      return right(documentSnapshot);
     } on FirebaseException catch (e) {
       return left(e);
     }

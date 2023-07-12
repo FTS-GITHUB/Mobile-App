@@ -110,12 +110,12 @@ class HomeRepository implements IHomeRepository {
 
   @override
   Future<Either<ApiError, List<Audio>>> getAudios({
-    required String categoryId,
+    required AudioCategory category,
   }) async {
-    final response = await cloudFirestoreRepository.getCollection(
+    final response = await cloudFirestoreRepository.getComplexCollection(
       collectionName: FirestoreCollections.audios,
-      whereKey: 'category.id',
-      whereValue: categoryId,
+      whereKey: 'categories',
+      object: category.toJson(),
     );
     return response.fold(
       (l) => left(l.toApiError()),

@@ -35,14 +35,14 @@ Map<String, dynamic> _$AudioToJson(Audio instance) => <String, dynamic>{
 AudioCategory _$AudioCategoryFromJson(Map<String, dynamic> json) =>
     AudioCategory(
       id: json['id'] as String?,
-      imageUrl: json['audio_url'] as String?,
+      imageUrl: json['image_url'] as String?,
       name: json['name'] as String?,
     );
 
 Map<String, dynamic> _$AudioCategoryToJson(AudioCategory instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'audio_url': instance.imageUrl,
+      'image_url': instance.imageUrl,
       'name': instance.name,
     };
 

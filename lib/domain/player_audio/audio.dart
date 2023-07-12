@@ -58,7 +58,7 @@ class AudioCategory {
   });
 
   final String? id;
-  @JsonKey(name: 'audio_url')
+  @JsonKey(name: 'image_url')
   final String? imageUrl;
   final String? name;
 

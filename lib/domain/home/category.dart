@@ -14,6 +14,7 @@ class Category{
     this.isDeleted,
     this.isRecommended,
     this.name,
+    this.id,
 });
 
   Category copyWith({
@@ -22,12 +23,14 @@ class Category{
   bool? isDeleted,
   bool? isRecommended,
   String? name,
+    String? id,
 })=> Category(
     createdAt: createdAt?? this.createdAt,
     imageUrl: imageUrl?? this.imageUrl,
     isDeleted: isDeleted?? this.isDeleted,
     isRecommended: isRecommended?? this.isRecommended,
     name: name?? this.name,
+    id: id?? this.id
   );
 
   @JsonKey(
