@@ -12,7 +12,6 @@ import 'package:dropandgouser/infrastructure/di/injectable.dart';
 import 'package:dropandgouser/shared/constants/firestore_collections.dart';
 import 'package:dropandgouser/shared/extensions/firebase_exception.dart';
 import 'package:dropandgouser/shared/network/domain/api_error.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:fpdart/src/either.dart';
 import 'package:fpdart/src/unit.dart';
 
